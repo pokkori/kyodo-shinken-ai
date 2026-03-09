@@ -194,6 +194,7 @@ export default function Home() {
 
       <footer className="border-t border-slate-800 py-6 text-center text-xs text-slate-500 space-x-4">
         <Link href="/legal" className="hover:underline">特定商取引法に基づく表記</Link>
+        <Link href="/terms" className="hover:underline">利用規約</Link>
         <Link href="/privacy" className="hover:underline">プライバシーポリシー</Link>
       </footer>
     </main>

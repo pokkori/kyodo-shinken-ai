@@ -1,18 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { cookies } from "next/headers";
+import { rateLimit, getIP } from "@/lib/ratelimit";
+import { isActiveSubscription } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 const FREE_LIMIT = 3;
+const APP_ID = "kokuhaku";
 
 function getAnthropic() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
 }
 
 export async function POST(req: NextRequest) {
+  const { ok } = rateLimit(getIP(req));
+  if (!ok) {
+    return NextResponse.json({ error: "リクエストが多すぎます。しばらく待ってから再試行してください。" }, { status: 429 });
+  }
+
   const cookieStore = await cookies();
-  const isPremium = cookieStore.get("stripe_premium")?.value === "1";
+  const email = cookieStore.get("user_email")?.value;
+
+  let isPremium = false;
+  if (email) {
+    isPremium = await isActiveSubscription(email, APP_ID);
+  } else {
+    isPremium = cookieStore.get("stripe_premium")?.value === "1";
+  }
 
   let usedCount = 0;
   if (!isPremium) {
