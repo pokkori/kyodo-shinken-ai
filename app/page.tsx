@@ -1,10 +1,9 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
-import type { Metadata } from "next";
+import PayjpModal from "@/components/PayjpModal";
 
-export const metadata: Metadata = {
-  title: "共同親権サポートAI｜親権計画書・面会交流・養育費を自動作成【2026年4月新制度対応】",
-  description: "2026年4月施行の共同親権制度に対応。子どもの情報を入力するだけでAIが親権計画書草案・面会交流カレンダー・養育費目安・調停準備メモを自動生成。弁護士費用を抑えて準備できます。1回無料。",
-};
+const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
 const FEATURES = [
   { icon: "📋", title: "親権計画書草案", desc: "基本居住・日常養育の分担・重要事項の共同決定ルールをAIが自動作成。調停・協議のたたき台として使えます。" },
@@ -21,8 +20,22 @@ const VOICES = [
 ];
 
 export default function LandingPage() {
+  const [showPayjp, setShowPayjp] = useState(false);
+
+  function startCheckout() {
+    setShowPayjp(true);
+  }
+
   return (
     <main className="min-h-screen bg-white">
+      {showPayjp && (
+        <PayjpModal
+          publicKey={PAYJP_PUBLIC_KEY}
+          planLabel="プレミアムプラン ¥3,980/月 — 全機能無制限"
+          onSuccess={() => setShowPayjp(false)}
+          onClose={() => setShowPayjp(false)}
+        />
+      )}
       <nav className="border-b border-gray-100 px-6 py-4 sticky top-0 bg-white/95 backdrop-blur z-10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">⚖️ 共同親権サポートAI</span>
@@ -139,11 +152,11 @@ export default function LandingPage() {
           <p className="text-center text-gray-500 text-sm mb-10">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
             {[
-              { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], href: "/tool", cta: "無料で試す", highlight: false },
-              { name: "プレミアム", price: "¥3,980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], href: "/tool", cta: "申し込む", highlight: true },
+              { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], isPremium: false },
+              { name: "プレミアム", price: "¥3,980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], isPremium: true },
             ].map(plan => (
-              <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.highlight ? "border-teal-500 shadow-lg" : "border-gray-200"}`}>
-                {plan.highlight && (
+              <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.isPremium ? "border-teal-500 shadow-lg" : "border-gray-200"}`}>
+                {plan.isPremium && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-teal-600 text-white px-3 py-0.5 rounded-full whitespace-nowrap">おすすめ</div>
                 )}
                 <p className="font-bold text-gray-900 mb-1">{plan.name}</p>
@@ -155,9 +168,18 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href={plan.href} className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg ${plan.highlight ? "bg-teal-600 text-white hover:bg-teal-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
-                  {plan.cta}
-                </Link>
+                {plan.isPremium ? (
+                  <button
+                    onClick={startCheckout}
+                    className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
+                  >
+                    申し込む
+                  </button>
+                ) : (
+                  <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+                    無料で試す
+                  </Link>
+                )}
               </div>
             ))}
           </div>
