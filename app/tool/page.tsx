@@ -148,7 +148,7 @@ export default function ToolPage() {
 
         {!isPremium && remaining === 0 && !result && (
           <div className="bg-teal-900/40 border border-teal-600 rounded-xl p-4 text-center">
-            <p className="text-sm text-teal-200 mb-3">無料回数を使い切りました。月額¥1,980で使い放題！</p>
+            <p className="text-sm text-teal-200 mb-3">無料回数を使い切りました。月額¥3,980で使い放題！</p>
             <button onClick={startCheckout} className="bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-2 rounded-xl text-sm transition">
               プレミアムにアップグレード
             </button>
@@ -169,9 +169,9 @@ export default function ToolPage() {
           <div className="bg-slate-800 border border-teal-500 rounded-2xl p-8 text-center">
             <div className="text-4xl mb-4">🔒</div>
             <h3 className="text-xl font-bold mb-2">無料回数が終わりました</h3>
-            <p className="text-slate-400 text-sm mb-6">月額¥1,980で親権計画書・養育費・調停準備まで無制限に作成</p>
+            <p className="text-slate-400 text-sm mb-6">月額¥3,980で親権計画書・養育費・調停準備まで無制限に作成</p>
             <button onClick={startCheckout} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full">
-              ¥1,980/月でアップグレード
+              ¥3,980/月でアップグレード
             </button>
           </div>
         )}
@@ -257,7 +257,7 @@ export default function ToolPage() {
       {showPayjp && (
         <PayjpModal
           publicKey={process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY!}
-          planLabel="プレミアムプラン ¥1,980/月 — 全機能無制限"
+          planLabel="プレミアムプラン ¥3,980/月 — 全機能無制限"
           onSuccess={() => { setShowPayjp(false); setIsPremium(true); }}
           onClose={() => setShowPayjp(false)}
         />

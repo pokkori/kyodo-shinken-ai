@@ -137,7 +137,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
             {[
               { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], href: "/tool", cta: "無料で試す", highlight: false },
-              { name: "プレミアム", price: "¥1,980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], href: "/tool", cta: "申し込む", highlight: true },
+              { name: "プレミアム", price: "¥3,980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], href: "/tool", cta: "申し込む", highlight: true },
             ].map(plan => (
               <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.highlight ? "border-teal-500 shadow-lg" : "border-gray-200"}`}>
                 {plan.highlight && (
