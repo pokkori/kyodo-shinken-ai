@@ -45,6 +45,9 @@ export default function LandingPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
           弁護士に相談する前に、<br /><span className="text-teal-600">読んでください。</span>
         </h1>
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 text-sm text-amber-800 font-medium max-w-xl mx-auto mb-4">
+          ⚠️ 準備なしで交渉に臨むと、子どもと過ごせる時間を失うリスクがあります
+        </div>
         <p className="text-lg text-gray-500 mb-4 max-w-2xl mx-auto">
           子どもの情報を入力するだけ。AIが<strong className="text-gray-700">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
         </p>
