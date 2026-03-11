@@ -43,13 +43,13 @@ export default function LandingPage() {
           2026年4月 新制度対応
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          共同親権の準備、<br /><span className="text-teal-600">AIが30秒でサポート</span>
+          弁護士に相談する前に、<br /><span className="text-teal-600">読んでください。</span>
         </h1>
         <p className="text-lg text-gray-500 mb-4 max-w-2xl mx-auto">
           子どもの情報を入力するだけ。AIが<strong className="text-gray-700">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
         </p>
         <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3">
-          無料で1回試す →
+          子どもとの時間を守る書類を、今すぐ無料で作る →
         </Link>
         <p className="text-sm font-semibold text-gray-500">クレジットカード不要・登録不要・今すぐ使える</p>
       </section>
