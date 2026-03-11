@@ -6,8 +6,8 @@ import { isActiveSubscription } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-const FREE_LIMIT = 3;
-const APP_ID = "kokuhaku";
+const FREE_LIMIT = 1;
+const APP_ID = "kyodo-shinken";
 
 function getAnthropic() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   if (email) {
     isPremium = await isActiveSubscription(email, APP_ID);
   } else {
-    isPremium = cookieStore.get("stripe_premium")?.value === "1";
+    isPremium = cookieStore.get("premium")?.value === "1" || cookieStore.get("stripe_premium")?.value === "1";
   }
 
   let usedCount = 0;
@@ -37,45 +37,100 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const { line, context } = await req.json();
-  if (!line?.trim()) {
-    return NextResponse.json({ error: "LINEの内容を入力してください" }, { status: 400 });
+  const { childrenInfo, parentInfo, situationInfo } = await req.json();
+  if (!childrenInfo?.trim()) {
+    return NextResponse.json({ error: "お子さんの情報を入力してください" }, { status: 400 });
   }
 
-  const prompt = `あなたは男性向け恋愛コーチAIです。以下のLINEの会話内容を分析して、好きな子の気持ちと脈あり度を診断し、具体的なアドバイスをしてください。
+  const prompt = `あなたは共同親権・離婚調停の準備支援AIアシスタントです。以下の情報をもとに、2026年4月施行の改正民法（共同親権制度）に対応した親権サポートドキュメントを作成してください。
 
-【LINEの内容】
-${line}
+【お子さんの情報】
+${childrenInfo}
 
-${context ? `【関係性・状況】\n${context}` : ""}
+【両親の状況】
+${parentInfo || "記載なし"}
 
-以下の形式で必ず回答してください：
+【現在の状況・紛争レベル】
+${situationInfo || "記載なし"}
 
-===SCORE===
-[脈あり度を0〜100の数値のみで記載。例：73]
+以下の形式で必ず回答してください（各セクションは===タグで区切ること）：
 
-===ANALYSIS===
-[相手の心理・気持ちの分析を200〜300文字で記載。言葉の選び方・返信速度・絵文字の使い方・会話の展開などの具体的な根拠を挙げること]
+===PLAN===
+【親権計画書草案】
 
-===REPLIES===
-1. [距離を縮める積極的な返信（1〜2文）]
-2. [自然に関係を深める返信（1〜2文）]
-3. [余韻を残しつつ次につなげる返信（1〜2文）]
+■ 基本居住設定
+（主たる居住地・相手方との交流頻度の基本方針を記載）
 
-===CONFESSION===
-[告白文テンプレート。LINE告白文・直接告白用・電話告白用の3パターンをそれぞれ「LINE:」「直接:」「電話:」で始めて記載。それぞれ2〜3文]
+■ 日常的な養育の分担
+（学校・習い事・通院など日常的な決定は誰が行うか）
 
-===TIMING===
-[告白のベストタイミングを「今すぐ」「〇週間後」「もう少し仲良くなってから」などの具体的な判断と、そのタイミングの理由・準備すべきことを200文字以内で記載]
+■ 重要事項の決定方法
+（進学先・手術・海外渡航など重要事項の共同決定ルール）
 
-===ADVICE===
-[今後の関係をどう発展させるか、次にとるべきアクションを具体的に150〜200文字で記載]`;
+■ 緊急時の対応
+（緊急入院・事故発生時の連絡・決定手順）
+
+===CALENDAR===
+【面会交流カレンダー（月次ルール）】
+
+■ 通常の面会ルール
+（月○回、週末/平日の基本パターン）
+
+■ 長期休暇の取り決め
+（夏休み・冬休み・春休みの分担案）
+
+■ 誕生日・行事の扱い
+（子どもの誕生日・学校行事・クリスマス等の取り決め）
+
+■ 連絡ルール
+（日常の連絡頻度・手段・禁止事項）
+
+===MONEY===
+【養育費の目安】
+
+（以下の内容を記載してください）
+・養育費算定表に基づく概算の月額範囲（収入情報がない場合は相場感を記載）
+・支払い方法・口座振込のタイミング
+・増減が必要になるケース（進学・病気等）
+・未払い時の対応方針
+
+※ 正確な金額は家庭裁判所の算定表または弁護士にご確認ください
+
+===MEDIATION===
+【調停準備メモ】
+
+■ 家庭裁判所へ申立る前に準備すべきこと
+（必要書類・費用・期間の目安）
+
+■ 調停での主張ポイント
+（子どもの利益を中心とした主張の組み立て方）
+
+■ 提出できる証拠・資料
+（LINE履歴・日記・写真・学校連絡帳など）
+
+■ 弁護士を依頼すべきケース
+（DV・虐待・高葛藤事案の場合の注意点）
+
+===CAUTION===
+【注意事項・よくあるトラブル（プレミアム）】
+
+■ 共同親権でよく起きるトラブルTOP5
+（面会拒否・教育方針の対立・引越し問題・再婚・養育費不払い）
+
+■ 法律上の落とし穴
+（共同親権でも単独で決めていい事項 vs 共同決定必須の事項）
+
+■ 調停が長引くケースのパターン
+（早期解決のための戦略）
+
+===DISCLAIMER===
+⚠️ 本ドキュメントはAIが生成した参考情報であり、法的効力を持つものではありません。実際の手続きは弁護士・家庭裁判所にご相談ください。個別の事情によって最適な対応は異なります。DV・虐待が絡む場合は必ず専門家に相談してください。`;
 
   try {
     const anthropic = getAnthropic();
     const response = await anthropic.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 1500,
+      max_tokens: 3000,
       messages: [{ role: "user", content: prompt }],
     });
 
@@ -98,6 +153,6 @@ ${context ? `【関係性・状況】\n${context}` : ""}
 
     return res;
   } catch {
-    return NextResponse.json({ error: "AI分析中にエラーが発生しました" }, { status: 500 });
+    return NextResponse.json({ error: "AI生成中にエラーが発生しました" }, { status: 500 });
   }
 }

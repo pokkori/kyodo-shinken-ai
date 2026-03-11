@@ -1,204 +1,188 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
-import PayjpModal from "@/components/PayjpModal";
+import type { Metadata } from "next";
 
-const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
+export const metadata: Metadata = {
+  title: "共同親権サポートAI｜親権計画書・面会交流・養育費を自動作成【2026年4月新制度対応】",
+  description: "2026年4月施行の共同親権制度に対応。子どもの情報を入力するだけでAIが親権計画書草案・面会交流カレンダー・養育費目安・調停準備メモを自動生成。弁護士費用を抑えて準備できます。1回無料。",
+};
 
-export default function Home() {
-  const [showPayjp, setShowPayjp] = useState(false);
+const FEATURES = [
+  { icon: "📋", title: "親権計画書草案", desc: "基本居住・日常養育の分担・重要事項の共同決定ルールをAIが自動作成。調停・協議のたたき台として使えます。" },
+  { icon: "📅", title: "面会交流カレンダー", desc: "月次ルール・長期休暇の分担・誕生日行事の取り決めを具体的にスケジュール化。" },
+  { icon: "💰", title: "養育費の目安", desc: "養育費算定表ベースで月額の概算を提示。支払いルール・増減が必要なケースも解説。" },
+  { icon: "📝", title: "調停準備メモ", desc: "家庭裁判所への申立前に準備すべき書類・費用・主張ポイントを整理。弁護士費用を節約できます。" },
+  { icon: "⚠️", title: "注意事項・トラブル予防", desc: "共同親権でよく起きるトラブルTOP5・法的落とし穴・調停が長引くパターン（プレミアム）。" },
+];
 
-  function startCheckout() {
-    setShowPayjp(true);
-  }
+const VOICES = [
+  { role: "30代男性・2児の父", text: "弁護士に相談する前の整理に使いました。面会交流の希望を具体的な計画書にまとめてくれて、調停の準備がスムーズになりました。" },
+  { role: "30代女性・1児の母", text: "共同親権が始まって何を決めればいいか全然わからなかったんですが、このAIが項目を整理してくれて助かりました。" },
+  { role: "40代男性・単身赴任中", text: "東京と大阪の遠距離で面会スケジュールを組むのが大変でしたが、AIが季節ごとに具体的な案を出してくれました。" },
+];
 
+export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
-      {/* Hero */}
-      <section className="pt-20 pb-16 px-4 text-center">
-        <div className="inline-block bg-blue-900 text-blue-300 text-xs font-bold px-3 py-1 rounded-full mb-6">
-          💬 恋愛LINE解析AI — 脈あり判定 × 返信例文 × 告白文 — 無料3回
-        </div>
-        <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
-          好きな子のLINE、<br />
-          <span className="text-blue-400">AIが本気で解読。</span>
-        </h1>
-        <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-8">
-          コピペするだけで<strong className="text-white">脈あり度</strong>を0〜100%判定。<br />
-          心理分析・返信例文・告白文・告白タイミングまで全部AIが生成します。
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href="/tool"
-            className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-8 py-4 rounded-xl text-lg transition"
-          >
-            無料で解析する（3回）
+    <main className="min-h-screen bg-white">
+      <nav className="border-b border-gray-100 px-6 py-4 sticky top-0 bg-white/95 backdrop-blur z-10">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <span className="font-bold text-gray-900">⚖️ 共同親権サポートAI</span>
+          <Link href="/tool" className="bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-700">
+            無料で試す
           </Link>
-          <button
-            onClick={startCheckout}
-            className="border border-blue-400 text-blue-300 hover:bg-blue-900 font-bold px-8 py-4 rounded-xl text-lg transition"
-          >
-            月額¥980で使い放題
-          </button>
         </div>
+      </nav>
+
+      {/* 施行告知バナー */}
+      <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
+        📅 2026年4月1日施行済み — 改正民法により<strong>共同親権制度がスタート</strong>しました
+      </div>
+
+      {/* ヒーロー */}
+      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
+        <div className="inline-block bg-teal-50 text-teal-700 text-xs font-semibold px-3 py-1 rounded-full mb-6">
+          2026年4月 新制度対応
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          共同親権の準備、<br /><span className="text-teal-600">AIが30秒でサポート</span>
+        </h1>
+        <p className="text-lg text-gray-500 mb-4 max-w-2xl mx-auto">
+          子どもの情報を入力するだけ。AIが<strong className="text-gray-700">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
+        </p>
+        <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3">
+          無料で1回試す →
+        </Link>
+        <p className="text-sm font-semibold text-gray-500">クレジットカード不要・登録不要・今すぐ使える</p>
       </section>
 
-      {/* Pain points */}
-      <section className="py-16 px-4 bg-slate-900">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-10">こんな悩み、ありませんか？</h2>
-          <div className="grid md:grid-cols-3 gap-6">
+      {/* 課題 */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-2xl font-bold text-center mb-10">こんな悩みを解決します</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
             {[
-              { emoji: "😰", title: "返信が遅い…", body: "既読から2時間。これって脈なし？それとも忙しいだけ？不安で他のことが手につかない" },
-              { emoji: "🤔", title: "何て返せばいい？", body: "「うん」「そうだね」みたいな短い返信。もっと話を続けたいけど、何て送ればいいかわからない" },
-              { emoji: "💭", title: "告白していいの？", body: "いい感じな気はするけど、フラれたら関係が壊れる。告白のタイミングがわからなくて踏み出せない" },
-            ].map((p) => (
-              <div key={p.title} className="bg-slate-800 rounded-2xl p-6">
-                <div className="text-3xl mb-3">{p.emoji}</div>
-                <h3 className="font-bold text-lg mb-2">{p.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{p.body}</p>
+              "共同親権で何を決めればいいか全くわからない",
+              "弁護士費用が高くて気軽に相談できない",
+              "面会交流のルールをどう決めるか揉めている",
+              "養育費の相場がわからない",
+              "調停申立に何の書類が必要か分からない",
+              "相手と話し合うための具体的な提案書を作りたい",
+            ].map(p => (
+              <div key={p} className="flex gap-3 bg-white rounded-xl p-4 border border-gray-200">
+                <span className="text-red-500 text-lg shrink-0">✗</span>
+                <p className="text-sm text-gray-700">{p}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-10">使い方は超シンプル</h2>
-          <div className="grid md:grid-cols-3 gap-6">
+      {/* 機能 */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-2xl font-bold text-center mb-3">生成されるドキュメントセット</h2>
+          <p className="text-center text-gray-500 text-sm mb-10">1回の入力で5種類のドキュメントが出力されます</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURES.map(f => (
+              <div key={f.title} className="bg-white rounded-xl p-6 border border-gray-200">
+                <div className="text-2xl mb-2">{f.icon}</div>
+                <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
+                <p className="text-sm text-gray-500">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 使い方 */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-2xl font-bold text-center mb-10">使い方は3ステップ</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
             {[
-              { step: "1", title: "LINEをコピペ", body: "好きな子とのやり取りをそのままテキストエリアに貼り付け" },
-              { step: "2", title: "状況を入力", body: "「クラスメート」「付き合って2ヶ月」など関係性を一言で" },
-              { step: "3", title: "AIが即分析", body: "脈あり度・返信例文・告白タイミングを30秒で生成" },
-            ].map((s) => (
+              { step: "1", title: "お子さんの情報を入力", desc: "年齢・人数・現在の同居状況を入力" },
+              { step: "2", title: "両親の状況を入力（任意）", desc: "居住地・仕事・紛争レベルなどを入力" },
+              { step: "3", title: "ドキュメントを受け取る", desc: "30秒で5種類のドキュメントが生成" },
+            ].map(s => (
               <div key={s.step} className="text-center">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-xl font-black mx-auto mb-4">
-                  {s.step}
-                </div>
-                <h3 className="font-bold text-lg mb-2">{s.title}</h3>
-                <p className="text-slate-400 text-sm">{s.body}</p>
+                <div className="w-10 h-10 rounded-full bg-teal-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.step}</div>
+                <p className="font-semibold text-gray-900 mb-1 text-sm">{s.title}</p>
+                <p className="text-xs text-gray-500">{s.desc}</p>
               </div>
             ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              href="/tool"
-              className="bg-blue-500 hover:bg-blue-400 text-white font-bold px-8 py-4 rounded-xl text-lg transition inline-block"
-            >
-              今すぐ無料で試す
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 px-4 bg-slate-900">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-10">AIが教えてくれること</h2>
-          <div className="grid md:grid-cols-2 gap-6">
+      {/* 声 */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-2xl font-bold text-center mb-10">ご利用者の声</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {VOICES.map((v, i) => (
+              <div key={i} className="bg-white rounded-xl p-5 border border-gray-200">
+                <div className="flex text-yellow-400 text-sm mb-3">{"★★★★★"}</div>
+                <p className="text-sm text-gray-700 mb-3 leading-relaxed">{v.text}</p>
+                <p className="text-xs text-gray-400">{v.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 料金 */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-2xl font-bold text-center mb-3">料金プラン</h2>
+          <p className="text-center text-gray-500 text-sm mb-10">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
             {[
-              { emoji: "❤️‍🔥", title: "脈あり度スコア", body: "0〜100%で数値化。会話のトーン・返信速度・絵文字の使い方など複合的に判断" },
-              { emoji: "💌", title: "返信例文3パターン", body: "「距離を縮める返信」「自然なデート誘い」「余韻を残す一言」など状況別に生成" },
-              { emoji: "📅", title: "告白タイミング分析", body: "「今すぐOK」「あと2週間」「もう少し仲良くなってから」とタイミングを具体的に提示" },
-              { emoji: "💬", title: "告白文テンプレ", body: "LINE・直接・電話、シチュエーション別の告白文をそのまま使えるレベルで生成" },
-            ].map((f) => (
-              <div key={f.title} className="bg-slate-800 rounded-2xl p-6 flex gap-4">
-                <div className="text-3xl shrink-0">{f.emoji}</div>
-                <div>
-                  <h3 className="font-bold mb-1">{f.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{f.body}</p>
-                </div>
+              { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], href: "/tool", cta: "無料で試す", highlight: false },
+              { name: "プレミアム", price: "¥1,980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], href: "/tool", cta: "申し込む", highlight: true },
+            ].map(plan => (
+              <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.highlight ? "border-teal-500 shadow-lg" : "border-gray-200"}`}>
+                {plan.highlight && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-teal-600 text-white px-3 py-0.5 rounded-full whitespace-nowrap">おすすめ</div>
+                )}
+                <p className="font-bold text-gray-900 mb-1">{plan.name}</p>
+                <p className="text-2xl font-bold text-teal-600">{plan.price}<span className="text-sm font-normal text-gray-500">{plan.sub}</span></p>
+                <ul className="mt-4 mb-5 space-y-2">
+                  {plan.features.map(f => (
+                    <li key={f} className="text-sm text-gray-600 flex items-center gap-2">
+                      <span className="text-green-500">✓</span>{f}
+                    </li>
+                  ))}
+                </ul>
+                <Link href={plan.href} className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg ${plan.highlight ? "bg-teal-600 text-white hover:bg-teal-700" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
+                  {plan.cta}
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-10">使った人の声</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { name: "高2・男子", text: "脈あり度78%って出て、返信例文そのまま送ったら「かわいいね笑」って返ってきた。神ツール" },
-              { name: "大学1年・男子", text: "告白タイミング「今週末がベスト」って出て、実際に告白したらOKもらえた！マジで感謝" },
-              { name: "高3・男子", text: "友達に相談しにくい内容なのに、AIは全部フラットに答えてくれる。毎日使ってる" },
-            ].map((t) => (
-              <div key={t.name} className="bg-slate-800 rounded-2xl p-6">
-                <p className="text-slate-300 text-sm mb-4 leading-relaxed">「{t.text}」</p>
-                <p className="text-blue-400 text-xs font-bold">{t.name}</p>
-              </div>
-            ))}
-          </div>
+      {/* 免責 */}
+      <section className="py-8 bg-yellow-50 border-y border-yellow-100">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <p className="text-xs text-yellow-800 leading-relaxed">
+            ⚠️ 本サービスはAIが生成する参考情報の提供であり、法律相談・法的サービスではありません。生成されたドキュメントに法的効力はありません。実際の手続きは弁護士・家庭裁判所にご相談ください。DV・虐待が絡む場合は必ず専門機関にご相談ください。
+          </p>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-16 px-4 bg-slate-900">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-10">料金プラン</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
-              <h3 className="font-bold text-lg mb-2">無料</h3>
-              <div className="text-4xl font-black mb-4">¥0</div>
-              <ul className="text-slate-400 text-sm space-y-2 mb-6 text-left">
-                <li>✓ 3回まで無料で解析</li>
-                <li>✓ 脈あり度・返信例文・告白タイミング</li>
-                <li>✗ 告白文テンプレ（月額のみ）</li>
-                <li>✗ 回数制限あり</li>
-              </ul>
-              <Link href="/tool" className="block w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition text-center">
-                無料で試す
-              </Link>
-            </div>
-            <div className="bg-blue-900 rounded-2xl p-8 border-2 border-blue-400 relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full">人気No.1</div>
-              <h3 className="font-bold text-lg mb-2">月額プラン</h3>
-              <div className="text-4xl font-black mb-4">¥980<span className="text-lg font-normal text-blue-300">/月</span></div>
-              <ul className="text-blue-200 text-sm space-y-2 mb-6 text-left">
-                <li>✓ 解析し放題（回数制限なし）</li>
-                <li>✓ 脈あり度・心理分析・返信例文</li>
-                <li>✓ 告白文テンプレ（LINE/直接/電話）</li>
-                <li>✓ 告白タイミング詳細分析</li>
-              </ul>
-              <button
-                onClick={startCheckout}
-                className="w-full bg-blue-400 hover:bg-blue-300 text-slate-900 font-black py-3 rounded-xl transition"
-              >
-                今すぐ始める
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-16 px-4 text-center">
-        <h2 className="text-2xl font-bold mb-4">まず無料で試してみよう</h2>
-        <p className="text-slate-400 mb-8">クレカ不要・登録不要。LINEをコピペするだけ。</p>
-        <Link
-          href="/tool"
-          className="bg-blue-500 hover:bg-blue-400 text-white font-black px-10 py-5 rounded-2xl text-xl transition inline-block"
-        >
-          今すぐ無料で解析
+      {/* CTA */}
+      <section className="bg-teal-600 py-16 text-center px-6">
+        <h2 className="text-2xl font-bold text-white mb-3">今すぐ共同親権の準備を始める</h2>
+        <p className="text-teal-100 text-sm mb-8">登録不要・クレジットカード不要で1回無料</p>
+        <Link href="/tool" className="inline-block bg-white text-teal-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-50 shadow-lg">
+          無料でドキュメントを作成する →
         </Link>
       </section>
 
-      <footer className="border-t border-slate-800 py-6 text-center text-xs text-slate-500 space-x-4">
+      <footer className="border-t py-6 text-center text-xs text-gray-400 space-x-4">
         <Link href="/legal" className="hover:underline">特定商取引法に基づく表記</Link>
-        <Link href="/terms" className="hover:underline">利用規約</Link>
         <Link href="/privacy" className="hover:underline">プライバシーポリシー</Link>
       </footer>
-      {showPayjp && (
-        <PayjpModal
-          publicKey={PAYJP_PUBLIC_KEY}
-          planLabel="プレミアムプラン ¥980/月 — LINE解析 無制限"
-          onSuccess={() => setShowPayjp(false)}
-          onClose={() => setShowPayjp(false)}
-        />
-      )}
     </main>
   );
 }
