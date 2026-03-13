@@ -47,7 +47,7 @@ export default function LandingPage() {
 
       {/* 施行告知バナー */}
       <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
-        📅 2026年4月1日施行済み — 改正民法により<strong>共同親権制度がスタート</strong>しました
+        📅 2026年4月1日施行予定 — 改正民法により<strong>共同親権制度がスタート</strong>します
       </div>
 
       {/* ヒーロー */}
