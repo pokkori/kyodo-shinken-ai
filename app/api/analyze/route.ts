@@ -6,7 +6,7 @@ import { isActiveSubscription } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-const FREE_LIMIT = 1;
+const FREE_LIMIT = 2;
 const APP_ID = "kyodo-shinken";
 
 function getAnthropic() {
@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
   if (email) {
     isPremium = await isActiveSubscription(email, APP_ID);
   } else {
-    isPremium = cookieStore.get("premium")?.value === "1" || cookieStore.get("stripe_premium")?.value === "1";
+    const pv = cookieStore.get("premium")?.value;
+  isPremium = pv === "1" || pv === "biz";
   }
 
   let usedCount = 0;
@@ -146,7 +147,7 @@ ${situationInfo || "記載なし"}
         httpOnly: true,
         secure: true,
         sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365,
+        maxAge: 60 * 60 * 24 * 30,
         path: "/",
       });
     }
