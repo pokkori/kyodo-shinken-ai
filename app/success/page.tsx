@@ -7,7 +7,7 @@ function Confetti() {
   const [particles, setParticles] = useState<{ id: number; left: number; delay: number; color: string; size: number }[]>([]);
 
   useEffect(() => {
-    const colors = ["#ec4899", "#f43f5e", "#a855f7", "#6366f1", "#3b82f6", "#eab308"];
+    const colors = ["#34d399", "#10b981", "#6ee7b7", "#a7f3d0", "#fbbf24", "#f59e0b"];
     const ps = Array.from({ length: 40 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
@@ -61,72 +61,71 @@ function SuccessContent() {
       {showConfetti && <Confetti />}
       <div className="max-w-lg w-full mx-auto px-4">
         <div className="text-center mb-10">
-          <div className="text-7xl mb-4">&#x1F496;</div>
+          <div className="text-7xl mb-4">👨‍👩‍👧</div>
           <h1 className="text-3xl font-black mb-2">プレミアム登録完了！</h1>
-          <p className="text-blue-300">全機能が解放されました</p>
+          <p className="text-emerald-300">子どもとの時間を守る準備が整いました</p>
         </div>
 
-        <div className="bg-blue-900/40 border border-blue-700 rounded-2xl p-6 mb-8">
-          <h2 className="font-bold text-blue-300 mb-3 text-sm">あなたの特典</h2>
-          <ul className="space-y-2 text-sm text-blue-100">
+        <div className="bg-emerald-900/40 border border-emerald-700 rounded-2xl p-6 mb-8">
+          <h2 className="font-bold text-emerald-300 mb-3 text-sm">プレミアム特典</h2>
+          <ul className="space-y-2 text-sm text-emerald-100">
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">&#10003;</span>
-              LINE解析が無制限で使い放題
+              <span className="text-emerald-400 mt-0.5">✓</span>
+              AI書類作成が無制限（面会交流計画書・養育費算定・合意書）
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">&#10003;</span>
-              心理分析・脈あり判定の詳細レポート
+              <span className="text-emerald-400 mt-0.5">✓</span>
+              弁護士費用を節約できる書類ドラフト自動生成
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">&#10003;</span>
-              告白文テンプレート自動生成（Premium限定）
+              <span className="text-emerald-400 mt-0.5">✓</span>
+              共同親権に関するQ&A・法律解説（Premium限定）
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">&#10003;</span>
-              最適な告白タイミング提案
+              <span className="text-emerald-400 mt-0.5">✓</span>
+              生成書類のPDF保存・再利用
             </li>
           </ul>
         </div>
 
         <div className="space-y-4 mb-8">
-          <h2 className="font-bold text-blue-200 text-center text-sm">まずはこの3ステップ</h2>
+          <h2 className="font-bold text-emerald-200 text-center text-sm">まずはこの3ステップ</h2>
 
-          <Link href="/tool" className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl p-4 hover:border-blue-500 hover:shadow-md transition-all group">
-            <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg shrink-0 group-hover:bg-blue-400">1</div>
+          <Link href="/tool" className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl p-4 hover:border-emerald-500 hover:shadow-md transition-all group">
+            <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-lg shrink-0 group-hover:bg-emerald-500">1</div>
             <div className="flex-1">
-              <p className="font-bold text-white text-sm">LINEのやり取りを解析する</p>
-              <p className="text-xs text-blue-300/60">相手のメッセージを貼り付けてAI解析</p>
+              <p className="font-bold text-white text-sm">書類の種類を選ぶ</p>
+              <p className="text-xs text-emerald-300/60">面会交流・養育費・合意書など目的に合わせて</p>
             </div>
-            <span className="text-slate-500 group-hover:text-blue-400 transition-colors">&rarr;</span>
+            <span className="text-slate-500 group-hover:text-emerald-400 transition-colors">→</span>
           </Link>
 
-          <Link href="/tool" className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl p-4 hover:border-blue-500 hover:shadow-md transition-all group">
-            <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg shrink-0 group-hover:bg-blue-400">2</div>
+          <Link href="/tool" className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl p-4 hover:border-emerald-500 hover:shadow-md transition-all group">
+            <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-lg shrink-0 group-hover:bg-emerald-500">2</div>
             <div className="flex-1">
-              <p className="font-bold text-white text-sm">返信例文を参考にする</p>
-              <p className="text-xs text-blue-300/60">シチュエーション別の最適な返し方</p>
+              <p className="font-bold text-white text-sm">状況を入力してAIに生成させる</p>
+              <p className="text-xs text-emerald-300/60">子どもの年齢・居住状況・希望する面会頻度など</p>
             </div>
-            <span className="text-slate-500 group-hover:text-blue-400 transition-colors">&rarr;</span>
+            <span className="text-slate-500 group-hover:text-emerald-400 transition-colors">→</span>
           </Link>
 
-          <Link href="/tool" className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl p-4 hover:border-blue-500 hover:shadow-md transition-all group">
-            <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg shrink-0 group-hover:bg-blue-400">3</div>
+          <Link href="/tool" className="flex items-center gap-4 bg-slate-800 border border-slate-700 rounded-xl p-4 hover:border-emerald-500 hover:shadow-md transition-all group">
+            <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-lg shrink-0 group-hover:bg-emerald-500">3</div>
             <div className="flex-1">
-              <p className="font-bold text-white text-sm">告白文を生成する</p>
-              <p className="text-xs text-blue-300/60">Premium限定：AIが最適な告白文を作成</p>
+              <p className="font-bold text-white text-sm">ドラフトを保存・弁護士に相談</p>
+              <p className="text-xs text-emerald-300/60">生成した書類を専門家と一緒に最終確認</p>
             </div>
-            <span className="text-slate-500 group-hover:text-blue-400 transition-colors">&rarr;</span>
+            <span className="text-slate-500 group-hover:text-emerald-400 transition-colors">→</span>
           </Link>
         </div>
-
 
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-400 mb-1">ご感想をお聞かせください（30秒）</p>
-          <a href="mailto:support@pokkorilab.com?subject=%E3%81%94%E6%84%9F%E6%83%B3&body=%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E5%90%8D%EF%BC%9A%0A%E6%84%9F%E6%83%B3%EF%BC%9A" className="text-xs text-blue-500 underline hover:text-blue-700">感想を送る →</a>
+          <a href="mailto:support@pokkorilab.com?subject=共同親権サポートAI感想&body=サービス名：共同親権サポートAI%0A感想：" className="text-xs text-emerald-500 underline hover:text-emerald-700">感想を送る →</a>
         </div>
-        <div className="text-center bg-slate-800 rounded-xl p-4 border border-slate-700">
-          <p className="text-xs text-blue-300/60 mb-1">いつでもすぐアクセス</p>
-          <p className="text-sm font-bold text-blue-200">このサイトをブックマークしておきましょう</p>
+        <div className="text-center bg-slate-800 rounded-xl p-4 border border-slate-700 mt-4">
+          <p className="text-xs text-emerald-300/60 mb-1">いつでもすぐアクセス</p>
+          <p className="text-sm font-bold text-emerald-200">このサイトをブックマークしておきましょう</p>
         </div>
       </div>
     </>
@@ -136,7 +135,7 @@ function SuccessContent() {
 export default function SuccessPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center py-12 px-4">
-      <Suspense fallback={<p className="text-blue-400">読み込み中...</p>}>
+      <Suspense fallback={<p className="text-emerald-400">読み込み中...</p>}>
         <SuccessContent />
       </Suspense>
     </main>
