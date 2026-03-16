@@ -51,20 +51,20 @@ export default function LandingPage() {
       </div>
 
       {/* ヒーロー */}
-      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
-        <div className="inline-block bg-teal-50 text-teal-700 text-xs font-semibold px-3 py-1 rounded-full mb-6">
+      <section className="max-w-4xl mx-auto px-4 py-10 md:py-20 text-center overflow-x-hidden">
+        <div className="inline-block bg-teal-50 text-teal-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
           2026年4月 新制度対応
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
           弁護士に相談する前に、<br /><span className="text-teal-600">読んでください。</span>
         </h1>
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 text-sm text-amber-800 font-medium max-w-xl mx-auto mb-4">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800 font-medium max-w-xl mx-auto mb-4">
           ⚠️ 準備なしで交渉に臨むと、子どもと過ごせる時間を失うリスクがあります
         </div>
-        <p className="text-lg text-gray-500 mb-4 max-w-2xl mx-auto">
+        <p className="text-base md:text-lg text-gray-500 mb-5 max-w-2xl mx-auto">
           子どもの情報を入力するだけ。AIが<strong className="text-gray-700">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
         </p>
-        <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3">
+        <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-base md:text-lg px-6 md:px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3 w-full sm:w-auto">
           子どもとの時間を守る書類を、今すぐ無料で作る →
         </Link>
         <p className="text-sm font-semibold text-gray-500">クレジットカード不要・登録不要・今すぐ使える</p>
@@ -196,10 +196,10 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-teal-600 py-16 text-center px-6">
-        <h2 className="text-2xl font-bold text-white mb-3">今すぐ共同親権の準備を始める</h2>
+      <section className="bg-teal-600 py-16 text-center px-4 overflow-x-hidden">
+        <h2 className="text-xl md:text-2xl font-bold text-white mb-3">今すぐ共同親権の準備を始める</h2>
         <p className="text-teal-100 text-sm mb-8">登録不要・クレジットカード不要で1回無料</p>
-        <Link href="/tool" className="inline-block bg-white text-teal-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-50 shadow-lg">
+        <Link href="/tool" className="inline-block bg-white text-teal-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-50 shadow-lg w-full sm:w-auto">
           無料でドキュメントを作成する →
         </Link>
       </section>
