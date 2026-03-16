@@ -6,7 +6,7 @@ import { isActiveSubscription } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-const FREE_LIMIT = 2;
+const FREE_LIMIT = 1;
 const APP_ID = "kyodo-shinken";
 
 function getAnthropic() {
