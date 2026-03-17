@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
+import { track } from '@vercel/analytics';
 
 function renderMarkdown(text: string): React.ReactNode[] {
   return text.split("\n").map((line, i) => {
@@ -106,6 +107,7 @@ export default function ToolPage() {
 
   async function generate() {
     if (!childrenInfo.trim()) return;
+    track('ai_generated', { service: '共同親権サポートAI' });
     setLoading(true);
     setError("");
     setResult(null);
@@ -116,7 +118,7 @@ export default function ToolPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ childrenInfo, parentInfo, situationInfo }),
       });
-      if (res.status === 402) { setShowPaywall(true); setLoading(false); return; }
+      if (res.status === 402) { track('paywall_shown', { service: '共同親権サポートAI' }); setShowPaywall(true); setLoading(false); return; }
       if (!res.ok) {
         const data = await res.json();
         setError(data.error || "エラーが発生しました");
@@ -216,7 +218,7 @@ export default function ToolPage() {
         {!isPremium && remaining === 0 && !result && (
           <div className="bg-teal-50 border border-teal-400 rounded-xl p-4 text-center">
             <p className="text-sm text-teal-800 mb-3">無料回数を使い切りました。月額¥3,980で使い放題！</p>
-            <button onClick={startCheckout} className="bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-2 rounded-xl text-sm transition">
+            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-2 rounded-xl text-sm transition">
               プレミアムにアップグレード
             </button>
           </div>
@@ -245,7 +247,7 @@ export default function ToolPage() {
             <div className="text-4xl mb-4">🔒</div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">無料回数が終わりました</h3>
             <p className="text-gray-500 text-sm mb-6">月額¥3,980で親権計画書・養育費・調停準備まで無制限に作成</p>
-            <button onClick={startCheckout} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full">
+            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full">
               ¥3,980/月でアップグレード
             </button>
           </div>
