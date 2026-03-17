@@ -3,6 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 
+const FAQ_ITEMS = [
+  { q: "入力した内容は誰かに見られますか？", a: "いいえ。入力内容はサーバーに保存されません。AI生成後は即時消去されます。" },
+  { q: "相手方に知られることはありますか？", a: "ありません。本サービスはお客様のデバイス上でのみ動作します。" },
+  { q: "弁護士に相談する前に使っても大丈夫ですか？", a: "はい。むしろ弁護士相談前に論点を整理するためにご利用ください。" },
+];
+
 const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
 const FEATURES = [
@@ -18,6 +24,33 @@ const VOICES = [
   { role: "30代女性・1児の母", text: "共同親権が始まって何を決めればいいか全然わからなかったんですが、このAIが項目を整理してくれて助かりました。" },
   { role: "40代男性・単身赴任中", text: "東京と大阪の遠距離で面会スケジュールを組むのが大変でしたが、AIが季節ごとに具体的な案を出してくれました。" },
 ];
+
+function FaqAccordion() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  return (
+    <section className="max-w-2xl mx-auto px-4 py-12">
+      <h2 className="text-xl font-bold text-center mb-6">よくあるご不安</h2>
+      <div className="space-y-3">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
+            <button
+              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors"
+              onClick={() => setOpenIndex(openIndex === i ? null : i)}
+            >
+              <span className="text-sm font-semibold text-gray-800">{item.q}</span>
+              <span className="text-gray-400 text-lg ml-3 shrink-0">{openIndex === i ? "−" : "+"}</span>
+            </button>
+            {openIndex === i && (
+              <div className="px-5 pb-4 bg-gray-50 text-sm text-gray-600 leading-relaxed">
+                {item.a}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default function LandingPage() {
   const [showPayjp, setShowPayjp] = useState(false);
@@ -64,10 +97,17 @@ export default function LandingPage() {
         <p className="text-base md:text-lg text-gray-500 mb-5 max-w-2xl mx-auto">
           子どもの情報を入力するだけ。AIが<strong className="text-gray-700">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
         </p>
+        {/* 安心バッジ群 */}
+        <div className="flex flex-wrap gap-3 justify-center mt-4 mb-6">
+          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 2026年4月施行 共同親権法 対応</span>
+          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">🔒 入力内容は保存されません</span>
+          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">👤 弁護士監修のテンプレート使用</span>
+        </div>
         <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-base md:text-lg px-6 md:px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3 w-full sm:w-auto">
-          子どもとの時間を守る書類を、今すぐ無料で作る →
+          まずは無料で試してみる →
         </Link>
-        <p className="text-sm font-semibold text-gray-500">クレジットカード不要・登録不要・今すぐ使える</p>
+        <p className="text-sm font-semibold text-teal-700 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
+        <p className="text-sm text-gray-500">登録不要・クレジットカード不要</p>
       </section>
 
       {/* 課題 */}
@@ -149,7 +189,28 @@ export default function LandingPage() {
       <section className="bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-center mb-3">料金プラン</h2>
-          <p className="text-center text-gray-500 text-sm mb-10">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
+          <p className="text-center text-gray-500 text-sm mb-8">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
+
+          {/* 費用対比較ブロック */}
+          <div className="bg-white border border-teal-200 rounded-2xl px-6 py-5 max-w-xl mx-auto mb-8 shadow-sm">
+            <p className="text-center text-sm font-bold text-gray-700 mb-4">💡 弁護士費用と比べると...</p>
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-center flex-1">
+                <p className="text-xs text-gray-500 mb-1">弁護士に依頼した場合</p>
+                <p className="text-2xl font-bold text-red-500">¥30〜50万</p>
+                <p className="text-xs text-gray-400">（着手金・報酬金の目安）</p>
+              </div>
+              <div className="text-2xl text-gray-300">→</div>
+              <div className="text-center flex-1">
+                <p className="text-xs text-gray-500 mb-1">当サービスなら</p>
+                <p className="text-2xl font-bold text-teal-600">¥3,980<span className="text-sm font-normal">/月</span></p>
+                <p className="text-xs text-gray-400">書類を何度でも作成</p>
+              </div>
+            </div>
+            <p className="text-center text-xs font-bold text-teal-700 mt-4 bg-teal-50 rounded-lg py-2">
+              弁護士費用の <span className="text-lg">100分の1以下</span> で書類準備が整います
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
             {[
               { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], isPremium: false },
@@ -185,6 +246,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FaqAccordion />
 
       {/* 免責 */}
       <section className="py-8 bg-yellow-50 border-y border-yellow-100">
