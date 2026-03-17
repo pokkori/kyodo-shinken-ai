@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 
@@ -56,6 +56,14 @@ function FaqAccordion() {
 
 export default function LandingPage() {
   const [showPayjp, setShowPayjp] = useState(false);
+  const [daysLeft, setDaysLeft] = useState<number | null>(null);
+
+  useEffect(() => {
+    const施行日 = new Date("2026-04-01T00:00:00+09:00");
+    const today = new Date();
+    const diff = Math.ceil((施行日.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    setDaysLeft(diff > 0 ? diff : 0);
+  }, []);
 
   function startCheckout() {
     setShowPayjp(true);
@@ -82,7 +90,13 @@ export default function LandingPage() {
 
       {/* 施行告知バナー */}
       <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
-        📅 2026年4月1日施行予定 — 改正民法により<strong>共同親権制度がスタート</strong>します
+        {daysLeft !== null && daysLeft > 0 ? (
+          <>⏰ 共同親権制度 施行まで<strong className="text-yellow-300 text-base mx-1">あと{daysLeft}日</strong>— 今すぐ準備を</>
+        ) : daysLeft === 0 ? (
+          <>✅ 共同親権制度が<strong>本日施行</strong>されました — 今すぐ手続きを開始</>
+        ) : (
+          <>⚖️ 共同親権制度は<strong>施行済み</strong>です — 今すぐ手続きを開始</>
+        )}
       </div>
 
       {/* ヒーロー */}
