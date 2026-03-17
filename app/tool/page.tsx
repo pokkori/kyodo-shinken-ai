@@ -3,6 +3,36 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 
+function renderMarkdown(text: string): React.ReactNode[] {
+  return text.split("\n").map((line, i) => {
+    if (line.startsWith("### ")) {
+      return <h3 key={i} className="text-sm font-black text-teal-700 mt-3 mb-1 border-b border-teal-100 pb-1">{line.slice(4)}</h3>;
+    }
+    if (line.startsWith("## ")) {
+      return <h2 key={i} className="text-base font-black text-teal-800 mt-4 mb-2">{line.slice(3)}</h2>;
+    }
+    if (line.startsWith("# ")) {
+      return <h2 key={i} className="text-base font-black text-teal-800 mt-4 mb-2">{line.slice(2)}</h2>;
+    }
+    if (line.startsWith("■ ") || line.startsWith("▶ ")) {
+      return <p key={i} className="text-sm font-bold text-gray-800 mt-2">{line}</p>;
+    }
+    if (line.match(/^[\d]+\.\s/) || line.startsWith("・") || line.startsWith("- ") || line.startsWith("• ")) {
+      return (
+        <div key={i} className="flex gap-2 items-start text-sm text-gray-700 my-0.5">
+          <span className="flex-shrink-0 text-teal-500 font-bold mt-0.5">●</span>
+          <span>{line.replace(/^[\d]+\.\s|^[・\-•]\s?/, "")}</span>
+        </div>
+      );
+    }
+    if (line.trim() === "") return <div key={i} className="h-2" />;
+    if (line.startsWith("⚠️") || line.startsWith("🚨")) {
+      return <p key={i} className="text-sm font-semibold text-red-700 bg-red-50 rounded px-2 py-1 my-1">{line}</p>;
+    }
+    return <p key={i} className="text-sm text-gray-700 leading-relaxed">{line}</p>;
+  });
+}
+
 type Result = {
   plan: string;
   calendar: string;
@@ -223,7 +253,7 @@ export default function ToolPage() {
             <p className="text-xl font-black mb-1">6種類のドキュメントが完成しました！</p>
             <p className="text-sm text-teal-100 mb-4">次のアクション・親権計画書・面会カレンダー・養育費・調停準備を下のタブで確認</p>
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIで親権計画書・面会カレンダー・養育費目安を30秒で作成しました⚖️\n弁護士費用の100分の1以下で書類準備が完了！\n2026年4月1日に共同親権制度が施行されました\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIを使ってみた⚖️\n親権計画書・面会カレンダー・養育費の目安が30秒で出てきて驚いた…\n弁護士に相談する前の整理に本当に役立った。\n2026年4月施行の共同親権制度に対応済み\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-teal-700 text-sm font-black px-6 py-3 rounded-xl hover:bg-teal-50 transition"
@@ -259,7 +289,7 @@ export default function ToolPage() {
                   <div className="bg-teal-50 border border-teal-200 rounded-xl p-3 mb-4 text-xs text-teal-700 font-medium">
                     ⚡ 2026年4月1日に共同親権制度が施行されました。今すぐ行動しましょう。
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.nextActions || "次のアクションを生成中..."}</pre>
+                  <div className="space-y-0.5">{renderMarkdown(result.nextActions || "次のアクションを生成中...")}</div>
                 </div>
               )}
               {tab === "plan" && (
@@ -268,7 +298,7 @@ export default function ToolPage() {
                     <span className="text-sm font-bold text-teal-600">📋 親権計画書草案</span>
                     <CopyButton text={result.plan} />
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.plan}</pre>
+                  <div className="space-y-0.5">{renderMarkdown(result.plan)}</div>
                 </div>
               )}
               {tab === "calendar" && (
@@ -277,7 +307,7 @@ export default function ToolPage() {
                     <span className="text-sm font-bold text-teal-600">📅 面会交流カレンダー</span>
                     <CopyButton text={result.calendar} />
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.calendar}</pre>
+                  <div className="space-y-0.5">{renderMarkdown(result.calendar)}</div>
                 </div>
               )}
               {tab === "money" && (
@@ -286,7 +316,7 @@ export default function ToolPage() {
                     <span className="text-sm font-bold text-teal-600">💰 養育費の目安</span>
                     <CopyButton text={result.money} />
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.money}</pre>
+                  <div className="space-y-0.5">{renderMarkdown(result.money)}</div>
                 </div>
               )}
               {tab === "mediation" && (
@@ -295,7 +325,7 @@ export default function ToolPage() {
                     <span className="text-sm font-bold text-teal-600">📝 調停準備メモ</span>
                     <CopyButton text={result.mediation} />
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.mediation}</pre>
+                  <div className="space-y-0.5">{renderMarkdown(result.mediation)}</div>
                 </div>
               )}
               {tab === "caution" && isPremium && (
@@ -304,7 +334,7 @@ export default function ToolPage() {
                     <span className="text-sm font-bold text-teal-600">⚠️ 注意事項・よくあるトラブル</span>
                     <CopyButton text={result.caution} />
                   </div>
-                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.caution}</pre>
+                  <div className="space-y-0.5">{renderMarkdown(result.caution)}</div>
                 </div>
               )}
 

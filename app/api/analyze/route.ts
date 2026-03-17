@@ -155,7 +155,7 @@ ${situationInfo || "記載なし"}
 
     const stream = anthropic.messages.stream({
       model: "claude-sonnet-4-6",
-      max_tokens: 3000,
+      max_tokens: 4000,
       messages: [{ role: "user", content: prompt }],
     });
 
