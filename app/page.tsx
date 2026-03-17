@@ -103,7 +103,7 @@ export default function LandingPage() {
         <div className="flex flex-wrap gap-3 justify-center mt-4 mb-6">
           <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 2026年4月施行 共同親権法 対応</span>
           <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">🔒 入力内容は保存されません</span>
-          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">👤 弁護士監修のテンプレート使用</span>
+          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">📄 法律家に相談しやすい草案を生成</span>
         </div>
         <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-base md:text-lg px-6 md:px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3 w-full sm:w-auto">
           まずは無料で試してみる →
