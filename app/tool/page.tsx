@@ -215,14 +215,15 @@ export default function ToolPage() {
         )}
 
         {result && (
-          <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 mb-2">
-            <p className="text-sm font-bold text-teal-800 mb-1">✅ 5種類のドキュメントが生成されました</p>
-            <p className="text-xs text-teal-600 mb-3">親権計画書・面会カレンダー・養育費・調停準備・注意事項をタブで確認できます</p>
+          <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-2xl p-6 mb-4 text-center shadow-lg">
+            <div className="text-4xl mb-2">📋</div>
+            <p className="text-xl font-black mb-1">5種類のドキュメントが完成しました！</p>
+            <p className="text-sm text-teal-100 mb-4">親権計画書・面会カレンダー・養育費・調停準備・注意事項を下のタブで確認</p>
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIで親権計画書・面会カレンダー・養育費目安を30秒で作成しました⚖️\n弁護士に相談する前の整理に超便利。2026年4月施行の共同親権制度に備えよう\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIで親権計画書・面会カレンダー・養育費目安を30秒で作成しました⚖️\n弁護士費用の100分の1以下で書類準備が完了！\n2026年4月施行の共同親権制度に備えよう\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold px-4 py-2 rounded-full transition"
+              className="inline-flex items-center gap-2 bg-white text-teal-700 text-sm font-black px-6 py-3 rounded-xl hover:bg-teal-50 transition"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               Xでシェア（同じ境遇の方に届けよう）

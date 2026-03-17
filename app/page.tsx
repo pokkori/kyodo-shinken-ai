@@ -88,42 +88,49 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* 施行告知バナー */}
-      <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
-        {daysLeft !== null && daysLeft > 0 ? (
-          <>⏰ 共同親権制度 施行まで<strong className="text-yellow-300 text-base mx-1">あと{daysLeft}日</strong>— 今すぐ準備を</>
-        ) : daysLeft === 0 ? (
-          <>✅ 共同親権制度が<strong>本日施行</strong>されました — 今すぐ手続きを開始</>
-        ) : (
-          <>⚖️ 共同親権制度は<strong>施行済み</strong>です — 今すぐ手続きを開始</>
-        )}
-      </div>
-
-      {/* ヒーロー */}
-      <section className="max-w-4xl mx-auto px-4 py-10 md:py-20 text-center overflow-x-hidden">
-        <div className="inline-block bg-teal-50 text-teal-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
-          2026年4月 新制度対応
+      {/* 施行告知バナー — 強化版赤アラート */}
+      {daysLeft !== null && daysLeft > 0 ? (
+        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4 animate-pulse">
+          🚨 共同親権制度 施行まで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 準備は今すぐ！
         </div>
-        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-          弁護士に相談する前に、<br /><span className="text-teal-600">読んでください。</span>
+      ) : daysLeft === 0 ? (
+        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4">
+          ✅ 共同親権制度が<strong>本日施行</strong>されました — 今すぐ手続きを開始
+        </div>
+      ) : (
+        <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
+          ⚖️ 共同親権制度は<strong>施行済み</strong>です — 今すぐ手続きを開始
+        </div>
+      )}
+
+      {/* ヒーロー — ダークグラデーション刷新 */}
+      <section className="bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 text-white px-4 py-16 md:py-24 text-center overflow-x-hidden">
+        <div className="max-w-4xl mx-auto">
+        {/* 法的安心感バッジ */}
+        <div className="inline-block bg-yellow-400 text-teal-900 text-xs font-black px-4 py-2 rounded-full mb-6 shadow-lg">
+          ⚡ 弁護士費用の100分の1で法的書類作成
+        </div>
+        <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
+          お子様の未来を守る。<br /><span className="text-teal-300">AIが、あなたの味方に。</span>
         </h1>
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800 font-medium max-w-xl mx-auto mb-4">
+        <div className="bg-red-500/20 border border-red-400/50 rounded-xl px-4 py-3 text-sm text-red-200 font-medium max-w-xl mx-auto mb-6">
           ⚠️ 準備なしで交渉に臨むと、子どもと過ごせる時間を失うリスクがあります
         </div>
-        <p className="text-base md:text-lg text-gray-500 mb-5 max-w-2xl mx-auto">
-          子どもの情報を入力するだけ。AIが<strong className="text-gray-700">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
+        <p className="text-base md:text-lg text-teal-100 mb-6 max-w-2xl mx-auto">
+          子どもの情報を入力するだけ。AIが<strong className="text-white">親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモ</strong>をセットで生成。弁護士相談前の整理に。
         </p>
         {/* 安心バッジ群 */}
-        <div className="flex flex-wrap gap-3 justify-center mt-4 mb-6">
-          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 2026年4月施行 共同親権法 対応</span>
-          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">🔒 入力内容は保存されません</span>
-          <span className="bg-teal-50 border border-teal-200 text-teal-700 rounded-full px-4 py-1.5 text-sm font-medium">📄 法律家に相談しやすい草案を生成</span>
+        <div className="flex flex-wrap gap-3 justify-center mb-8">
+          <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 2026年4月施行 共同親権法 対応</span>
+          <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">🔒 入力内容は保存されません</span>
+          <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">📄 法律家に相談しやすい草案を生成</span>
         </div>
-        <Link href="/tool" className="inline-block bg-teal-600 text-white font-bold text-base md:text-lg px-6 md:px-8 py-4 rounded-xl hover:bg-teal-700 shadow-lg shadow-teal-100 mb-3 w-full sm:w-auto">
+        <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl shadow-2xl mb-3 w-full sm:w-auto transition-colors">
           まずは無料で試してみる →
         </Link>
-        <p className="text-sm font-semibold text-teal-700 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
-        <p className="text-sm text-gray-500">登録不要・クレジットカード不要</p>
+        <p className="text-sm font-semibold text-teal-200 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
+        <p className="text-sm text-teal-300">登録不要・クレジットカード不要</p>
+        </div>
       </section>
 
       {/* 課題 */}
