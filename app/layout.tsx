@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "共同親権サポートAI",
     locale: "ja_JP",
     type: "website",
-    images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: "共同親権サポートAI" }],
+    images: [{ url: `${SITE_URL}/og.png`, width: 1200, height: 630, alt: "共同親権サポートAI" }],
   },
   twitter: {
     card: "summary_large_image",
