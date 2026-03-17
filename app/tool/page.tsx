@@ -55,6 +55,7 @@ export default function ToolPage() {
   const [parentInfo, setParentInfo] = useState("");
   const [situationInfo, setSituationInfo] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streamText, setStreamText] = useState("");
   const [result, setResult] = useState<Result>(null);
   const [error, setError] = useState("");
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -75,6 +76,7 @@ export default function ToolPage() {
     setLoading(true);
     setError("");
     setResult(null);
+    setStreamText("");
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -82,11 +84,39 @@ export default function ToolPage() {
         body: JSON.stringify({ childrenInfo, parentInfo, situationInfo }),
       });
       if (res.status === 402) { setShowPaywall(true); setLoading(false); return; }
-      const data = await res.json();
-      if (data.error) { setError(data.error); setLoading(false); return; }
-      const parsed = parseResult(data.result);
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "エラーが発生しました");
+        setLoading(false);
+        return;
+      }
+      if (!res.body) { setError("レスポンスエラー"); setLoading(false); return; }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        const doneIdx = chunk.indexOf("\nDONE:");
+        if (doneIdx !== -1) {
+          const textPart = chunk.slice(0, doneIdx);
+          accumulated += textPart;
+          setStreamText(accumulated);
+          try {
+            const meta = JSON.parse(chunk.slice(doneIdx + 6));
+            if (meta.remaining !== undefined) setRemaining(meta.remaining);
+          } catch { /* ignore */ }
+          break;
+        }
+        accumulated += chunk;
+        setStreamText(accumulated);
+      }
+
+      const parsed = parseResult(accumulated);
       setResult(parsed);
-      setRemaining(data.remaining);
       setTab("plan");
     } catch {
       setError("エラーが発生しました。もう一度お試しください。");
@@ -160,10 +190,18 @@ export default function ToolPage() {
           disabled={loading || !childrenInfo.trim() || (!isPremium && remaining === 0)}
           className="w-full bg-teal-500 hover:bg-teal-400 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {loading ? "AIが作成中…（20〜30秒）" : "親権サポートドキュメントを作成する"}
+          {loading ? "AIが作成中…" : "親権サポートドキュメントを作成する"}
         </button>
 
         {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+
+        {/* Streaming中の進捗表示 */}
+        {loading && streamText && (
+          <div className="bg-white border border-teal-200 rounded-2xl p-5">
+            <p className="text-xs text-teal-600 font-bold mb-2">AIが作成中...</p>
+            <pre className="text-xs text-gray-500 whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">{streamText}</pre>
+          </div>
+        )}
 
         {showPaywall && (
           <div className="bg-white border border-teal-500 rounded-2xl p-8 text-center shadow-sm">

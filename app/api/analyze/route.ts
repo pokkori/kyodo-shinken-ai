@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     isPremium = await isActiveSubscription(email, APP_ID);
   } else {
     const pv = cookieStore.get("premium")?.value;
-  isPremium = pv === "1" || pv === "biz";
+    isPremium = pv === "1" || pv === "biz";
   }
 
   let usedCount = 0;
@@ -129,30 +129,41 @@ ${situationInfo || "記載なし"}
 
   try {
     const anthropic = getAnthropic();
-    const response = await anthropic.messages.create({
+    const newUsedCount = usedCount + 1;
+    const remaining = isPremium ? null : FREE_LIMIT - newUsedCount;
+
+    const stream = anthropic.messages.stream({
       model: "claude-sonnet-4-6",
       max_tokens: 3000,
       messages: [{ role: "user", content: prompt }],
     });
 
-    const result = (response.content[0] as { text: string }).text;
-
-    const res = NextResponse.json({
-      result,
-      remaining: isPremium ? null : FREE_LIMIT - (usedCount + 1),
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
+              controller.enqueue(encoder.encode(chunk.delta.text));
+            }
+          }
+          controller.enqueue(encoder.encode(`\nDONE:${JSON.stringify({ remaining })}`));
+          controller.close();
+        } catch (err) {
+          console.error(err);
+          controller.error(err);
+        }
+      },
     });
 
+    const headers: Record<string, string> = {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache",
+    };
     if (!isPremium) {
-      res.cookies.set("free_uses", String(usedCount + 1), {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-      });
+      headers["Set-Cookie"] = `free_uses=${newUsedCount}; Max-Age=${60 * 60 * 24 * 30}; SameSite=Lax; HttpOnly; Secure; Path=/`;
     }
-
-    return res;
+    return new Response(readable, { headers });
   } catch {
     return NextResponse.json({ error: "AI生成中にエラーが発生しました" }, { status: 500 });
   }
