@@ -4,9 +4,11 @@ import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 
 const FAQ_ITEMS = [
-  { q: "入力した内容は誰かに見られますか？", a: "いいえ。入力内容はサーバーに保存されません。AI生成後は即時消去されます。" },
-  { q: "相手方に知られることはありますか？", a: "ありません。本サービスはお客様のデバイス上でのみ動作します。" },
-  { q: "弁護士に相談する前に使っても大丈夫ですか？", a: "はい。むしろ弁護士相談前に論点を整理するためにご利用ください。" },
+  { q: "共同親権制度はいつから始まりますか？", a: "2026年4月1日施行予定です。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになります。" },
+  { q: "離婚後も両親が親権を持てますか？", a: "はい、協議または家庭裁判所の判断で決定されます。父母が合意すれば協議で共同親権を選択でき、合意できない場合は家庭裁判所が判断します。" },
+  { q: "このAIは弁護士の代わりになりますか？", a: "法的アドバイスの補助ツールです。AIは書類の草案作成や論点整理に役立ちますが、法的効力のある書類作成や正式な法的アドバイスについては弁護士にご相談ください。" },
+  { q: "費用はかかりますか？", a: "基本機能は無料でご利用いただけます。親権計画書・面会カレンダー・養育費目安・調停準備メモを1回無料で生成できます。より詳細な相談機能や繰り返し利用にはプレミアムプラン（¥3,980/月）をご利用ください。" },
+  { q: "個人情報は安全ですか？", a: "入力データは外部に共有されません。入力内容はAI生成後に即時消去され、サーバーに保存されることはありません。" },
 ];
 
 const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
@@ -20,16 +22,16 @@ const FEATURES = [
 ];
 
 const VOICES = [
-  { role: "30代男性・2児の父", text: "弁護士に相談する前の整理に使いました。面会交流の希望を具体的な計画書にまとめてくれて、調停の準備がスムーズになりました。" },
-  { role: "30代女性・1児の母", text: "共同親権が始まって何を決めればいいか全然わからなかったんですが、このAIが項目を整理してくれて助かりました。" },
-  { role: "40代男性・単身赴任中", text: "東京と大阪の遠距離で面会スケジュールを組むのが大変でしたが、AIが季節ごとに具体的な案を出してくれました。" },
+  { role: "40代男性", text: "離婚後の面会交流の取り決め方が分かりました。AIが具体的なスケジュールの案を出してくれて、元妻との話し合いがスムーズになりました。" },
+  { role: "30代女性・1児の母", text: "共同親権が始まって何を決めればいいか全然わからなかったんですが、このAIが項目を整理してくれて助かりました。弁護士に相談する前の準備に最適です。" },
+  { role: "40代男性・単身赴任中", text: "東京と大阪の遠距離で面会スケジュールを組むのが大変でしたが、AIが季節ごとに具体的な案を出してくれました。弁護士費用を大幅に節約できました。" },
 ];
 
 function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <section className="max-w-2xl mx-auto px-4 py-12">
-      <h2 className="text-xl font-bold text-center mb-6">よくあるご不安</h2>
+      <h2 className="text-xl font-bold text-center mb-6">よくある質問（FAQ）</h2>
       <div className="space-y-3">
         {FAQ_ITEMS.map((item, i) => (
           <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
@@ -191,21 +193,36 @@ export default function LandingPage() {
           <h2 className="text-2xl font-bold text-center mb-3">料金プラン</h2>
           <p className="text-center text-gray-500 text-sm mb-8">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
 
-          {/* 費用対比較ブロック */}
+          {/* 費用比較表 */}
           <div className="bg-white border border-teal-200 rounded-2xl px-6 py-5 max-w-xl mx-auto mb-8 shadow-sm">
             <p className="text-center text-sm font-bold text-gray-700 mb-4">💡 弁護士費用と比べると...</p>
-            <div className="flex items-center justify-between gap-4">
-              <div className="text-center flex-1">
-                <p className="text-xs text-gray-500 mb-1">弁護士に依頼した場合</p>
-                <p className="text-2xl font-bold text-red-500">¥30〜50万</p>
-                <p className="text-xs text-gray-400">（着手金・報酬金の目安）</p>
-              </div>
-              <div className="text-2xl text-gray-300">→</div>
-              <div className="text-center flex-1">
-                <p className="text-xs text-gray-500 mb-1">当サービスなら</p>
-                <p className="text-2xl font-bold text-teal-600">¥3,980<span className="text-sm font-normal">/月</span></p>
-                <p className="text-xs text-gray-400">書類を何度でも作成</p>
-              </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="border border-gray-200 px-4 py-2 text-left text-xs text-gray-500 font-semibold"></th>
+                    <th className="border border-gray-200 px-4 py-2 text-center text-xs text-red-600 font-bold">弁護士</th>
+                    <th className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-700 font-bold">本AI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">相談料</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">¥5,000〜/時間</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">基本無料</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">着手金</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">¥30万〜</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">不要</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">継続利用</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">都度費用発生</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">¥3,980/月（無制限）</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <p className="text-center text-xs font-bold text-teal-700 mt-4 bg-teal-50 rounded-lg py-2">
               弁護士費用の <span className="text-lg">100分の1以下</span> で書類準備が整います

@@ -177,6 +177,20 @@ export default function ToolPage() {
         )}
 
         {result && (
+          <div className="flex justify-end mb-2">
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIで子育て問題を整理。2026年4月の共同親権制度に備えよう。 #共同親権 #離婚 #子育て")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-black hover:bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-full transition"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              Xでシェア
+            </a>
+          </div>
+        )}
+
+        {result && (
           <div className="bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden">
             <div className="flex overflow-x-auto border-b border-slate-700">
               {TABS.map((t) => (
