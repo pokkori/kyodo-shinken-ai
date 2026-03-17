@@ -62,7 +62,7 @@ export default function LandingPage() {
     const施行日 = new Date("2026-04-01T00:00:00+09:00");
     const today = new Date();
     const diff = Math.ceil((施行日.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-    setDaysLeft(diff > 0 ? diff : 0);
+    setDaysLeft(diff); // 負数も保持（施行後の経過日数表示のため）
   }, []);
 
   function startCheckout() {
@@ -88,18 +88,18 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* 施行告知バナー — 強化版赤アラート */}
+      {/* 施行告知バナー — 施行前後で動的切替 */}
       {daysLeft !== null && daysLeft > 0 ? (
-        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4 animate-pulse">
-          🚨 共同親権制度 施行まで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 準備は今すぐ！
+        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4">
+          🚨 共同親権制度 施行まで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 準備は今すぐ！<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で書類作成 →</Link>
         </div>
       ) : daysLeft === 0 ? (
-        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4">
-          ✅ 共同親権制度が<strong>本日施行</strong>されました — 今すぐ手続きを開始
+        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4 animate-pulse">
+          🎉 共同親権制度が<strong>本日2026年4月1日に施行</strong>されました！ 今すぐ手続きを開始しましょう<Link href="/tool" className="ml-2 underline hover:no-underline">AIで書類を作成する →</Link>
         </div>
       ) : (
         <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
-          ⚖️ 共同親権制度は<strong>施行済み</strong>です — 今すぐ手続きを開始
+          ✅ 共同親権制度は<strong>2026年4月1日に施行済み</strong>です — AIで今すぐ親権計画書を作成<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で試す →</Link>
         </div>
       )}
 

@@ -9,6 +9,7 @@ type Result = {
   money: string;
   mediation: string;
   caution: string;
+  nextActions: string;
   disclaimer: string;
 } | null;
 
@@ -25,12 +26,14 @@ function parseResult(text: string): Result {
     money: get("MONEY"),
     mediation: get("MEDIATION"),
     caution: get("CAUTION"),
+    nextActions: get("NEXT_ACTIONS"),
     disclaimer: get("DISCLAIMER"),
   };
 }
 
-type Tab = "plan" | "calendar" | "money" | "mediation" | "caution";
+type Tab = "plan" | "calendar" | "money" | "mediation" | "next" | "caution";
 const TABS: { id: Tab; label: string; premium?: boolean }[] = [
+  { id: "next", label: "🚀 次のアクション" },
   { id: "plan", label: "📋 親権計画書" },
   { id: "calendar", label: "📅 面会カレンダー" },
   { id: "money", label: "💰 養育費の目安" },
@@ -62,7 +65,7 @@ export default function ToolPage() {
   const [isPremium, setIsPremium] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
   const [showPayjp, setShowPayjp] = useState(false);
-  const [tab, setTab] = useState<Tab>("plan");
+  const [tab, setTab] = useState<Tab>("next");
 
   useEffect(() => {
     fetch("/api/auth/status").then((r) => r.json()).then((d) => {
@@ -117,7 +120,7 @@ export default function ToolPage() {
 
       const parsed = parseResult(accumulated);
       setResult(parsed);
-      setTab("plan");
+      setTab("next");
     } catch {
       setError("エラーが発生しました。もう一度お試しください。");
     }
@@ -139,8 +142,8 @@ export default function ToolPage() {
       </nav>
 
       <div className="max-w-2xl mx-auto px-4 py-10 space-y-5">
-        <div className="bg-teal-50 border border-teal-300 rounded-xl p-4 text-xs text-teal-800">
-          📅 <strong>2026年4月1日施行</strong> — 改正民法により共同親権が選択可能になりました。本ツールは準備・整理に活用できます。
+        <div className="bg-red-50 border border-red-300 rounded-xl p-4 text-xs text-red-800">
+          🚨 <strong>2026年4月1日に共同親権制度が施行されました。</strong> — 改正民法により離婚後も父母双方が親権を持てる「共同親権」が選択可能です。面会交流・養育費・親権計画書の整理を今すぐ始めましょう。
         </div>
 
         <div>
@@ -217,10 +220,10 @@ export default function ToolPage() {
         {result && (
           <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-2xl p-6 mb-4 text-center shadow-lg">
             <div className="text-4xl mb-2">📋</div>
-            <p className="text-xl font-black mb-1">5種類のドキュメントが完成しました！</p>
-            <p className="text-sm text-teal-100 mb-4">親権計画書・面会カレンダー・養育費・調停準備・注意事項を下のタブで確認</p>
+            <p className="text-xl font-black mb-1">6種類のドキュメントが完成しました！</p>
+            <p className="text-sm text-teal-100 mb-4">次のアクション・親権計画書・面会カレンダー・養育費・調停準備を下のタブで確認</p>
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIで親権計画書・面会カレンダー・養育費目安を30秒で作成しました⚖️\n弁護士費用の100分の1以下で書類準備が完了！\n2026年4月施行の共同親権制度に備えよう\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIで親権計画書・面会カレンダー・養育費目安を30秒で作成しました⚖️\n弁護士費用の100分の1以下で書類準備が完了！\n2026年4月1日に共同親権制度が施行されました\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-teal-700 text-sm font-black px-6 py-3 rounded-xl hover:bg-teal-50 transition"
@@ -247,6 +250,18 @@ export default function ToolPage() {
             </div>
 
             <div className="p-6">
+              {tab === "next" && (
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm font-bold text-teal-600">🚀 今すぐできる次のアクション</span>
+                    <CopyButton text={result.nextActions} />
+                  </div>
+                  <div className="bg-teal-50 border border-teal-200 rounded-xl p-3 mb-4 text-xs text-teal-700 font-medium">
+                    ⚡ 2026年4月1日に共同親権制度が施行されました。今すぐ行動しましょう。
+                  </div>
+                  <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{result.nextActions || "次のアクションを生成中..."}</pre>
+                </div>
+              )}
               {tab === "plan" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
