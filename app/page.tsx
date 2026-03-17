@@ -4,7 +4,7 @@ import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 
 const FAQ_ITEMS = [
-  { q: "共同親権制度はいつから始まりますか？", a: "2026年4月1日施行予定です。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになります。" },
+  { q: "共同親権制度はいつから始まりましたか？", a: "2026年4月1日に施行されました。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。" },
   { q: "離婚後も両親が親権を持てますか？", a: "はい、協議または家庭裁判所の判断で決定されます。父母が合意すれば協議で共同親権を選択でき、合意できない場合は家庭裁判所が判断します。" },
   { q: "このAIは弁護士の代わりになりますか？", a: "法的アドバイスの補助ツールです。AIは書類の草案作成や論点整理に役立ちますが、法的効力のある書類作成や正式な法的アドバイスについては弁護士にご相談ください。" },
   { q: "費用はかかりますか？", a: "基本機能は無料でご利用いただけます。親権計画書・面会カレンダー・養育費目安・調停準備メモを1回無料で生成できます。より詳細な相談機能や繰り返し利用にはプレミアムプラン（¥3,980/月）をご利用ください。" },
@@ -71,15 +71,15 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* 緊急告知バナー */}
-      <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-center py-3 px-4">
+      {/* 施行済みバナー */}
+      <div className="bg-teal-700 text-white text-center py-3 px-4">
         <div className="max-w-2xl mx-auto flex items-center justify-center gap-2 flex-wrap">
-          <span className="text-lg">🚨</span>
+          <span className="text-lg">✅</span>
           <span className="font-bold text-sm md:text-base">
-            【重要】共同親権制度、2026年4月1日より施行開始
+            共同親権制度は2026年4月1日に施行されました
           </span>
           <span className="text-xs md:text-sm opacity-90">
-            — 施行まで残りわずか。今すぐ権利を確認 →
+            — 今すぐ親権計画書を作成 →
           </span>
         </div>
       </div>
@@ -142,6 +142,39 @@ export default function LandingPage() {
         </Link>
         <p className="text-sm font-semibold text-teal-200 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
         <p className="text-sm text-teal-300">登録不要・クレジットカード不要</p>
+        </div>
+      </section>
+
+      {/* 感情フック：ストーリー型 */}
+      <section className="bg-white py-14 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-red-50 text-red-600 text-xs font-bold px-4 py-2 rounded-full mb-4 border border-red-200">
+              こんな経験、ありませんか？
+            </div>
+          </div>
+          <div className="space-y-4">
+            {[
+              { icon: "😰", title: "「何を決めればいいか」が全くわからない", body: "共同親権になった途端、学校の転校・医療の同意・習い事まで「両親の合意が必要」に。どんな書類で何を決めればいいのか、調べても調べても正解が見えない。" },
+              { icon: "💸", title: "弁護士に相談する費用が怖い", body: "初回相談だけで1万円以上。争いになったら着手金30万円〜。でも相手との交渉はもう始まっている。時間がない、お金もない、どうすればいい？" },
+              { icon: "😤", title: "「話し合い」が全く進まない", body: "元パートナーと直接話すのが辛い。でも家庭裁判所は「まず当事者間で話し合いを」という。具体的な提案書がなければ、いつまでも平行線のまま。" },
+            ].map((p) => (
+              <div key={p.title} className="flex gap-4 bg-gray-50 border border-gray-200 rounded-2xl p-5">
+                <div className="text-3xl shrink-0">{p.icon}</div>
+                <div>
+                  <p className="font-bold text-gray-900 text-sm mb-1">{p.title}</p>
+                  <p className="text-xs text-gray-600 leading-relaxed">{p.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 bg-teal-50 border border-teal-200 rounded-2xl p-6 text-center">
+            <p className="text-teal-800 font-bold text-sm mb-1">その悩み、AIが30秒で解決できます</p>
+            <p className="text-teal-600 text-xs mb-4">親権計画書・面会カレンダー・養育費の目安・調停準備メモをセットで生成</p>
+            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+              今すぐ無料で書類を作成する →
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -318,7 +351,14 @@ export default function LandingPage() {
         </Link>
       </section>
 
-      <footer className="border-t py-6 text-center text-xs text-gray-400 space-x-4">
+      {/* スティッキーモバイルCTA */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-teal-200 px-4 py-3 z-40 sm:hidden shadow-lg">
+        <Link href="/tool" className="block w-full bg-teal-600 hover:bg-teal-700 text-white font-black text-center py-3.5 rounded-xl text-sm transition-colors">
+          共同親権書類を無料作成する →
+        </Link>
+      </div>
+
+      <footer className="border-t py-6 text-center text-xs text-gray-400 space-x-4 pb-24 sm:pb-6">
         <Link href="/legal" className="hover:underline">特定商取引法に基づく表記</Link>
         <Link href="/privacy" className="hover:underline">プライバシーポリシー</Link>
       </footer>
