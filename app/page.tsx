@@ -71,6 +71,18 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen bg-white">
+      {/* 緊急告知バナー */}
+      <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-center py-3 px-4">
+        <div className="max-w-2xl mx-auto flex items-center justify-center gap-2 flex-wrap">
+          <span className="text-lg">🚨</span>
+          <span className="font-bold text-sm md:text-base">
+            【重要】共同親権制度、2026年4月1日より施行開始
+          </span>
+          <span className="text-xs md:text-sm opacity-90">
+            — 施行まで残りわずか。今すぐ権利を確認 →
+          </span>
+        </div>
+      </div>
       {showPayjp && (
         <PayjpModal
           publicKey={PAYJP_PUBLIC_KEY}
@@ -111,7 +123,7 @@ export default function LandingPage() {
           ⚡ 弁護士費用の100分の1で法的書類作成
         </div>
         <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
-          お子様の未来を守る。<br /><span className="text-teal-300">AIが、あなたの味方に。</span>
+          2026年4月1日 共同親権制度、施行。<br /><span className="text-teal-300">あなたの子どもへの権利、どう変わる？今すぐ確認を。</span>
         </h1>
         <div className="bg-red-500/20 border border-red-400/50 rounded-xl px-4 py-3 text-sm text-red-200 font-medium max-w-xl mx-auto mb-6">
           ⚠️ 準備なしで交渉に臨むと、子どもと過ごせる時間を失うリスクがあります
@@ -121,12 +133,12 @@ export default function LandingPage() {
         </p>
         {/* 安心バッジ群 */}
         <div className="flex flex-wrap gap-3 justify-center mb-8">
-          <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 2026年4月施行 共同親権法 対応</span>
+          <span className="bg-yellow-400/20 border border-yellow-400/50 text-yellow-200 rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 2026年4月1日施行 共同親権法 対応済</span>
           <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">🔒 入力内容は保存されません</span>
           <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">📄 法律家に相談しやすい草案を生成</span>
         </div>
         <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl shadow-2xl mb-3 w-full sm:w-auto transition-colors">
-          まずは無料で試してみる →
+          施行前に今すぐ確認する（無料）→
         </Link>
         <p className="text-sm font-semibold text-teal-200 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
         <p className="text-sm text-teal-300">登録不要・クレジットカード不要</p>

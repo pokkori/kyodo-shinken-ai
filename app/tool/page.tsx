@@ -172,6 +172,10 @@ export default function ToolPage() {
       </nav>
 
       <div className="max-w-2xl mx-auto px-4 py-10 space-y-5">
+        {/* 施行告知バナー:
+            - 施行前（〜3/31）: 「間もなく施行」訴求 → 現在このファイルは施行済み表現で統一済み
+            - 施行当日・施行後（4/1〜）: 「施行されました」表現 → 下記がその表現（変更不要）
+        */}
         <div className="bg-red-50 border border-red-300 rounded-xl p-4 text-xs text-red-800">
           🚨 <strong>2026年4月1日に共同親権制度が施行されました。</strong> — 改正民法により離婚後も父母双方が親権を持てる「共同親権」が選択可能です。面会交流・養育費・親権計画書の整理を今すぐ始めましょう。
         </div>
