@@ -358,6 +358,27 @@ export default function LandingPage() {
         </Link>
       </div>
 
+      {/* もっと活用する3選 */}
+      <section className="py-8 px-4 max-w-lg mx-auto">
+        <h2 className="text-center text-base font-bold text-blue-800 mb-4">📋 共同親権AIをもっと活用する3選</h2>
+        <ol className="space-y-3">
+          {[
+            { icon: "📑", title: "面会交流スケジュールを書面化", desc: "AIが生成した提案をベースに、弁護士・調停委員に見せる書面を作成しよう。" },
+            { icon: "💬", title: "養育費の交渉材料に活用", desc: "AIの分析結果を相手方との話し合いの参考資料として使い、建設的な対話を進めよう。" },
+            { icon: "🤝", title: "専門家に相談する前の準備に", desc: "弁護士・家庭裁判所・行政書士への相談前に整理するツールとして活用してください。" },
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-3 rounded-xl p-3"
+              style={{ background: "rgba(29,78,216,0.05)", border: "1px solid rgba(29,78,216,0.12)" }}>
+              <span style={{ fontSize: "22px", lineHeight: "1" }}>{item.icon}</span>
+              <div>
+                <div className="text-blue-900 font-bold text-sm">{i + 1}. {item.title}</div>
+                <div className="text-blue-700 text-xs mt-0.5 opacity-80">{item.desc}</div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* X Share */}
       <section className="py-8 px-6 max-w-3xl mx-auto text-center">
         <a
