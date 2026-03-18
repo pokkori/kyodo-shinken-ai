@@ -315,6 +315,25 @@ export default function ToolPage() {
                     ⚡ 2026年4月1日に共同親権制度が施行されました。今すぐ行動しましょう。
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.nextActions || "次のアクションを生成中...")}</div>
+
+                  {/* A8.net: クロスハウス 離婚後の住まい探し */}
+                  <div className="mt-5 bg-blue-50 border border-blue-200 rounded-xl p-4">
+                    <p className="text-sm font-black text-blue-900 mb-1">🏠 離婚後の住まいを探す</p>
+                    <p className="text-xs text-blue-700 mb-3">新生活のスタートに。都内3.8万円〜家具家電付きで初期費用を抑えられます。</p>
+                    <a
+                      href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8LLFCI+4EZ2+BYLJL"
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      className="flex items-center justify-between bg-white border border-blue-300 rounded-xl px-4 py-3 hover:bg-blue-50 transition-colors"
+                    >
+                      <div>
+                        <div className="text-sm font-bold text-slate-800">クロスハウス — 都内3.8万円〜</div>
+                        <div className="text-xs text-slate-500 mt-0.5">家具家電付き • 初期費用を大幅節約 • 敷金礼金なし</div>
+                      </div>
+                      <span className="text-blue-600 font-bold text-xs bg-blue-100 px-2 py-1 rounded-full whitespace-nowrap">物件を探す →</span>
+                    </a>
+                    <p className="text-xs text-slate-400 text-center mt-2">※ 広告・PR掲載（公式サイトに遷移します）</p>
+                  </div>
                 </div>
               )}
               {tab === "plan" && (
