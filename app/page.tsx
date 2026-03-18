@@ -7,7 +7,7 @@ const FAQ_ITEMS = [
   { q: "共同親権制度はいつから始まりましたか？", a: "2026年4月1日に施行されました。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。" },
   { q: "離婚後も両親が親権を持てますか？", a: "はい、協議または家庭裁判所の判断で決定されます。父母が合意すれば協議で共同親権を選択でき、合意できない場合は家庭裁判所が判断します。" },
   { q: "このAIは弁護士の代わりになりますか？", a: "法的アドバイスの補助ツールです。AIは書類の草案作成や論点整理に役立ちますが、法的効力のある書類作成や正式な法的アドバイスについては弁護士にご相談ください。" },
-  { q: "費用はかかりますか？", a: "基本機能は無料でご利用いただけます。親権計画書・面会カレンダー・養育費目安・調停準備メモを1回無料で生成できます。より詳細な相談機能や繰り返し利用にはプレミアムプラン（¥3,980/月）をご利用ください。" },
+  { q: "費用はかかりますか？", a: "基本機能は無料でご利用いただけます。親権計画書・面会カレンダー・養育費目安・調停準備メモを1回無料で生成できます。より詳細な相談機能や繰り返し利用にはプレミアムプラン（¥980/月）をご利用ください。" },
   { q: "個人情報は安全ですか？", a: "入力データは外部に共有されません。入力内容はAI生成後に即時消去され、サーバーに保存されることはありません。" },
 ];
 
@@ -285,7 +285,7 @@ export default function LandingPage() {
                   <tr>
                     <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">継続利用</td>
                     <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">都度費用発生</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">¥3,980/月（無制限）</td>
+                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">¥980/月（無制限）</td>
                   </tr>
                 </tbody>
               </table>
@@ -297,7 +297,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
             {[
               { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], isPremium: false },
-              { name: "プレミアム", price: "¥3,980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], isPremium: true },
+              { name: "プレミアム", price: "¥980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], isPremium: true },
             ].map(plan => (
               <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.isPremium ? "border-teal-500 shadow-lg" : "border-gray-200"}`}>
                 {plan.isPremium && (
