@@ -234,6 +234,15 @@ export default function ToolPage() {
 
         {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
+        {/* ローディング初期表示 */}
+        {loading && !streamText && (
+          <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5 text-center">
+            <div className="inline-block w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+            <p className="text-teal-700 font-medium text-sm mb-1">AIが分析中...</p>
+            <p className="text-xs text-teal-600">⚖️ 状況分析 → 📋 法的根拠確認 → 💡 対応アドバイス生成</p>
+            <p className="text-xs text-gray-400 mt-1">通常5〜10秒かかります</p>
+          </div>
+        )}
         {/* Streaming中の進捗表示 */}
         {loading && streamText && (
           <div className="bg-white border border-teal-200 rounded-2xl p-5">
