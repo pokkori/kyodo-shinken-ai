@@ -103,7 +103,7 @@ export default function LandingPage() {
       {/* 施行告知バナー — 施行前後で動的切替 */}
       {daysLeft !== null && daysLeft > 0 ? (
         <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4">
-          🚨 共同親権制度 施行まで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 準備は今すぐ！<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で書類作成 →</Link>
+          🎯 2026年4月1日施行決定！新制度スタートまで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 今すぐ準備を！<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で書類作成 →</Link>
         </div>
       ) : daysLeft === 0 ? (
         <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4 animate-pulse">
