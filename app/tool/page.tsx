@@ -255,10 +255,20 @@ export default function ToolPage() {
           <div className="bg-white border border-teal-500 rounded-2xl p-8 text-center shadow-sm">
             <div className="text-4xl mb-4">🔒</div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">無料回数が終わりました</h3>
-            <p className="text-gray-500 text-sm mb-6">月額¥3,980で親権計画書・養育費・調停準備まで無制限に作成</p>
+            <p className="text-gray-500 text-sm mb-4">月額¥3,980で親権計画書・養育費・調停準備まで無制限に作成</p>
+            <ul className="text-sm text-teal-700 space-y-1.5 mb-5 text-left">
+              <li>✅ 6種類のドキュメント（親権計画・面会・養育費など）</li>
+              <li>✅ 2026年4月施行の共同親権法に完全対応</li>
+              <li>✅ 弁護士費用¥30〜50万 vs AI月額¥3,980</li>
+            </ul>
             <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full">
               ¥3,980/月でアップグレード
             </button>
+            <div className="flex items-center justify-center gap-3 mt-3 text-xs text-gray-400">
+              <span>🛡️ 30日返金保証</span>
+              <span>🔒 SSL暗号化決済</span>
+              <span>❌ いつでも解約</span>
+            </div>
           </div>
         )}
 
