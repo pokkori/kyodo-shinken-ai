@@ -390,6 +390,31 @@ export default function ToolPage() {
               <p className="text-xs text-gray-500 mt-4 p-3 bg-gray-100 rounded">
                 ※本サービスはAIが生成する参考情報です。法的効力はありません。重要な判断は必ず弁護士にご相談ください。
               </p>
+
+              {/* 専門家相談アフィリ導線 */}
+              <div className="mt-5 bg-teal-50 border border-teal-200 rounded-xl p-4">
+                <p className="text-sm font-black text-teal-900 mb-1">⚖️ 次のステップ：専門家に相談する</p>
+                <p className="text-xs text-teal-700 mb-3">AI書類はあくまで準備用です。実際の親権・養育費・面会交流の取り決めは弁護士への相談で安心して進められます。初回無料の事務所多数。</p>
+                <div className="space-y-2">
+                  <a href="https://www.bengo4.com/c_3/" target="_blank" rel="noopener noreferrer sponsored"
+                    className="flex items-center justify-between bg-white border border-teal-300 rounded-xl px-4 py-3 hover:bg-teal-50 transition-colors">
+                    <div>
+                      <div className="text-sm font-bold text-slate-800">弁護士ドットコム — 離婚・親権</div>
+                      <div className="text-xs text-slate-500 mt-0.5">初回相談無料 • 全国対応 • 土日OK</div>
+                    </div>
+                    <span className="text-teal-600 font-bold text-xs bg-teal-100 px-2 py-1 rounded-full whitespace-nowrap">無料相談 →</span>
+                  </a>
+                  <a href="https://rikon.vennavi.jp/" target="_blank" rel="noopener noreferrer sponsored"
+                    className="flex items-center justify-between bg-white border border-teal-300 rounded-xl px-4 py-3 hover:bg-teal-50 transition-colors">
+                    <div>
+                      <div className="text-sm font-bold text-slate-800">ベンナビ離婚 — 離婚専門弁護士検索</div>
+                      <div className="text-xs text-slate-500 mt-0.5">共同親権・親権争い・養育費交渉に特化</div>
+                    </div>
+                    <span className="text-teal-600 font-bold text-xs bg-teal-100 px-2 py-1 rounded-full whitespace-nowrap">弁護士を探す →</span>
+                  </a>
+                </div>
+                <p className="text-xs text-slate-400 text-center mt-2">※ 広告・PR掲載（各社公式サイトに遷移します）</p>
+              </div>
             </div>
           </div>
         )}
