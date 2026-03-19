@@ -209,6 +209,20 @@ export default function ToolPage() {
           🚨 <strong>2026年4月1日に共同親権制度が施行されました。</strong> — 改正民法により離婚後も父母双方が親権を持てる「共同親権」が選択可能です。面会交流・養育費・親権計画書の整理を今すぐ始めましょう。
         </div>
 
+        {/* 法定養育費2万円アラート */}
+        <div className="bg-amber-50 border-2 border-amber-400 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl shrink-0">💴</span>
+            <div>
+              <p className="text-sm font-black text-amber-900 mb-1">2026年4月〜「法定養育費2万円」制度スタート</p>
+              <p className="text-xs text-amber-800 leading-relaxed">
+                2026年4月1日以降の離婚では、<strong>取り決めなしでも子ども1人あたり月額2万円の養育費</strong>が自動発生（先取特権付き）。未払いの場合、より簡易に財産差し押さえが可能になりました。
+              </p>
+              <p className="text-xs text-amber-700 mt-1.5">→ 下の試算ツールで相場額を確認し、AIで取り決め書類を作成しましょう。</p>
+            </div>
+          </div>
+        </div>
+
         <div id="tool-input-section">
           <label className="block text-sm font-bold mb-2 text-gray-700">
             お子さんの情報 <span className="text-red-500">*</span>
@@ -508,6 +522,36 @@ export default function ToolPage() {
                     <CopyButton text={result.money} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.money)}</div>
+
+                  {/* 法定養育費2万円制度案内 */}
+                  <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4">
+                    <p className="text-xs font-black text-amber-900 mb-1.5">💴 法定養育費制度（2026年4月〜）</p>
+                    <ul className="space-y-1 text-xs text-amber-800">
+                      <li className="flex gap-1.5"><span className="text-amber-500 shrink-0">●</span>取り決めなしでも子1人あたり<strong>月額2万円</strong>が自動発生</li>
+                      <li className="flex gap-1.5"><span className="text-amber-500 shrink-0">●</span>先取特権付き — 他の債権より<strong>優先して差し押さえ可能</strong></li>
+                      <li className="flex gap-1.5"><span className="text-amber-500 shrink-0">●</span>文書で合意していれば裁判なしで<strong>給与差し押さえ申立が可能</strong>に</li>
+                    </ul>
+                    <p className="text-xs text-amber-700 mt-2">※ 2万円は最低保証額。実際の相場（上の試算）との差額は別途取り決めを推奨。</p>
+                  </div>
+
+                  {/* 既離婚者向け親権変更導線 */}
+                  <div className="mt-3 bg-blue-50 border border-blue-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-blue-900 mb-1.5">📋 既に離婚済みの方へ — 親権変更の手続き</p>
+                    <ul className="space-y-1 text-xs text-blue-800">
+                      <li className="flex gap-1.5"><span className="text-blue-500 shrink-0">1.</span>家庭裁判所に「親権者変更調停」を申立（印紙1,200円）</li>
+                      <li className="flex gap-1.5"><span className="text-blue-500 shrink-0">2.</span>相手方と合意できれば調停成立、合意困難なら審判へ</li>
+                      <li className="flex gap-1.5"><span className="text-blue-500 shrink-0">3.</span>成立後、市区町村役場に「親権者変更届」を提出</li>
+                    </ul>
+                    <a
+                      href="https://www.bengo4.com/c_3/"
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      className="mt-3 flex items-center justify-between bg-white border border-blue-300 rounded-xl px-3 py-2.5 hover:bg-blue-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-slate-800">手続きに不安な方 — 弁護士ドットコムで無料相談</span>
+                      <span className="text-blue-600 font-bold text-xs bg-blue-100 px-2 py-0.5 rounded-full whitespace-nowrap">無料相談 →</span>
+                    </a>
+                  </div>
                 </div>
               )}
               {tab === "mediation" && (
