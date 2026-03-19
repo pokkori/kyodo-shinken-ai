@@ -438,7 +438,7 @@ export default function LandingPage() {
       {/* X Share */}
       <section className="py-8 px-6 max-w-3xl mx-auto text-center">
         <a
-          href={"https://twitter.com/intent/tweet?text=" + encodeURIComponent("共同親権サポートAI — 2024年施行の共同親権制度に対応。親権・面会交流・養育費をAIが30秒でサポート。無料で試せます → https://kyodo-shinken-ai.vercel.app #共同親権 #離婚 #育児")}
+          href={"https://twitter.com/intent/tweet?text=" + encodeURIComponent("共同親権サポートAI — 2026年4月施行の共同親権制度に対応。親権計画書を弁護士費用の100分の1以下でAIが30秒でサポート。無料で試せます → https://kyodo-shinken-ai.vercel.app #共同親権 #離婚 #育児")}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl text-sm transition-colors"
