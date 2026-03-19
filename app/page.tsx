@@ -330,6 +330,62 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 弁護士無料相談アフィリセクション */}
+      <section className="py-12 px-4 bg-amber-50 border-y border-amber-200">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-6">
+            <div className="inline-block bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-amber-300">⚖️ 弁護士への相談も検討されている方へ</div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">AIで整理した内容を、弁護士に相談する</h2>
+            <p className="text-sm text-gray-600">このAIで準備した親権計画書・養育費の資料を持参すれば、弁護士との相談時間を大幅に節約できます。</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                name: "弁護士ドットコム",
+                desc: "約4,000名の弁護士から無料相談・電話相談可能。共同親権・離婚問題の専門家に即日相談。",
+                badge: "無料相談あり",
+                badgeColor: "bg-green-100 text-green-700",
+                href: "https://www.bengo4.com/c_3/",
+                icon: "⚖️",
+              },
+              {
+                name: "ベンナビ離婚",
+                desc: "離婚・親権問題の弁護士を地域から検索。初回無料相談・着手金0円の事務所も掲載。",
+                badge: "着手金0円あり",
+                badgeColor: "bg-blue-100 text-blue-700",
+                href: "https://ben54.jp/c/divorce",
+                icon: "🏛️",
+              },
+              {
+                name: "法テラス（法的支援）",
+                desc: "収入が一定以下の方は弁護士費用を立替。審査があるが、費用が心配な方に最適。",
+                badge: "費用立替制度あり",
+                badgeColor: "bg-purple-100 text-purple-700",
+                href: "https://www.houterasu.or.jp/",
+                icon: "🤝",
+              },
+            ].map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-xl p-4 border border-amber-200 hover:shadow-md hover:border-amber-400 transition-all block group"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="font-bold text-gray-900 text-sm group-hover:text-amber-700">{item.name}</span>
+                </div>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${item.badgeColor} mb-2 inline-block`}>{item.badge}</span>
+                <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-amber-600 mt-2 font-medium">詳しく見る →</p>
+              </a>
+            ))}
+          </div>
+          <p className="text-center text-xs text-gray-400 mt-4">※ AIで書類を準備してから相談すると、相談時間を節約できます</p>
+        </div>
+      </section>
+
       {/* FAQ */}
       <FaqAccordion />
 
