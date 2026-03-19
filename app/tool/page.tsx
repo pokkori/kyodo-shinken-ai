@@ -206,6 +206,24 @@ export default function ToolPage() {
 
         <div>
           <label className="block text-sm font-bold mb-2 text-gray-700">現在の状況・希望（任意）</label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {[
+              { emoji: "🤝", label: "協議中（穏やか）", text: "現在協議中。比較的話し合いができており、月2回程度の面会を希望" },
+              { emoji: "⚖️", label: "調停申立済み", text: "家庭裁判所に調停を申し立て済み。次回期日は1ヶ月後" },
+              { emoji: "🏠", label: "子は相手方同居", text: "子どもは現在相手方と同居中。面会交流を増やしたい" },
+              { emoji: "👥", label: "共同親権を希望", text: "共同親権を強く希望。相手方はまだ検討中" },
+              { emoji: "🚨", label: "DV・モラハラあり", text: "相手方によるモラルハラスメントあり。安全な面会交流を希望" },
+            ].map((p) => (
+              <button
+                key={p.label}
+                type="button"
+                onClick={() => setSituationInfo(p.text)}
+                className="text-xs bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-3 py-1.5 rounded-full transition font-medium"
+              >
+                {p.emoji} {p.label}
+              </button>
+            ))}
+          </div>
           <input
             type="text"
             className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-teal-500"
