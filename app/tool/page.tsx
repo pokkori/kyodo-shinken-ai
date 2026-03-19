@@ -84,6 +84,27 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
+// 養育費かんたん試算（家庭裁判所算定表ベース概算）
+function calcAlimony(payerIncome: number, receiverIncome: number, numChildren: number, childrenOver14: boolean): number {
+  // 子ども人数補正係数
+  const childMultiplier = numChildren === 1 ? 1.0 : numChildren === 2 ? 1.6 : 2.1;
+  // 義務者(支払う側)の基礎収入率: 給与所得者 約38%
+  const payerBase = payerIncome * 0.38;
+  // 権利者(受け取る側)の基礎収入率: 給与所得者 約38%
+  const receiverBase = receiverIncome * 0.38;
+  // 生活費指数: 〜14歳=100, 15歳以上=115（算定表ベース）
+  const childIndex = childrenOver14 ? 115 : 100;
+  // 義務者が負担すべき割合
+  const totalBase = payerBase + receiverBase;
+  if (totalBase <= 0) return 0;
+  const payerShare = payerBase / totalBase;
+  // 年間養育費 = 子の生活費 × 義務者負担割合
+  const childCost = (payerBase + receiverBase) * (childIndex / 100) * 0.5 * childMultiplier;
+  const annualAlimony = childCost * payerShare;
+  // 月額に変換（万円）
+  return Math.round((annualAlimony / 12) * 10) / 10;
+}
+
 export default function ToolPage() {
   const [childrenInfo, setChildrenInfo] = useState("");
   const [parentInfo, setParentInfo] = useState("");
@@ -97,6 +118,12 @@ export default function ToolPage() {
   const [showPaywall, setShowPaywall] = useState(false);
   const [showPayjp, setShowPayjp] = useState(false);
   const [tab, setTab] = useState<Tab>("next");
+
+  // 養育費試算ステート
+  const [calcPayer, setCalcPayer] = useState(500);
+  const [calcReceiver, setCalcReceiver] = useState(200);
+  const [calcChildren, setCalcChildren] = useState(1);
+  const [calcOver14, setCalcOver14] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/status").then((r) => r.json()).then((d) => {
@@ -182,7 +209,7 @@ export default function ToolPage() {
           🚨 <strong>2026年4月1日に共同親権制度が施行されました。</strong> — 改正民法により離婚後も父母双方が親権を持てる「共同親権」が選択可能です。面会交流・養育費・親権計画書の整理を今すぐ始めましょう。
         </div>
 
-        <div>
+        <div id="tool-input-section">
           <label className="block text-sm font-bold mb-2 text-gray-700">
             お子さんの情報 <span className="text-red-500">*</span>
           </label>
@@ -231,6 +258,108 @@ export default function ToolPage() {
             value={situationInfo}
             onChange={(e) => setSituationInfo(e.target.value)}
           />
+        </div>
+
+        {/* 養育費かんたん試算セクション */}
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+          <h2 className="text-base font-black text-amber-800 mb-4">💴 養育費かんたん試算（目安）</h2>
+          <div className="space-y-4">
+            {/* 支払う側の年収 */}
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <label className="text-sm font-bold text-gray-700">支払う側の年収</label>
+                <span className="text-sm font-black text-amber-700">{calcPayer}万円</span>
+              </div>
+              <input
+                type="range" min={200} max={1000} step={50}
+                value={calcPayer}
+                onChange={(e) => setCalcPayer(Number(e.target.value))}
+                className="w-full accent-amber-500"
+              />
+              <div className="flex justify-between text-xs text-gray-400 mt-0.5"><span>200万</span><span>1,000万</span></div>
+            </div>
+            {/* 受け取る側の年収 */}
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <label className="text-sm font-bold text-gray-700">受け取る側の年収</label>
+                <span className="text-sm font-black text-amber-700">{calcReceiver}万円</span>
+              </div>
+              <input
+                type="range" min={0} max={500} step={50}
+                value={calcReceiver}
+                onChange={(e) => setCalcReceiver(Number(e.target.value))}
+                className="w-full accent-amber-500"
+              />
+              <div className="flex justify-between text-xs text-gray-400 mt-0.5"><span>0万</span><span>500万</span></div>
+            </div>
+            {/* 子どもの人数 */}
+            <div>
+              <label className="text-sm font-bold text-gray-700 block mb-2">子どもの人数</label>
+              <div className="flex gap-2">
+                {[1, 2, 3].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => setCalcChildren(n)}
+                    className={`flex-1 py-2 rounded-xl text-sm font-bold border transition ${calcChildren === n ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                  >
+                    {n}人
+                  </button>
+                ))}
+              </div>
+            </div>
+            {/* 子どもの年齢 */}
+            <div>
+              <label className="text-sm font-bold text-gray-700 block mb-2">子どもの年齢</label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setCalcOver14(false)}
+                  className={`flex-1 py-2 rounded-xl text-sm font-bold border transition ${!calcOver14 ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                >
+                  〜14歳
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCalcOver14(true)}
+                  className={`flex-1 py-2 rounded-xl text-sm font-bold border transition ${calcOver14 ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                >
+                  15歳以上
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* 試算結果 */}
+          <div className="mt-4 bg-white border-2 border-amber-300 rounded-xl p-4 text-center">
+            <p className="text-xs text-gray-500 mb-1">月額養育費（概算）</p>
+            <p className="text-3xl font-black text-amber-600">
+              約{calcAlimony(calcPayer, calcReceiver, calcChildren, calcOver14)}万円<span className="text-base font-bold text-gray-500">/月</span>
+            </p>
+            <p className="text-xs text-red-600 mt-2">⚠️ 実際の養育費は家庭裁判所の算定表や双方合意によります。あくまで目安としてご参考ください。</p>
+          </div>
+
+          <div className="mt-3 flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                const toolEl = document.getElementById("tool-input-section");
+                if (toolEl) toolEl.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="flex-1 bg-amber-500 hover:bg-amber-400 text-white font-bold py-2.5 rounded-xl text-sm transition"
+            >
+              詳しくAIに相談する →
+            </button>
+            <a
+              href="https://rikon.vennavi.jp/"
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="flex-1 bg-white border border-amber-300 hover:bg-amber-50 text-amber-700 font-bold py-2.5 rounded-xl text-sm transition text-center"
+            >
+              弁護士に相談する →
+            </a>
+          </div>
+          <p className="text-xs text-gray-400 text-center mt-1">※ 弁護士リンクはPR掲載です</p>
         </div>
 
         {!isPremium && remaining === 0 && !result && (
