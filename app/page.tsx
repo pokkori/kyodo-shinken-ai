@@ -396,6 +396,55 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 競合比較表 */}
+      <section className="py-14 px-4 bg-white border-b border-teal-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold text-teal-600 tracking-widest uppercase mb-2">他サービスとの比較</p>
+            <h2 className="text-2xl font-bold text-gray-900">共同親権サポートAIが選ばれる理由</h2>
+            <p className="text-gray-500 text-sm mt-2">りむすび・ペア育児・法テラスと比べてみました</p>
+          </div>
+          <div className="overflow-x-auto rounded-2xl border border-teal-200 shadow-sm">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-teal-700 text-white">
+                  <th className="px-4 py-3 text-left font-semibold text-xs">機能・条件</th>
+                  <th className="px-4 py-3 text-center font-bold text-yellow-300 text-xs">共同親権<br/>サポートAI</th>
+                  <th className="px-4 py-3 text-center font-semibold text-xs opacity-80">りむすび</th>
+                  <th className="px-4 py-3 text-center font-semibold text-xs opacity-80">ペア育児</th>
+                  <th className="px-4 py-3 text-center font-semibold text-xs opacity-80">法テラス</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { feature: "月額費用", us: "¥980（無制限）", a: "¥5,500〜/月", b: "¥550〜/月", c: "無料〜立替" },
+                  { feature: "即時利用", us: "✅ 登録不要", a: "❌ 会員登録必要", b: "⚠️ アプリDL必要", c: "❌ 予約・来所" },
+                  { feature: "書類草案作成", us: "✅ AI自動生成", a: "❌ 相談のみ", b: "⚠️ テンプレのみ", c: "⚠️ 弁護士相談" },
+                  { feature: "養育費計算", us: "✅ 即時計算", a: "⚠️ 相談で回答", b: "✅ 計算機あり", c: "⚠️ 弁護士相談" },
+                  { feature: "面会スケジュール", us: "✅ カレンダー生成", a: "✅ 専門サポート", b: "✅ カレンダー共有", c: "❌ 対応外" },
+                  { feature: "DV被害者対応", us: "✅ 緊急窓口掲載", a: "✅ 専門サポート", b: "⚠️ 情報提供のみ", c: "✅ 弁護士紹介" },
+                  { feature: "24時間利用可能", us: "✅ いつでも", a: "❌ 営業時間内", b: "✅ アプリ内", c: "❌ 平日のみ" },
+                ].map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"} style={{ borderBottom: "1px solid #e5e7eb" }}>
+                    <td className="px-4 py-3 font-semibold text-gray-700 text-xs">{row.feature}</td>
+                    <td className="px-4 py-3 text-center font-bold text-teal-700 text-xs bg-teal-50">{row.us}</td>
+                    <td className="px-4 py-3 text-center text-gray-500 text-xs">{row.a}</td>
+                    <td className="px-4 py-3 text-center text-gray-500 text-xs">{row.b}</td>
+                    <td className="px-4 py-3 text-center text-gray-500 text-xs">{row.c}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-center text-xs text-gray-400 mt-3">※ 2026年3月調査。各サービスの内容・料金は変更になる場合があります</p>
+          <div className="text-center mt-6">
+            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+              今すぐ無料で書類を作成する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 料金 */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6">
