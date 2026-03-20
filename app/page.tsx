@@ -3,6 +3,110 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 
+// 養育費かんたん計算コンポーネント
+function AlimonyCalculator() {
+  const [payerIncome, setPayerIncome] = useState(400);
+  const [receiverIncome, setReceiverIncome] = useState(200);
+  const [childCount, setChildCount] = useState(1);
+  const [childAgeGroup, setChildAgeGroup] = useState<"under14" | "over14">("under14");
+
+  // 裁判所の養育費算定表の簡易近似計算
+  function calcAlimony(payer: number, receiver: number, count: number, ageGroup: "under14" | "over14"): { min: number; max: number } {
+    // 義務者の総収入に応じた基礎年収（万円）
+    const payerBase = payer * 0.8; // 給与収入の80%を可処分所得近似
+    const receiverBase = receiver * 0.8;
+    // 子の生活費指数（14歳未満=62、14歳以上=85の簡易版）
+    const childIndex = ageGroup === "under14" ? 62 : 85;
+    // 義務者の按分割合
+    const totalBase = payerBase + receiverBase;
+    const ratio = totalBase > 0 ? payerBase / totalBase : 0.5;
+    // 基礎養育費（年額万円）
+    const basePerChild = (childIndex / 100) * 100; // 簡易計算
+    const yearlyTotal = basePerChild * ratio * count * (totalBase / 800);
+    const monthly = Math.round(yearlyTotal * 10000 / 12 / 1000) * 1000;
+    // ±20%幅で表示
+    const minVal = Math.max(20000, Math.round(monthly * 0.8 / 1000) * 1000);
+    const maxVal = Math.round(monthly * 1.2 / 1000) * 1000;
+    return { min: minVal, max: maxVal };
+  }
+
+  const result = calcAlimony(payerIncome, receiverIncome, childCount, childAgeGroup);
+  const formatMoney = (n: number) => `${(n / 10000).toFixed(1)}万円`;
+
+  return (
+    <div className="bg-white rounded-2xl border border-teal-200 shadow-sm p-6">
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">支払う側の年収（万円）</label>
+            <input
+              type="range" min={0} max={1500} step={50} value={payerIncome}
+              onChange={e => setPayerIncome(Number(e.target.value))}
+              className="w-full accent-teal-600"
+            />
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>0万円</span>
+              <span className="font-bold text-teal-700 text-base">{payerIncome}万円</span>
+              <span>1,500万円</span>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">受け取る側の年収（万円）</label>
+            <input
+              type="range" min={0} max={1000} step={50} value={receiverIncome}
+              onChange={e => setReceiverIncome(Number(e.target.value))}
+              className="w-full accent-teal-600"
+            />
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>0万円</span>
+              <span className="font-bold text-teal-700 text-base">{receiverIncome}万円</span>
+              <span>1,000万円</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
+              <select value={childCount} onChange={e => setChildCount(Number(e.target.value))}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                {[1,2,3,4].map(n => <option key={n} value={n}>{n}人</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの年齢</label>
+              <select value={childAgeGroup} onChange={e => setChildAgeGroup(e.target.value as "under14" | "over14")}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                <option value="under14">14歳未満</option>
+                <option value="over14">14歳以上</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col justify-center">
+          <div className="bg-teal-50 border-2 border-teal-400 rounded-2xl p-6 text-center">
+            <p className="text-sm font-bold text-teal-700 mb-2">月額養育費の目安</p>
+            <div className="text-3xl font-black text-teal-800 mb-1">
+              {formatMoney(result.min)} 〜 {formatMoney(result.max)}
+            </div>
+            <p className="text-xs text-teal-600">/ 月（子ども{childCount}人）</p>
+            <div className="mt-4 space-y-1 text-xs text-gray-600 text-left">
+              <p>• 支払う側: <strong>{payerIncome}万円</strong> / 受け取る側: <strong>{receiverIncome}万円</strong></p>
+              <p>• 子ども{childCount}人（{childAgeGroup === "under14" ? "14歳未満" : "14歳以上"}）</p>
+              <p className="text-teal-600 font-bold mt-2">法定養育費（2026年4月〜）: 月{childCount}万円が最低ライン</p>
+            </div>
+          </div>
+          <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
+            <p className="font-bold mb-1">⚠️ この計算はあくまで参考値です</p>
+            <p>実際の養育費は双方の収入・子どもの人数・生活水準・特別な事情を考慮して、調停・審判で決定されます。</p>
+          </div>
+          <a href="/tool" className="mt-3 block text-center bg-teal-600 hover:bg-teal-700 text-white font-black px-6 py-3 rounded-xl text-sm transition-colors">
+            AIで養育費の詳細計算書を作成 →
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const FAQ_ITEMS = [
   { q: "共同親権制度はいつから始まりましたか？", a: "2026年4月1日に施行されました。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。" },
   { q: "既に離婚している場合、共同親権に変更できますか？", a: "できます。2026年4月1日施行前に単独親権で離婚が成立している場合も、「親権者変更」の家庭裁判所への申立によって共同親権に変更することが可能です。申立費用は収入印紙1,200円＋連絡用郵便切手が必要です。" },
@@ -63,9 +167,9 @@ export default function LandingPage() {
   const [daysLeft, setDaysLeft] = useState<number | null>(null);
 
   useEffect(() => {
-    const施行日 = new Date("2026-04-01T00:00:00+09:00");
+    const enforcementDate = new Date("2026-04-01T00:00:00+09:00");
     const today = new Date();
-    const diff = Math.ceil((施行日.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    const diff = Math.ceil((enforcementDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     setDaysLeft(diff); // 負数も保持（施行後の経過日数表示のため）
   }, []);
 
@@ -332,6 +436,189 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 施行後ロードマップ — 今すぐやるべき5ステップ */}
+      <section className="py-14 px-4 bg-teal-900 text-white">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-yellow-400 text-teal-900 text-xs font-black px-4 py-2 rounded-full mb-4">
+              ✅ 2026年4月1日 共同親権制度 施行済み
+            </div>
+            <h2 className="text-2xl font-bold">制度施行後 — 今すぐやるべき5ステップ</h2>
+            <p className="text-teal-300 text-sm mt-2">離婚前・離婚後どちらの方も確認してください</p>
+          </div>
+          <div className="space-y-3">
+            {[
+              { step: "1", icon: "📋", title: "親権の形を決める（共同 or 単独）", desc: "2026年4月以降の新しい離婚では、原則として協議で共同親権か単独親権かを選択。合意できない場合は家庭裁判所が決定します。", badge: "最優先" },
+              { step: "2", icon: "📅", title: "面会交流のルールを書面化する", desc: "口頭の取り決めは後のトラブルの元。月何回・何曜日・何時間・場所の受け渡し方法を文書で確認しましょう。", badge: "必須" },
+              { step: "3", icon: "💴", title: "養育費の取り決めを文書化する", desc: "2026年4月から法定養育費2万円/月が自動発生。ただし相場より低いことが多いため、別途合意書を作成することを推奨。", badge: "必須" },
+              { step: "4", icon: "🏫", title: "重要事項の決定ルールを決める", desc: "転居・進学・医療の同意など「共同親権者の合意が必要な重要事項」の範囲と決定プロセスを書面で定めることでトラブルを防止。", badge: "推奨" },
+              { step: "5", icon: "⚖️", title: "弁護士に確認・公正証書にする", desc: "AIで準備した書類を弁護士に確認してもらい、公正証書化することで強制執行力が生まれます。費用は約5〜10万円。", badge: "任意" },
+            ].map((item) => (
+              <div key={item.step} className="flex gap-4 bg-white/10 border border-white/20 rounded-2xl p-4">
+                <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center font-black text-lg shrink-0">{item.step}</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="text-base font-bold text-white">{item.icon} {item.title}</span>
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${item.badge === "最優先" ? "bg-red-500 text-white" : item.badge === "必須" ? "bg-yellow-400 text-teal-900" : item.badge === "推奨" ? "bg-blue-400 text-white" : "bg-white/20 text-teal-200"}`}>{item.badge}</span>
+                  </div>
+                  <p className="text-sm text-teal-200 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black py-4 px-10 rounded-2xl text-base transition-colors">
+              AIで書類を無料作成する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 共同親権 法改正タイムライン */}
+      <section className="py-14 px-4 bg-white border-b border-teal-100">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold text-teal-600 tracking-widest uppercase mb-2">法改正の流れ</p>
+            <h2 className="text-2xl font-bold text-gray-900">共同親権 法改正タイムライン</h2>
+            <p className="text-gray-500 text-sm mt-2">2022年から2026年まで、制度がどう変わったかを時系列で確認できます</p>
+          </div>
+          <div className="relative">
+            {/* 縦線 */}
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-teal-200" />
+            <div className="space-y-6">
+              {[
+                {
+                  year: "2022年",
+                  icon: "📋",
+                  title: "法制審議会が答申",
+                  desc: "法制審議会が離婚後の共同親権を認める民法改正の答申を取りまとめ。単独親権制度の見直し議論が本格化。",
+                  badge: "審議開始",
+                  badgeColor: "bg-gray-100 text-gray-600",
+                  lineColor: "border-gray-400",
+                  dotColor: "bg-gray-400",
+                },
+                {
+                  year: "2024年5月",
+                  icon: "📜",
+                  title: "改正民法 成立",
+                  desc: "参院本会議で改正民法が可決・成立。離婚後も父母双方が親権を持つ「共同親権」が選択できるようになる法律が制定。施行は2026年4月1日。",
+                  badge: "法律成立",
+                  badgeColor: "bg-blue-100 text-blue-700",
+                  lineColor: "border-blue-400",
+                  dotColor: "bg-blue-500",
+                },
+                {
+                  year: "2026年4月1日",
+                  icon: "✅",
+                  title: "共同親権制度 施行",
+                  desc: "改正民法施行。新しい離婚では協議で共同親権か単独親権かを選択。合意できない場合は家庭裁判所が判断。法定養育費（月2万円）も自動発生。",
+                  badge: "施行済み",
+                  badgeColor: "bg-teal-100 text-teal-700",
+                  lineColor: "border-teal-500",
+                  dotColor: "bg-teal-600",
+                },
+                {
+                  year: "2026年4月〜",
+                  icon: "⚖️",
+                  title: "家庭裁判所での運用開始",
+                  desc: "父母が合意できない場合の家庭裁判所による親権決定が本格運用。DVや虐待がある場合の単独親権判断、養育費の簡易差し押さえ手続きも整備。",
+                  badge: "現在進行中",
+                  badgeColor: "bg-amber-100 text-amber-700",
+                  lineColor: "border-amber-500",
+                  dotColor: "bg-amber-500",
+                },
+              ].map((item, i) => (
+                <div key={i} className="relative pl-16">
+                  {/* ドット */}
+                  <div className={`absolute left-4 top-3 w-4 h-4 rounded-full border-4 ${item.lineColor} ${item.dotColor} -translate-x-2`} />
+                  <div className="bg-white border border-teal-100 rounded-2xl p-5 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      <span className="text-xl">{item.icon}</span>
+                      <span className="font-black text-teal-900 text-sm">{item.year}</span>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${item.badgeColor}`}>{item.badge}</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
+                    <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 text-center">
+            <a href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+              法改正に対応した書類をAIで作成する →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 共同親権 手続きチェックリスト */}
+      <section className="py-14 px-4 bg-white border-b border-teal-100">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold text-teal-600 tracking-widest uppercase mb-2">手続きガイド</p>
+            <h2 className="text-2xl font-bold text-gray-900">共同親権 手続きチェックリスト</h2>
+            <p className="text-gray-500 text-sm mt-2">抜け漏れなく準備するための確認リスト</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5">
+              <h3 className="font-black text-teal-800 mb-3">📋 書類準備チェック</h3>
+              <ul className="space-y-2">
+                {[
+                  "戸籍謄本（子どもを含む）",
+                  "収入証明書（源泉徴収票・確定申告書）",
+                  "住民票（各自）",
+                  "子どもの学校・医療情報まとめ",
+                  "財産一覧（預金・不動産・保険）",
+                  "DV証拠（診断書・警察受理番号等）※該当者のみ",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-teal-800">
+                    <span className="text-teal-400 mt-0.5">☐</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+              <h3 className="font-black text-amber-800 mb-3">⚖️ 取り決め事項チェック</h3>
+              <ul className="space-y-2">
+                {[
+                  "親権の形（共同/単独）の合意",
+                  "基本居住地の決定",
+                  "面会交流のルール（頻度・場所・連絡方法）",
+                  "養育費の金額・支払い方法・振込口座",
+                  "重要事項の決定ルール（転居・進学等）",
+                  "緊急時の連絡ルールと対応方針",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-amber-800">
+                    <span className="text-amber-400 mt-0.5">☐</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-6 bg-gray-50 border border-gray-200 rounded-xl p-4 text-center">
+            <p className="text-sm font-bold text-gray-700 mb-2">AIで親権計画書・面会カレンダー・養育費の目安を自動生成</p>
+            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+              チェックリストの内容をAIで書類化する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 養育費かんたん計算機 */}
+      <section className="py-14 px-4 bg-teal-50 border-y border-teal-200">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-300">💰 養育費かんたん計算機</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">養育費の目安を30秒で計算</h2>
+            <p className="text-sm text-gray-600">裁判所の算定表をもとにした参考値です（実際の金額は弁護士・調停で決定）</p>
+          </div>
+          <AlimonyCalculator />
         </div>
       </section>
 
