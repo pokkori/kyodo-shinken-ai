@@ -840,6 +840,63 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* SEOテキスト: 共同親権AIの使い方 */}
+      <section className="py-14 px-4 bg-white border-b border-gray-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">共同親権サポートAIの効果的な使い方</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { icon: "📋", title: "弁護士相談前の整理ツールとして", desc: "弁護士に相談する前に親権計画書の草案をAIで作成しておくと、相談時間を効率化できます。弁護士費用は着手金30万円〜が相場。AI書類で準備してから相談すると費用を大幅に削減できます。" },
+              { icon: "🤝", title: "元パートナーとの話し合いの材料に", desc: "「何を話し合うべきか分からない」という方が多い共同親権。AIが面会交流・養育費・重要事項のルールを具体的に提案するので、建設的な話し合いのたたき台として活用できます。" },
+              { icon: "📅", title: "面会交流スケジュールの作成に", desc: "月次ルール・長期休暇・誕生日行事の取り決めをAIがカレンダー形式で自動生成。「月2回の第1・3土曜」などの具体的なスケジュールを自動作成します。" },
+              { icon: "⚖️", title: "家庭裁判所への調停申立準備に", desc: "調停申立に必要な書類・費用（収入印紙1,200円〜）・準備事項をAIがリスト化。初めての調停でも何を準備すべきか分かります。" },
+            ].map((item) => (
+              <div key={item.title} className="flex gap-4 bg-gray-50 border border-gray-200 rounded-2xl p-5">
+                <span className="text-2xl shrink-0">{item.icon}</span>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
+                  <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 text-center">
+            <Link href="/checklist" className="inline-flex items-center gap-2 text-teal-700 font-semibold text-sm hover:underline">
+              📋 共同親権チェックリスト10項目を確認する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SEOテキスト: 2026年法改正の要点 */}
+      <section className="py-12 px-4 bg-teal-50 border-b border-teal-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">2026年4月 共同親権制度の要点まとめ</h2>
+          <p className="text-gray-500 text-sm mb-6">改正民法のポイントをわかりやすく整理しました</p>
+          <div className="space-y-3">
+            {[
+              { badge: "新ルール", badgeColor: "bg-teal-600", title: "共同親権か単独親権かを選択できる", desc: "2026年4月1日以降の離婚では、父母の協議または家庭裁判所の決定によって「共同親権」または「単独親権」を選択できます。" },
+              { badge: "注意点", badgeColor: "bg-blue-600", title: "日常的な養育は基本居住親が単独決定できる", desc: "食事・学校の出欠・日常の医療など通常の養育行為は基本居住親が単独で決定可能。転居・進学・宗教など「重要事項」のみ双方合意が必要です。" },
+              { badge: "新設", badgeColor: "bg-green-600", title: "法定養育費 月2万円/子が自動発生", desc: "2026年4月以降に離婚する場合、合意未成立でも子1人につき月2万円の「法定養育費」が自動的に発生します。先取特権付きで差し押さえも可能に。" },
+              { badge: "保護", badgeColor: "bg-red-600", title: "DV・虐待がある場合は単独親権", desc: "DV・虐待・高葛藤が認められる場合、家庭裁判所は単独親権の決定を行います。証拠の保全と専門機関への相談が重要です。" },
+            ].map((item) => (
+              <div key={item.title} className="bg-white rounded-xl border border-teal-100 p-4 flex gap-3 items-start">
+                <span className={`text-xs font-black text-white px-2.5 py-1 rounded-full shrink-0 mt-0.5 ${item.badgeColor}`}>{item.badge}</span>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
+                  <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 text-center">
+            <Link href="/guide" className="inline-flex items-center gap-2 text-teal-700 font-semibold text-sm hover:underline">
+              📖 共同親権 法改正ガイドを詳しく読む →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <FaqAccordion />
 
