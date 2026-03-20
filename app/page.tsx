@@ -388,6 +388,7 @@ export default function LandingPage() {
           <span className="font-bold text-gray-900">⚖️ 共同親権サポートAI</span>
           <div className="flex items-center gap-3">
             <Link href="/guide" className="text-sm text-teal-700 hover:underline hidden sm:block">制度ガイド</Link>
+            <Link href="/procedure" className="text-sm text-teal-700 hover:underline hidden lg:block">手続きガイド</Link>
             <Link href="/checklist" className="text-sm text-teal-700 hover:underline hidden md:block">チェックリスト</Link>
             <Link href="/tool" className="bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-700">
               無料で試す

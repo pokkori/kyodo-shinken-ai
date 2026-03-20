@@ -84,6 +84,51 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
+function DownloadAllButton({ result }: { result: NonNullable<Result> }) {
+  function handleDownload() {
+    const content = [
+      "===== 共同親権サポートAI 生成ドキュメント一式 =====",
+      `生成日時: ${new Date().toLocaleString("ja-JP")}`,
+      "",
+      "【1. 次のアクション】",
+      result.nextActions,
+      "",
+      "【2. 親権計画書草案】",
+      result.plan,
+      "",
+      "【3. 面会交流カレンダー】",
+      result.calendar,
+      "",
+      "【4. 養育費の目安】",
+      result.money,
+      "",
+      "【5. 調停準備メモ】",
+      result.mediation,
+      "",
+      "------",
+      "※本ドキュメントはAIが生成した参考情報です。法的効力はありません。",
+      "実際の手続きは弁護士・家庭裁判所にご相談ください。",
+      "共同親権サポートAI: https://kyodo-shinken-ai.vercel.app",
+    ].join("\n");
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `共同親権サポートAI_${new Date().toISOString().slice(0, 10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  return (
+    <button
+      onClick={handleDownload}
+      className="inline-flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition"
+    >
+      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current"><path d="M12 16l-5-5 1.4-1.4 2.6 2.6V4h2v8.2l2.6-2.6L17 11l-5 5zM5 20v-2h14v2H5z"/></svg>
+      全ドキュメントをTXTでDL
+    </button>
+  );
+}
+
 // 養育費かんたん試算（家庭裁判所算定表ベース概算）
 function calcAlimony(payerIncome: number, receiverIncome: number, numChildren: number, childrenOver14: boolean): number {
   // 子ども人数補正係数
@@ -456,6 +501,9 @@ export default function ToolPage() {
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
               LINEで友人に紹介する
             </a>
+            <div className="mt-3 flex justify-center">
+              <DownloadAllButton result={result} />
+            </div>
           </div>
         )}
 
