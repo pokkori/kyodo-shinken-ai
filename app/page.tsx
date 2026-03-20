@@ -203,9 +203,12 @@ export default function LandingPage() {
       <nav className="border-b border-gray-100 px-6 py-4 sticky top-0 bg-white/95 backdrop-blur z-10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">⚖️ 共同親権サポートAI</span>
-          <Link href="/tool" className="bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-700">
-            無料で試す
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/guide" className="text-sm text-teal-700 hover:underline hidden sm:block">制度ガイド</Link>
+            <Link href="/tool" className="bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-700">
+              無料で試す
+            </Link>
+          </div>
         </div>
       </nav>
 
