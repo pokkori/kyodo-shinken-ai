@@ -214,6 +214,134 @@ function DiagnosisWidget() {
   );
 }
 
+// ===== 離婚後の生活費シミュレーター =====
+function PostDivorceLivingSimulator() {
+  const [income, setIncome] = useState(250);
+  const [childrenCount, setChildrenCount] = useState(1);
+  const [childAges, setChildAges] = useState<"infant" | "elementary" | "junior" | "high">("elementary");
+  const [rentWan, setRentWan] = useState(8);
+  const [alimony, setAlimony] = useState(4);
+
+  const childAgeLabelMap = { infant: "未就学児", elementary: "小学生", junior: "中学生", high: "高校生" };
+
+  function calcLiving() {
+    const monthlyIncome = Math.round((income * 10000) / 12);
+    const handsOnIncome = Math.round(monthlyIncome * 0.80); // 手取り概算
+    const alimonyAmount = alimony * 10000 * childrenCount;
+    const totalIn = handsOnIncome + alimonyAmount;
+
+    // 支出計算
+    const rentYen = rentWan * 10000;
+    const foodBase = childrenCount === 1 ? 45000 : childrenCount === 2 ? 65000 : 80000;
+    const eduBase = childAges === "infant" ? 15000 : childAges === "elementary" ? 25000 : childAges === "junior" ? 35000 : 45000;
+    const utilitiesYen = 15000;
+    const communicationYen = 12000;
+    const insuranceYen = 15000;
+    const otherYen = 30000;
+    const totalOut = rentYen + foodBase + (eduBase * childrenCount) + utilitiesYen + communicationYen + insuranceYen + otherYen;
+    const balance = totalIn - totalOut;
+
+    return { handsOnIncome, alimonyAmount, totalIn, rentYen, foodBase, eduBase: eduBase * childrenCount, utilitiesYen, communicationYen, insuranceYen, otherYen, totalOut, balance };
+  }
+
+  const result = calcLiving();
+  const fmt = (n: number) => n >= 10000 ? `${Math.round(n / 10000 * 10) / 10}万円` : `${n.toLocaleString()}円`;
+
+  return (
+    <div className="bg-white rounded-2xl border border-purple-200 shadow-sm p-6">
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">あなたの年収（万円）</label>
+            <input type="range" min={0} max={800} step={25} value={income}
+              onChange={e => setIncome(Number(e.target.value))}
+              className="w-full accent-purple-600" />
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>0万円</span>
+              <span className="font-bold text-purple-700 text-base">{income}万円</span>
+              <span>800万円</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
+              <select value={childrenCount} onChange={e => setChildrenCount(Number(e.target.value))}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                {[1, 2, 3].map(n => <option key={n} value={n}>{n}人</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの年齢層</label>
+              <select value={childAges} onChange={e => setChildAges(e.target.value as typeof childAges)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                {(["infant", "elementary", "junior", "high"] as const).map(v => <option key={v} value={v}>{childAgeLabelMap[v]}</option>)}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">家賃（万円/月）</label>
+            <input type="range" min={3} max={20} step={1} value={rentWan}
+              onChange={e => setRentWan(Number(e.target.value))}
+              className="w-full accent-purple-600" />
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>3万円</span>
+              <span className="font-bold text-purple-700 text-base">{rentWan}万円</span>
+              <span>20万円</span>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">受け取る養育費（万円/月・子1人あたり）</label>
+            <input type="range" min={0} max={15} step={1} value={alimony}
+              onChange={e => setAlimony(Number(e.target.value))}
+              className="w-full accent-purple-600" />
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>0万円</span>
+              <span className="font-bold text-purple-700 text-base">{alimony}万円×{childrenCount}人</span>
+              <span>15万円</span>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div className="bg-purple-50 border-2 border-purple-300 rounded-2xl p-4">
+            <p className="text-xs font-bold text-purple-700 mb-2">月間収入</p>
+            <div className="space-y-1.5 text-xs text-gray-600">
+              <div className="flex justify-between"><span>手取り収入（概算）</span><span className="font-bold text-gray-900">{fmt(result.handsOnIncome)}</span></div>
+              <div className="flex justify-between"><span>養育費収入</span><span className="font-bold text-teal-700">{fmt(result.alimonyAmount)}</span></div>
+              <div className="flex justify-between border-t pt-1.5 mt-1.5"><span className="font-bold">合計収入</span><span className="font-black text-purple-700 text-sm">{fmt(result.totalIn)}</span></div>
+            </div>
+          </div>
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
+            <p className="text-xs font-bold text-red-600 mb-2">月間支出（概算）</p>
+            <div className="space-y-1 text-xs text-gray-600">
+              <div className="flex justify-between"><span>家賃</span><span>{fmt(result.rentYen)}</span></div>
+              <div className="flex justify-between"><span>食費</span><span>{fmt(result.foodBase)}</span></div>
+              <div className="flex justify-between"><span>教育費</span><span>{fmt(result.eduBase)}</span></div>
+              <div className="flex justify-between"><span>光熱費</span><span>{fmt(result.utilitiesYen)}</span></div>
+              <div className="flex justify-between"><span>通信費</span><span>{fmt(result.communicationYen)}</span></div>
+              <div className="flex justify-between"><span>保険料</span><span>{fmt(result.insuranceYen)}</span></div>
+              <div className="flex justify-between"><span>その他</span><span>{fmt(result.otherYen)}</span></div>
+              <div className="flex justify-between border-t pt-1.5 mt-1"><span className="font-bold">合計支出</span><span className="font-black text-red-700">{fmt(result.totalOut)}</span></div>
+            </div>
+          </div>
+          <div className={`rounded-2xl p-4 border-2 text-center ${result.balance >= 0 ? "bg-green-50 border-green-400" : "bg-red-50 border-red-400"}`}>
+            <p className="text-xs font-bold mb-1">{result.balance >= 0 ? "月間の余裕額" : "月間の不足額"}</p>
+            <div className={`text-2xl font-black ${result.balance >= 0 ? "text-green-700" : "text-red-700"}`}>
+              {result.balance >= 0 ? "+" : ""}{fmt(result.balance)}
+            </div>
+            <p className="text-xs mt-2 text-gray-500">
+              {result.balance >= 0 ? "貯蓄・子どもの将来のために積み立てましょう" : "養育費の増額交渉または収入増加を検討してください"}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
+        <p className="font-bold mb-1">⚠️ この試算について</p>
+        <p>実際の生活費は地域・生活水準・子どもの活動により大きく異なります。税金・社会保険料は年収から概算した参考値です。ひとり親家庭向けの各種公的支援（児童扶養手当・就学援助等）は含まれていません。</p>
+      </div>
+    </div>
+  );
+}
+
 // ===== 弁護士あり/なし費用シミュレーター =====
 function CostSimulator() {
   const [children, setChildren] = useState(1);
@@ -1000,6 +1128,38 @@ export default function LandingPage() {
             <p className="text-sm text-gray-600">裁判所の算定表をもとにした参考値です（実際の金額は弁護士・調停で決定）</p>
           </div>
           <AlimonyCalculator />
+        </div>
+      </section>
+
+      {/* 離婚後生活費シミュレーター */}
+      <section className="py-14 px-4 bg-purple-50 border-y border-purple-200">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-purple-300">🏠 生活費シミュレーター</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">離婚後 ひとり親世帯の生活費シミュレーション</h2>
+            <p className="text-sm text-gray-600">年収・家賃・養育費を入力して、離婚後の月間収支を試算できます</p>
+          </div>
+          <PostDivorceLivingSimulator />
+          <div className="mt-6 grid md:grid-cols-2 gap-4">
+            <div className="bg-white border border-purple-200 rounded-xl p-4">
+              <h3 className="font-bold text-purple-800 text-sm mb-2">💡 ひとり親向け公的支援</h3>
+              <ul className="space-y-1.5 text-xs text-gray-600">
+                <li>• <strong>児童扶養手当</strong>: 子1人月最大4.4万円（所得制限あり）</li>
+                <li>• <strong>就学援助</strong>: 学用品・給食費・修学旅行費などを補助</li>
+                <li>• <strong>医療費助成</strong>: 自治体によって子どもの医療費が無料または低額</li>
+                <li>• <strong>保育所優先入所</strong>: ひとり親世帯は保育所入所に加点あり</li>
+              </ul>
+            </div>
+            <div className="bg-white border border-purple-200 rounded-xl p-4">
+              <h3 className="font-bold text-purple-800 text-sm mb-2">📞 支援窓口</h3>
+              <ul className="space-y-1.5 text-xs text-gray-600">
+                <li>• <strong>母子家庭等就業・自立支援センター</strong>: 就労支援・資格取得補助</li>
+                <li>• <strong>福祉事務所</strong>: 生活保護・各種手当の相談窓口</li>
+                <li>• <strong>法テラス</strong>: 養育費増額調停の費用立替制度あり</li>
+                <li>• <strong>ひとり親サポートセンター</strong>: 各自治体に設置</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 
