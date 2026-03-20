@@ -4,6 +4,451 @@ import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 import { track } from '@vercel/analytics';
 
+// ===== 離婚協議書AIドラフト生成コンポーネント =====
+type ChildInfo = { name: string; birthdate: string; relation: string };
+
+function DivorceAgreementGenerator() {
+  const [husbandName, setHusbandName] = useState("");
+  const [husbandBirthdate, setHusbandBirthdate] = useState("");
+  const [wifeName, setWifeName] = useState("");
+  const [wifeBirthdate, setWifeBirthdate] = useState("");
+  const [children, setChildren] = useState<ChildInfo[]>([{ name: "", birthdate: "", relation: "長男" }]);
+  const [custodyType, setCustodyType] = useState<"joint" | "sole">("joint");
+  const [alimonyAmount, setAlimonyAmount] = useState("");
+  const [alimonyDay, setAlimonyDay] = useState("25");
+  const [visitationFrequency, setVisitationFrequency] = useState("");
+  const [visitationMethod, setVisitationMethod] = useState("");
+  const [propertyDivision, setPropertyDivision] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [streamText, setStreamText] = useState("");
+  const [draftText, setDraftText] = useState("");
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  function updateChild(index: number, field: keyof ChildInfo, value: string) {
+    setChildren(prev => prev.map((c, i) => i === index ? { ...c, [field]: value } : c));
+  }
+
+  function addChild() {
+    if (children.length < 3) {
+      const relations = ["長男", "長女", "次男", "次女", "三男", "三女"];
+      setChildren(prev => [...prev, { name: "", birthdate: "", relation: relations[prev.length] || "子" }]);
+    }
+  }
+
+  function removeChild(index: number) {
+    if (children.length > 1) {
+      setChildren(prev => prev.filter((_, i) => i !== index));
+    }
+  }
+
+  async function generate() {
+    if (!husbandName.trim() || !wifeName.trim()) return;
+    track('ai_generated', { service: '共同親権サポートAI', feature: '離婚協議書ドラフト' });
+    setLoading(true);
+    setError("");
+    setDraftText("");
+    setStreamText("");
+    try {
+      const res = await fetch("/api/generate-divorce-agreement", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          husbandName, husbandBirthdate, wifeName, wifeBirthdate,
+          children, custodyType, alimonyAmount, alimonyDay,
+          visitationFrequency, visitationMethod, propertyDivision,
+        }),
+      });
+      if (res.status === 402) {
+        track('paywall_shown', { service: '共同親権サポートAI', feature: '離婚協議書ドラフト' });
+        setError("無料回数を使い切りました。プレミアムプランをご利用ください。");
+        setLoading(false);
+        return;
+      }
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "エラーが発生しました");
+        setLoading(false);
+        return;
+      }
+      if (!res.body) { setError("レスポンスエラー"); setLoading(false); return; }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        const doneIdx = chunk.indexOf("\nDONE:");
+        if (doneIdx !== -1) {
+          accumulated += chunk.slice(0, doneIdx);
+          setStreamText(accumulated);
+          break;
+        }
+        accumulated += chunk;
+        setStreamText(accumulated);
+      }
+      setDraftText(accumulated);
+    } catch {
+      setError("エラーが発生しました。もう一度お試しください。");
+    }
+    setLoading(false);
+  }
+
+  function handleDownload() {
+    const content = [
+      "===== 離婚協議書 AIドラフト =====",
+      `生成日時: ${new Date().toLocaleString("ja-JP")}`,
+      "",
+      draftText,
+      "",
+      "------",
+      "※本ドキュメントはAIが生成した参考情報です。法的効力はありません。",
+      "実際の手続きは弁護士・公証人にご確認ください。",
+      "共同親権サポートAI: https://kyodo-shinken-ai.vercel.app",
+    ].join("\n");
+    const bom = "\uFEFF";
+    const blob = new Blob([bom + content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `離婚協議書ドラフト_${new Date().toISOString().slice(0, 10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* 説明バナー */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl shrink-0">📄</span>
+          <div>
+            <p className="text-sm font-black text-blue-900 mb-1">離婚協議書 AIドラフト生成（無料体験中）</p>
+            <p className="text-xs text-blue-700 leading-relaxed">
+              必要事項を入力するだけで、法的用語を使った離婚協議書の草案をAIが自動生成。弁護士への持参資料として活用できます。
+            </p>
+            <p className="text-xs text-blue-500 mt-1">※ KOMOJU決済審査通過後、¥980/件の有料機能になる予定です</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 費用比較カード */}
+      <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <p className="text-xs font-bold text-gray-500 mb-3 text-center">離婚協議書の作成にかかる費用</p>
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <p className="text-xs font-bold text-red-600 mb-1">弁護士に依頼</p>
+            <p className="text-base font-black text-red-700">¥22万〜</p>
+            <p className="text-xs text-red-400">¥50万</p>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <p className="text-xs font-bold text-amber-600 mb-1">司法書士</p>
+            <p className="text-base font-black text-amber-700">¥5万〜</p>
+            <p className="text-xs text-amber-400">¥15万</p>
+          </div>
+          <div className="bg-teal-50 border-2 border-teal-400 rounded-lg p-3 relative">
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-teal-500 text-white text-xs font-black px-2 py-0.5 rounded-full whitespace-nowrap">NEW</div>
+            <p className="text-xs font-bold text-teal-600 mb-1">このAI</p>
+            <p className="text-base font-black text-teal-700">¥980</p>
+            <p className="text-xs text-teal-400">無料体験中</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 入力フォーム */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5">
+        <h3 className="text-sm font-black text-gray-800">当事者情報を入力</h3>
+
+        {/* 夫情報 */}
+        <div>
+          <p className="text-xs font-bold text-gray-500 mb-2">甲（夫）の情報</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">氏名 <span className="text-red-500">*</span></label>
+              <input
+                type="text"
+                value={husbandName}
+                onChange={e => setHusbandName(e.target.value)}
+                placeholder="例）田中 太郎"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">生年月日</label>
+              <input
+                type="date"
+                value={husbandBirthdate}
+                onChange={e => setHusbandBirthdate(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 妻情報 */}
+        <div>
+          <p className="text-xs font-bold text-gray-500 mb-2">乙（妻）の情報</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">氏名 <span className="text-red-500">*</span></label>
+              <input
+                type="text"
+                value={wifeName}
+                onChange={e => setWifeName(e.target.value)}
+                placeholder="例）田中 花子"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">生年月日</label>
+              <input
+                type="date"
+                value={wifeBirthdate}
+                onChange={e => setWifeBirthdate(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 子の情報 */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-bold text-gray-500">子の情報（最大3人）</p>
+            {children.length < 3 && (
+              <button
+                type="button"
+                onClick={addChild}
+                className="text-xs bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-2 py-1 rounded-lg transition"
+              >
+                + 子を追加
+              </button>
+            )}
+          </div>
+          <div className="space-y-3">
+            {children.map((child, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-3 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-gray-600">第{index + 1}子</span>
+                  {children.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeChild(index)}
+                      className="text-xs text-red-400 hover:text-red-600"
+                    >
+                      削除
+                    </button>
+                  )}
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="col-span-1">
+                    <input
+                      type="text"
+                      value={child.name}
+                      onChange={e => updateChild(index, "name", e.target.value)}
+                      placeholder="氏名"
+                      className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <input
+                      type="date"
+                      value={child.birthdate}
+                      onChange={e => updateChild(index, "birthdate", e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <select
+                      value={child.relation}
+                      onChange={e => updateChild(index, "relation", e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    >
+                      {["長男", "長女", "次男", "次女", "三男", "三女"].map(r => (
+                        <option key={r} value={r}>{r}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 親権の形態 */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-2">親権の形態</label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setCustodyType("joint")}
+              className={`py-2.5 rounded-xl text-sm font-bold border transition ${custodyType === "joint" ? "bg-teal-600 text-white border-teal-600" : "bg-white text-gray-600 border-gray-200 hover:border-teal-300"}`}
+            >
+              共同親権
+            </button>
+            <button
+              type="button"
+              onClick={() => setCustodyType("sole")}
+              className={`py-2.5 rounded-xl text-sm font-bold border transition ${custodyType === "sole" ? "bg-teal-600 text-white border-teal-600" : "bg-white text-gray-600 border-gray-200 hover:border-teal-300"}`}
+            >
+              単独親権
+            </button>
+          </div>
+        </div>
+
+        {/* 養育費 */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-2">養育費</label>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">月額（円）</label>
+              <input
+                type="number"
+                value={alimonyAmount}
+                onChange={e => setAlimonyAmount(e.target.value)}
+                placeholder="例）50000"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">支払日（毎月）</label>
+              <select
+                value={alimonyDay}
+                onChange={e => setAlimonyDay(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              >
+                {["1", "5", "10", "15", "20", "25", "末日"].map(d => (
+                  <option key={d} value={d}>{d}日</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* 面会交流 */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-2">面会交流</label>
+          <div className="space-y-2">
+            <input
+              type="text"
+              value={visitationFrequency}
+              onChange={e => setVisitationFrequency(e.target.value)}
+              placeholder="頻度（例：月2回・毎週日曜日など）"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+            />
+            <input
+              type="text"
+              value={visitationMethod}
+              onChange={e => setVisitationMethod(e.target.value)}
+              placeholder="方法（例：直接交流・ビデオ通話など）"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        {/* 財産分与 */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1">財産分与の概要（任意）</label>
+          <textarea
+            value={propertyDivision}
+            onChange={e => setPropertyDivision(e.target.value)}
+            placeholder="例）不動産（自宅）は乙が取得し、住宅ローンは乙が引き継ぐ。預貯金は折半。"
+            rows={3}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none resize-none"
+          />
+        </div>
+      </div>
+
+      {/* 生成ボタン */}
+      <button
+        onClick={generate}
+        disabled={loading || !husbandName.trim() || !wifeName.trim()}
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        {loading ? "AIが作成中…" : "離婚協議書ドラフトを生成する"}
+      </button>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+
+      {/* ローディング */}
+      {loading && !streamText && (
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-center">
+          <div className="inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+          <p className="text-blue-700 font-medium text-sm mb-1">AIが離婚協議書を作成中...</p>
+          <p className="text-xs text-blue-600">📄 当事者情報確認 → ⚖️ 法的条項生成 → 📝 注意事項追加</p>
+        </div>
+      )}
+      {loading && streamText && (
+        <div className="bg-white border border-blue-200 rounded-2xl p-5">
+          <p className="text-xs text-blue-600 font-bold mb-2">AIが作成中...</p>
+          <pre className="text-xs text-gray-500 whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">{streamText}</pre>
+        </div>
+      )}
+
+      {/* 結果表示 */}
+      {draftText && !loading && (
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl p-5 text-center">
+            <div className="text-3xl mb-2">📄</div>
+            <p className="text-lg font-black mb-1">離婚協議書ドラフトが完成しました</p>
+            <p className="text-sm text-blue-100">弁護士に持参する前の下書きとして活用してください</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-3 bg-gray-50 border-b border-gray-200">
+              <span className="text-sm font-bold text-gray-700">生成されたドラフト</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => { navigator.clipboard.writeText(draftText); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                  className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg transition"
+                >
+                  {copied ? "コピー済 ✓" : "コピー"}
+                </button>
+                <button
+                  onClick={handleDownload}
+                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg transition"
+                >
+                  TXTでDL
+                </button>
+              </div>
+            </div>
+            <div className="p-5 max-h-96 overflow-y-auto">
+              <pre className="text-xs text-gray-700 whitespace-pre-wrap leading-relaxed font-sans">{draftText}</pre>
+            </div>
+          </div>
+
+          {/* 次のステップ：弁護士CTA */}
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+            <p className="text-sm font-black text-amber-900 mb-1">次のステップ：弁護士に確認してもらう</p>
+            <p className="text-xs text-amber-700 mb-3">このドラフトを弁護士に持参すると相談時間を大幅に節約できます。公正証書化（費用5〜10万円）で強制執行力が付与されます。</p>
+            <div className="space-y-2">
+              <a href="https://www.bengo4.com/c_3/" target="_blank" rel="noopener noreferrer sponsored"
+                className="flex items-center justify-between bg-white border border-amber-300 rounded-xl px-4 py-3 hover:bg-amber-50 transition-colors">
+                <div>
+                  <div className="text-sm font-bold text-slate-800">弁護士ドットコム — 離婚・親権</div>
+                  <div className="text-xs text-slate-500 mt-0.5">初回相談無料 • 全国対応 • 公正証書作成対応</div>
+                </div>
+                <span className="text-amber-600 font-bold text-xs bg-amber-100 px-2 py-1 rounded-full whitespace-nowrap">無料相談 →</span>
+              </a>
+            </div>
+            <p className="text-xs text-gray-400 mt-2 text-center">※ 広告・PR掲載</p>
+          </div>
+
+          <p className="text-xs text-gray-500 bg-gray-100 rounded-lg p-3">
+            ⚠️ 本ドラフトはAIが生成した参考情報です。法的効力はありません。実際の離婚協議書の作成・公正証書化は弁護士または公証人にご相談ください。
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function renderMarkdown(text: string): React.ReactNode[] {
   return text.split("\n").map((line, i) => {
     if (line.startsWith("### ")) {
@@ -151,6 +596,7 @@ function calcAlimony(payerIncome: number, receiverIncome: number, numChildren: n
 }
 
 export default function ToolPage() {
+  const [activeMainTab, setActiveMainTab] = useState<"support" | "divorce-draft">("support");
   const [childrenInfo, setChildrenInfo] = useState("");
   const [parentInfo, setParentInfo] = useState("");
   const [situationInfo, setSituationInfo] = useState("");
@@ -245,7 +691,30 @@ export default function ToolPage() {
         </div>
       </nav>
 
+      {/* メインタブ切り替え */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-2xl mx-auto px-4 flex gap-0">
+          <button
+            onClick={() => setActiveMainTab("support")}
+            className={`flex-1 py-3 text-sm font-bold transition border-b-2 ${activeMainTab === "support" ? "text-teal-600 border-teal-600" : "text-gray-400 border-transparent hover:text-gray-600"}`}
+          >
+            ⚖️ 親権サポート
+          </button>
+          <button
+            onClick={() => setActiveMainTab("divorce-draft")}
+            className={`flex-1 py-3 text-sm font-bold transition border-b-2 relative ${activeMainTab === "divorce-draft" ? "text-blue-600 border-blue-600" : "text-gray-400 border-transparent hover:text-gray-600"}`}
+          >
+            📄 離婚協議書ドラフト
+            <span className="absolute -top-0.5 right-2 bg-blue-500 text-white text-xs font-black px-1.5 py-0.5 rounded-full">NEW</span>
+          </button>
+        </div>
+      </div>
+
       <div className="max-w-2xl mx-auto px-4 py-10 space-y-5">
+        {activeMainTab === "divorce-draft" ? (
+          <DivorceAgreementGenerator />
+        ) : (
+        <>
         {/* 施行告知バナー:
             - 施行前（〜3/31）: 「間もなく施行」訴求 → 現在このファイルは施行済み表現で統一済み
             - 施行当日・施行後（4/1〜）: 「施行されました」表現 → 下記がその表現（変更不要）
@@ -665,6 +1134,8 @@ export default function ToolPage() {
               </div>
             </div>
           </div>
+        )}
+        </>
         )}
       </div>
 

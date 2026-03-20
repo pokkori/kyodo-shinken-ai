@@ -448,6 +448,44 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 費用比較バナー（NEW: 離婚協議書ドラフト機能告知） */}
+      <section className="bg-white py-8 px-4 border-b border-blue-100">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-5">
+            <span className="inline-block bg-blue-100 text-blue-800 text-xs font-black px-3 py-1 rounded-full border border-blue-300">📄 NEW 離婚協議書AIドラフト生成 — 無料体験中</span>
+          </div>
+          <div className="bg-gradient-to-r from-blue-50 to-teal-50 border-2 border-blue-200 rounded-2xl p-5">
+            <p className="text-sm font-black text-gray-800 mb-4 text-center">離婚協議書の作成にかかる費用</p>
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="bg-white border border-red-200 rounded-xl p-3 text-center shadow-sm">
+                <p className="text-xs font-bold text-red-500 mb-1">弁護士に依頼</p>
+                <p className="text-xl font-black text-red-600">¥22万〜</p>
+                <p className="text-xs text-red-400">〜¥50万</p>
+              </div>
+              <div className="bg-white border border-amber-200 rounded-xl p-3 text-center shadow-sm">
+                <p className="text-xs font-bold text-amber-600 mb-1">司法書士</p>
+                <p className="text-xl font-black text-amber-600">¥5万〜</p>
+                <p className="text-xs text-amber-400">〜¥15万</p>
+              </div>
+              <div className="bg-blue-600 border-2 border-blue-400 rounded-xl p-3 text-center shadow-md relative">
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-yellow-400 text-blue-900 text-xs font-black px-2 py-0.5 rounded-full whitespace-nowrap">NEW</div>
+                <p className="text-xs font-bold text-blue-200 mb-1">このAI</p>
+                <p className="text-xl font-black text-white">¥980</p>
+                <p className="text-xs text-blue-300">無料体験中</p>
+              </div>
+            </div>
+            <Link
+              href="/tool"
+              onClick={undefined}
+              className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl text-sm transition-colors"
+            >
+              離婚協議書AIドラフトを無料で試す →
+            </Link>
+            <p className="text-center text-xs text-gray-400 mt-2">※弁護士費用は参考値です。KOMOJU決済審査通過後 ¥980/件の有料機能になる予定</p>
+          </div>
+        </div>
+      </section>
+
       {/* 実態データ — 権威性強化 */}
       <section className="bg-blue-50 py-12 px-4 border-b border-blue-100">
         <div className="max-w-4xl mx-auto">
@@ -671,17 +709,21 @@ export default function LandingPage() {
               弁護士費用の <span className="text-lg">100分の1以下</span> で書類準備が整います
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-3xl mx-auto">
             {[
-              { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], isPremium: false },
-              { name: "プレミアム", price: "¥980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], isPremium: true },
+              { name: "お試し", price: "無料", sub: "1回のみ", features: ["親権計画書草案（1回）", "面会カレンダー", "養育費目安", "調停準備メモ"], isPremium: false, isNew: false },
+              { name: "離婚協議書ドラフト", price: "¥980", sub: "/件（体験中: 無料）", features: ["離婚協議書ドラフト自動生成", "法的用語使用・実務書式", "TXTダウンロード可", "弁護士持参用として使用可"], isPremium: false, isNew: true },
+              { name: "プレミアム", price: "¥980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], isPremium: true, isNew: false },
             ].map(plan => (
-              <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.isPremium ? "border-teal-500 shadow-lg" : "border-gray-200"}`}>
+              <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.isPremium ? "border-teal-500 shadow-lg" : plan.isNew ? "border-blue-400 shadow-md" : "border-gray-200"}`}>
                 {plan.isPremium && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-teal-600 text-white px-3 py-0.5 rounded-full whitespace-nowrap">おすすめ</div>
                 )}
+                {plan.isNew && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-blue-600 text-white px-3 py-0.5 rounded-full whitespace-nowrap">NEW 無料体験中</div>
+                )}
                 <p className="font-bold text-gray-900 mb-1">{plan.name}</p>
-                <p className="text-2xl font-bold text-teal-600">{plan.price}<span className="text-sm font-normal text-gray-500">{plan.sub}</span></p>
+                <p className={`text-2xl font-bold ${plan.isNew ? "text-blue-600" : "text-teal-600"}`}>{plan.price}<span className="text-sm font-normal text-gray-500">{plan.sub}</span></p>
                 <ul className="mt-4 mb-5 space-y-2">
                   {plan.features.map(f => (
                     <li key={f} className="text-sm text-gray-600 flex items-center gap-2">
@@ -696,6 +738,10 @@ export default function LandingPage() {
                   >
                     申し込む
                   </button>
+                ) : plan.isNew ? (
+                  <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+                    無料で試す（→ 協議書ドラフトタブ）
+                  </Link>
                 ) : (
                   <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
                     無料で試す
