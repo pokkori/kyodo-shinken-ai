@@ -10,7 +10,7 @@ export default function TermsPage() {
         <div className="space-y-8 text-sm text-slate-300 leading-relaxed">
           <section>
             <h2 className="text-white font-bold mb-2">第1条（適用）</h2>
-            <p>告白LINE返信AI（以下「本サービス」）の利用に関する条件を定めるものです。ユーザーは本規約に同意の上、本サービスをご利用ください。</p>
+            <p>共同親権サポートAI（以下「本サービス」）の利用に関する条件を定めるものです。ユーザーは本規約に同意の上、本サービスをご利用ください。</p>
           </section>
           <section>
             <h2 className="text-white font-bold mb-2">第2条（サービス内容）</h2>
