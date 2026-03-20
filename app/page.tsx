@@ -678,6 +678,84 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* DV被害者向け緊急リソース */}
+      <section className="py-12 px-4 bg-red-50 border-y border-red-200">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-6">
+            <div className="inline-block bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-red-300">🚨 DV・虐待被害者の方へ</div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">DV・モラハラ被害者のための緊急相談窓口</h2>
+            <p className="text-sm text-gray-600">共同親権制度ではDV・虐待が認定される場合、裁判所は単独親権と判断します。まず安全を確保してください。</p>
+          </div>
+          <div className="bg-red-800 text-white rounded-2xl p-5 mb-4">
+            <p className="font-black text-base mb-2">⚠️ 今すぐ逃げる必要がある方</p>
+            <p className="text-red-200 text-sm mb-3">暴力を受けている・受けるおそれがある場合、まず安全な場所へ移動してください。</p>
+            <div className="grid md:grid-cols-2 gap-3">
+              {[
+                { name: "DV相談ナビ（#8008）", desc: "電話するだけで最寄りの相談機関につながる。24時間対応。", tel: "#8008" },
+                { name: "警察（110番）", desc: "身の危険を感じたら迷わず警察へ。DV事案も対応可能。", tel: "110" },
+              ].map((item) => (
+                <div key={item.name} className="bg-red-900 rounded-xl p-3">
+                  <p className="font-bold text-white text-sm mb-1">{item.name}</p>
+                  <p className="text-red-200 text-xs mb-2">{item.desc}</p>
+                  <a href={`tel:${item.tel}`} className="inline-block bg-red-500 hover:bg-red-400 text-white font-bold text-xs px-3 py-1.5 rounded-full">
+                    今すぐ電話する
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                name: "配偶者暴力相談支援センター",
+                desc: "DV被害者のための専門相談機関。避難場所の紹介・法的支援まで対応。",
+                badge: "無料",
+                href: "https://www.gender.go.jp/policy/no_violence/e-vaw/soudankikan/01.html",
+                icon: "🏠",
+              },
+              {
+                name: "よりそいホットライン",
+                desc: "DV・性暴力・生活困窮など幅広い相談に24時間対応。",
+                badge: "24時間",
+                href: "https://www.since2011.net/yorisoi/",
+                icon: "📞",
+              },
+              {
+                name: "法テラス",
+                desc: "収入が一定以下の方は弁護士費用を立替。DV事案にも対応。",
+                badge: "費用支援あり",
+                href: "https://www.houterasu.or.jp/",
+                icon: "⚖️",
+              },
+            ].map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-xl p-4 border border-red-200 hover:shadow-md hover:border-red-400 transition-all block"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="font-bold text-gray-900 text-sm">{item.name}</span>
+                </div>
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 mb-2 inline-block">{item.badge}</span>
+                <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-red-600 mt-2 font-medium">詳しく見る →</p>
+              </a>
+            ))}
+          </div>
+          <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4 text-sm">
+            <p className="font-bold text-amber-800 mb-1">DV被害者と共同親権について</p>
+            <p className="text-xs text-amber-700 leading-relaxed">
+              2026年4月施行の改正民法では、DVや虐待が認定される場合、裁判所は単独親権と判断します。
+              DV被害者の方は診断書・警察への届出・LINEの記録などの証拠を保全した上で、
+              弁護士または法テラスにご相談ください。このAIサービスも安全確保を最優先にご利用ください。
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <FaqAccordion />
 
