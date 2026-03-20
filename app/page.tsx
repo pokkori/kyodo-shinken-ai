@@ -263,6 +263,31 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 実態データ — 権威性強化 */}
+      <section className="bg-blue-50 py-12 px-4 border-b border-blue-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-6">
+            <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">知っていますか？</p>
+            <h2 className="text-xl font-bold text-gray-900">日本の離婚・養育費の実態</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { num: "年20万件", label: "日本の離婚件数", source: "厚生労働省" },
+              { num: "約70%", label: "養育費の未払い率", source: "法務省調査" },
+              { num: "着手金\n30万円〜", label: "弁護士費用の目安", source: "日本弁護士連合会" },
+              { num: "2026年\n4月1日", label: "共同親権制度施行", source: "改正民法" },
+            ].map((stat) => (
+              <div key={stat.label} className="bg-white rounded-2xl p-4 text-center border border-blue-100 shadow-sm">
+                <div className="text-xl font-black text-teal-700 mb-1 whitespace-pre-line leading-tight">{stat.num}</div>
+                <div className="text-xs font-bold text-gray-800 mb-1">{stat.label}</div>
+                <div className="text-xs text-gray-400">{stat.source}</div>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-gray-400 mt-4">※参考値。各省庁・公表データをもとにした概算です</p>
+        </div>
+      </section>
+
       {/* 感情フック：ストーリー型 */}
       <section className="bg-white py-14 px-4">
         <div className="max-w-2xl mx-auto">
