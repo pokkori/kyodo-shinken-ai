@@ -107,6 +107,189 @@ function AlimonyCalculator() {
   );
 }
 
+// ===== 共同親権適用可能性診断 =====
+const DIAGNOSIS_QUESTIONS = [
+  { id: 1, q: "相手方（元パートナー）との間でDV・モラハラの被害がありますか？", yesLabel: "ある", noLabel: "ない", yesRisk: true },
+  { id: 2, q: "お子さんの日常的な連絡（学校・医療等）を相手と協議できる環境ですか？", yesLabel: "できる", noLabel: "できない", yesRisk: false },
+  { id: 3, q: "相手と子どもの関係は良好ですか？", yesLabel: "良好", noLabel: "良好ではない", yesRisk: false },
+  { id: 4, q: "子どもの重要事項（転居・進学・手術等）について相手と話し合いができますか？", yesLabel: "できる", noLabel: "できない", yesRisk: false },
+  { id: 5, q: "現在または過去に家庭裁判所の手続き（調停・審判・DV保護命令等）を経験しましたか？", yesLabel: "経験あり", noLabel: "経験なし", yesRisk: true },
+];
+
+function DiagnosisWidget() {
+  const [answers, setAnswers] = useState<Record<number, boolean | null>>({});
+  const [showResult, setShowResult] = useState(false);
+  const [step, setStep] = useState(0);
+
+  const currentQ = DIAGNOSIS_QUESTIONS[step];
+
+  function answer(val: boolean) {
+    const next = { ...answers, [currentQ.id]: val };
+    setAnswers(next);
+    if (step < DIAGNOSIS_QUESTIONS.length - 1) {
+      setStep(step + 1);
+    } else {
+      setShowResult(true);
+    }
+  }
+
+  function calcResult() {
+    let riskCount = 0;
+    DIAGNOSIS_QUESTIONS.forEach((q) => {
+      const ans = answers[q.id];
+      if (q.yesRisk && ans === true) riskCount++;
+      if (!q.yesRisk && ans === false) riskCount++;
+    });
+    if (riskCount === 0) return { level: "high", label: "共同親権が適している可能性が高い", color: "teal", desc: "現状では共同親権の要件を多く満たしています。AIで親権計画書を作成し、弁護士確認を受けることをお勧めします。", cta: "親権計画書をAIで無料作成する →" };
+    if (riskCount === 1) return { level: "mid", label: "注意事項あり・要専門家相談", color: "amber", desc: "共同親権が可能な場合もありますが、リスク要素があります。弁護士への早めの相談をお勧めします。", cta: "弁護士相談の前にAIで整理する →" };
+    return { level: "low", label: "単独親権が適している可能性あり", color: "red", desc: "DV・高葛藤など単独親権が適した要素があります。まず安全確保と弁護士・法テラスへの相談を優先してください。", cta: "弁護士・法テラスへの相談準備をAIで整理 →" };
+  }
+
+  const result = showResult ? calcResult() : null;
+  const shareText = result
+    ? `共同親権適用診断の結果：「${result.label}」でした。2026年4月施行の共同親権制度を無料AIでチェック → https://kyodo-shinken-ai.vercel.app #共同親権 #離婚`
+    : "";
+
+  function reset() {
+    setAnswers({});
+    setShowResult(false);
+    setStep(0);
+  }
+
+  const colorMap: Record<string, string> = {
+    teal: "teal", amber: "amber", red: "red",
+  };
+
+  return (
+    <div className="bg-white rounded-2xl border border-teal-200 shadow-sm overflow-hidden">
+      {!showResult ? (
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs font-bold text-teal-600">質問 {step + 1} / {DIAGNOSIS_QUESTIONS.length}</span>
+            <div className="flex gap-1">
+              {DIAGNOSIS_QUESTIONS.map((_, i) => (
+                <div key={i} className={`w-6 h-1.5 rounded-full ${i < step ? "bg-teal-500" : i === step ? "bg-teal-300" : "bg-gray-200"}`} />
+              ))}
+            </div>
+          </div>
+          <p className="text-base font-bold text-gray-900 mb-6 leading-relaxed">{currentQ.q}</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button onClick={() => answer(true)} className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+              {currentQ.yesLabel}
+            </button>
+            <button onClick={() => answer(false)} className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl text-sm transition-colors">
+              {currentQ.noLabel}
+            </button>
+          </div>
+        </div>
+      ) : result ? (
+        <div className={`p-6 ${result.color === "teal" ? "bg-teal-50 border-t-4 border-teal-500" : result.color === "amber" ? "bg-amber-50 border-t-4 border-amber-500" : "bg-red-50 border-t-4 border-red-500"}`}>
+          <div className="text-center mb-4">
+            <span className={`inline-block text-xs font-black px-3 py-1 rounded-full mb-3 ${result.color === "teal" ? "bg-teal-100 text-teal-700" : result.color === "amber" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>
+              診断結果
+            </span>
+            <h3 className={`text-xl font-black mb-2 ${result.color === "teal" ? "text-teal-800" : result.color === "amber" ? "text-amber-800" : "text-red-800"}`}>{result.label}</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">{result.desc}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 mt-5">
+            <a href="/tool" className="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+              {result.cta}
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-xl text-sm transition-colors"
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              結果をXでシェア
+            </a>
+          </div>
+          <div className="text-center mt-4">
+            <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors">もう一度診断する</button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+// ===== 弁護士あり/なし費用シミュレーター =====
+function CostSimulator() {
+  const [children, setChildren] = useState(1);
+  const [complexity, setComplexity] = useState<"simple" | "normal" | "complex">("normal");
+
+  const complexityLabels = { simple: "協議離婚（合意あり）", normal: "調停離婚", complex: "裁判離婚（争いあり）" };
+
+  function calcCosts() {
+    const noLawyerBase = 1200 + 5000 + 500;
+    const retainer = complexity === "simple" ? 150000 : complexity === "normal" ? 300000 : 500000;
+    const success = complexity === "simple" ? 100000 : complexity === "normal" ? 200000 : 400000;
+    const extra = complexity === "complex" ? 360000 : 0;
+    const lawyerTotal = retainer + success + extra;
+    return {
+      noLawyer: { total: noLawyerBase },
+      withLawyer: { total: lawyerTotal, retainer, success },
+    };
+  }
+
+  const costs = calcCosts();
+  const formatYen = (n: number) => n >= 10000 ? `${Math.round(n / 10000)}万円` : `${n.toLocaleString()}円`;
+
+  return (
+    <div className="bg-white rounded-2xl border border-teal-200 shadow-sm p-6">
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2">ケースの複雑さ</label>
+            <div className="space-y-2">
+              {(["simple", "normal", "complex"] as const).map((v) => (
+                <button
+                  key={v}
+                  onClick={() => setComplexity(v)}
+                  className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
+                    complexity === v ? "bg-teal-600 text-white border-teal-600" : "bg-gray-50 text-gray-700 border-gray-200 hover:border-teal-300"
+                  }`}
+                >
+                  {complexityLabels[v]}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
+            <select value={children} onChange={(e) => setChildren(Number(e.target.value))}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+              {[1, 2, 3, 4].map((n) => <option key={n} value={n}>{n}人</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+            <p className="text-xs font-bold text-red-600 mb-2">弁護士に依頼した場合</p>
+            <div className="text-2xl font-black text-red-700">{formatYen(costs.withLawyer.total)}</div>
+            <div className="text-xs text-red-500 mt-1">着手金 {formatYen(costs.withLawyer.retainer)} + 成功報酬 {formatYen(costs.withLawyer.success)}{complexity === "complex" && " + 日当・実費"}</div>
+          </div>
+          <div className="bg-teal-50 border-2 border-teal-400 rounded-xl p-4">
+            <p className="text-xs font-bold text-teal-600 mb-2">本AIサービスを利用した場合</p>
+            <div className="text-2xl font-black text-teal-700">¥0〜¥980/月</div>
+            <div className="text-xs text-teal-500 mt-1">親権計画書・面会カレンダー・養育費計算 初回無料</div>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
+            <p className="font-bold">差額: <span className="text-base">{formatYen(costs.withLawyer.total - 980)}</span> の節約効果</p>
+            <p className="mt-1">AIで書類を準備してから弁護士相談すると相談時間を大幅短縮できます</p>
+          </div>
+          <a href="https://www.bengo4.com/c_3/" target="_blank" rel="noopener noreferrer"
+            className="block text-center bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors">
+            弁護士ドットコムで無料相談 →
+          </a>
+        </div>
+      </div>
+      <p className="text-xs text-gray-400 mt-4 text-center">※費用はあくまで参考値です。実際の弁護士費用は事案・事務所により大きく異なります</p>
+    </div>
+  );
+}
+
 const FAQ_ITEMS = [
   { q: "共同親権制度はいつから始まりましたか？", a: "2026年4月1日に施行されました。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。" },
   { q: "既に離婚している場合、共同親権に変更できますか？", a: "できます。2026年4月1日施行前に単独親権で離婚が成立している場合も、「親権者変更」の家庭裁判所への申立によって共同親権に変更することが可能です。申立費用は収入印紙1,200円＋連絡用郵便切手が必要です。" },
@@ -689,6 +872,73 @@ export default function LandingPage() {
             <p className="text-sm font-bold text-gray-700 mb-2">AIで親権計画書・面会カレンダー・養育費の目安を自動生成</p>
             <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
               チェックリストの内容をAIで書類化する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 共同親権適用可能性5問診断 */}
+      <section className="py-14 px-4 bg-blue-50 border-y border-blue-200">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-blue-300">🩺 5問診断</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">共同親権 適用可能性チェック</h2>
+            <p className="text-sm text-gray-600">5つの質問に答えるだけで、あなたのケースに共同親権が適しているか即判定。結果をXでシェアできます。</p>
+          </div>
+          <DiagnosisWidget />
+        </div>
+      </section>
+
+      {/* 費用シミュレーター */}
+      <section className="py-14 px-4 bg-white border-b border-teal-100">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-300">💴 費用シミュレーター</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">弁護士あり/なし 費用比較シミュレーター</h2>
+            <p className="text-sm text-gray-600">ケースの複雑さを選ぶだけで弁護士費用の目安とAIサービスの差額を計算します</p>
+          </div>
+          <CostSimulator />
+        </div>
+      </section>
+
+      {/* SEOテキスト: 共同親権制度の基礎知識 */}
+      <section className="py-14 px-4 bg-gray-50 border-b border-gray-200">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">共同親権制度の基礎知識</h2>
+          <div className="space-y-5 text-sm text-gray-700 leading-relaxed">
+            <div className="bg-white rounded-2xl border border-gray-200 p-5">
+              <h3 className="font-bold text-gray-900 text-base mb-2">共同親権とは？</h3>
+              <p>2026年4月1日施行の改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。これまでの日本の民法では、離婚後は父母のいずれか一方のみが親権を持つ「単独親権」しか認められていませんでしたが、法改正によって父母の合意または家庭裁判所の判断により共同親権が設定できるようになりました。</p>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-200 p-5">
+              <h3 className="font-bold text-gray-900 text-base mb-2">共同親権と単独親権の違い</h3>
+              <p>共同親権では、子どもの転居・進学・医療の同意など「重要事項」については父母双方の合意が原則必要になります。一方で、日常的な養育（食事・学校の送迎など）は基本居住地の親が単独で行えます。単独親権では、親権者が単独で重要事項を決定できます。</p>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-200 p-5">
+              <h3 className="font-bold text-gray-900 text-base mb-2">2026年4月から何が変わった？</h3>
+              <p>（1）新しい離婚では共同親権・単独親権のいずれかを協議で選択。（2）合意できない場合は家庭裁判所が決定。（3）養育費の未取り決め時に月2万円/子の「法定養育費」が自動発生。（4）養育費不払い時の差し押さえ手続きが簡易化。これらの変更が2026年4月1日から施行されています。</p>
+            </div>
+          </div>
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">共同親権 よくある5つの誤解</h2>
+            <div className="space-y-4">
+              {[
+                { misunderstanding: "誤解1: 共同親権になったら子どもが「2つの家」で同じ日数暮らす", truth: "基本居住地はいずれか一方の親の家に定めます。共同親権は「親権の共有」であり、必ずしも居住を半々にするものではありません。" },
+                { misunderstanding: "誤解2: 相手が同意しなければ共同親権にならない", truth: "合意できない場合は家庭裁判所が子の利益を最優先に共同親権か単独親権かを決定します。相手の拒否だけで単独親権が確定するわけではありません。" },
+                { misunderstanding: "誤解3: DV被害者でも必ず共同親権になる", truth: "DVや虐待が認定される場合、裁判所は単独親権を選択します。証拠を保全して弁護士・法テラスに相談することが重要です。" },
+                { misunderstanding: "誤解4: 法定養育費2万円が相場", truth: "法定養育費は最低保証額です。裁判所の養育費算定表に基づく相場は子の年齢・人数・両親の収入によって異なり、多くの場合2万円を上回ります。" },
+                { misunderstanding: "誤解5: AIで作成した書類に法的効力がある", truth: "AIが生成する書類は草案・参考情報です。法的効力を持たせるには弁護士確認・公正証書化が必要です。本サービスは弁護士相談前の「準備・整理」ツールです。" },
+              ].map((item, i) => (
+                <div key={i} className="bg-white rounded-xl border border-gray-200 p-4">
+                  <p className="text-sm font-bold text-red-600 mb-1">❌ {item.misunderstanding}</p>
+                  <p className="text-sm text-gray-600">✅ {item.truth}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+              AIで親権計画書・養育費・面会スケジュールを無料作成 →
             </Link>
           </div>
         </div>
