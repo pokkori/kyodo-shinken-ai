@@ -101,6 +101,81 @@ function AlimonyCalculator() {
           <a href="/tool" className="mt-3 block text-center bg-teal-600 hover:bg-teal-700 text-white font-black px-6 py-3 rounded-xl text-sm transition-colors">
             AIで養育費の詳細計算書を作成 →
           </a>
+          {/* シェアカード生成 */}
+          <div className="mt-4 border-t border-gray-100 pt-4">
+            <p className="text-xs text-gray-500 text-center mb-3">養育費の目安をシェアする</p>
+            <div className="flex gap-2 justify-center">
+              <button
+                onClick={() => {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = 1200; canvas.height = 630;
+                  const ctx = canvas.getContext("2d");
+                  if (!ctx) return;
+                  const grad = ctx.createLinearGradient(0, 0, 1200, 630);
+                  grad.addColorStop(0, "#0d9488"); grad.addColorStop(1, "#14b8a6");
+                  ctx.fillStyle = grad; ctx.fillRect(0, 0, 1200, 630);
+                  // 装飾円
+                  ctx.fillStyle = "rgba(255,255,255,0.06)";
+                  ctx.beginPath(); ctx.arc(100, 530, 200, 0, Math.PI * 2); ctx.fill();
+                  ctx.beginPath(); ctx.arc(1100, 100, 150, 0, Math.PI * 2); ctx.fill();
+                  // タイトル
+                  ctx.fillStyle = "rgba(255,255,255,0.8)"; ctx.font = "bold 28px sans-serif";
+                  ctx.textAlign = "center"; ctx.fillText("共同親権サポートAI - 養育費シミュレーション", 600, 80);
+                  // メイン金額
+                  ctx.fillStyle = "#ffffff"; ctx.font = "bold 72px sans-serif";
+                  ctx.fillText(`養育費の目安: 月${formatMoney(result.min)}〜${formatMoney(result.max)}`, 600, 280);
+                  // 条件
+                  ctx.fillStyle = "rgba(255,255,255,0.85)"; ctx.font = "28px sans-serif";
+                  ctx.fillText(`支払う側: ${payerIncome}万円 / 受け取る側: ${receiverIncome}万円 / 子ども${childCount}人`, 600, 360);
+                  // 法定養育費
+                  ctx.fillStyle = "#fef08a"; ctx.font = "bold 26px sans-serif";
+                  ctx.fillText(`2026年4月〜法定養育費: 月${childCount}万円が最低ライン`, 600, 430);
+                  // フッター
+                  ctx.fillStyle = "rgba(255,255,255,0.6)"; ctx.font = "22px sans-serif";
+                  ctx.fillText("※裁判所の養育費算定表に基づく簡易計算です", 600, 510);
+                  ctx.fillText("kyodo-shinken-ai.vercel.app", 600, 570);
+                  canvas.toBlob((blob) => {
+                    if (!blob) return;
+                    if (navigator.share) {
+                      const file = new File([blob], "alimony-estimate.png", { type: "image/png" });
+                      navigator.share({ title: "養育費の目安", text: `養育費の目安: 月${formatMoney(result.min)}〜${formatMoney(result.max)} #共同親権 #養育費`, files: [file] }).catch(() => {});
+                    } else {
+                      const link = document.createElement("a");
+                      link.download = "alimony-estimate.png";
+                      link.href = URL.createObjectURL(blob);
+                      link.click();
+                    }
+                  }, "image/png");
+                }}
+                className="inline-flex items-center gap-1.5 bg-teal-100 hover:bg-teal-200 text-teal-700 font-bold py-2 px-4 rounded-lg text-xs transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                画像を保存
+              </button>
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`養育費の目安: 月${formatMoney(result.min)}〜${formatMoney(result.max)}（支払側${payerIncome}万円・子${childCount}人）\n2026年4月〜法定養育費制度スタート\n#共同親権 #養育費`)}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
+                target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg text-xs transition-colors"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                Xでシェア
+              </a>
+              <a
+                href={`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}&text=${encodeURIComponent(`養育費の目安: 月${formatMoney(result.min)}〜${formatMoney(result.max)}`)}`}
+                target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg text-xs transition-colors"
+              >
+                LINEでシェア
+              </a>
+            </div>
+            {/* 弁護士相談CTA */}
+            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+              <p className="text-xs text-amber-800 font-bold mb-1">養育費の取り決めは弁護士に相談が確実です</p>
+              <a href="https://www.bengo4.com/c_3/c_1028/" target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-teal-700 font-bold underline hover:text-teal-900 transition-colors">
+                離婚・養育費に強い弁護士を探す（弁護士ドットコム）→
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -707,6 +782,63 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500">{f.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AIサンプル出力: 親権計画書ドラフト */}
+      <section className="py-14 px-4 bg-teal-50 border-t border-teal-100">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full mb-3">実際の出力サンプル</div>
+            <h2 className="text-2xl font-bold text-gray-900">AIが生成する親権計画書ドラフト</h2>
+            <p className="text-gray-500 text-sm mt-2">「弁護士費用なしでここまで作れるなら使いたい」— 実際の書式をご確認ください</p>
+          </div>
+          <div className="bg-[#1e293b] rounded-2xl overflow-hidden shadow-xl font-mono text-sm">
+            <div className="px-5 py-3 bg-[#0f172a] flex items-center gap-2 border-b border-slate-700">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <span className="text-slate-400 text-xs ml-2">共同養育計画書 ドラフト（AIサンプル）</span>
+            </div>
+            <div className="p-6 text-slate-200 leading-relaxed space-y-3 text-xs md:text-sm">
+              <p className="text-teal-400 font-bold">【親権計画書 サンプル（AIドラフト）】</p>
+              <p className="text-white font-bold text-center py-2">共同養育計画書</p>
+              <p>本計画書は、山田太郎（父）と山田花子（母）が、子 山田春奈（2019年生まれ）の<br />健全な成長を共同で支えることを目的として合意したものです。</p>
+              <div className="border-t border-slate-600 pt-3">
+                <p className="text-green-400 font-bold">第1条（居所・面会交流）</p>
+                <p>春奈は原則として以下のスケジュールで両親と生活する:</p>
+                <p className="text-teal-300">・平日（月〜木）: 母（花子）宅</p>
+                <p className="text-teal-300">・金曜日〜日曜日: 父（太郎）宅</p>
+                <p className="text-teal-300">・春休み・夏休みの前半: 父宅、後半: 母宅</p>
+              </div>
+              <div className="border-t border-slate-600 pt-3">
+                <p className="text-green-400 font-bold">第2条（養育費）</p>
+                <p>父は母に対し、毎月末日限り</p>
+                <p className="text-yellow-300 font-bold">金50,000円</p>
+                <p>を支払う。支払先：〇〇銀行 〇〇支店 普通 口座番号1234567</p>
+              </div>
+              <div className="border-t border-slate-600 pt-3">
+                <p className="text-green-400 font-bold">第3条（教育方針）</p>
+                <p>・公立小学校・中学校への進学を原則とする</p>
+                <p>・現在の習い事（ピアノ・水泳）は継続する</p>
+                <p>・転校を要する転居は事前に相手方と協議する</p>
+              </div>
+              <div className="border-t border-slate-600 pt-3">
+                <p className="text-slate-400 text-xs">…（緊急連絡・医療同意・学校行事対応 第4条〜第6条は全文生成で表示）</p>
+              </div>
+              <div className="border-t border-slate-600 pt-3 bg-teal-900/30 rounded-lg p-3">
+                <p className="text-teal-300 text-xs font-bold">⚠️ このサンプルはAIが生成した参考例です</p>
+                <p className="text-teal-200 text-xs">法的効力を持たせるには弁護士・家庭裁判所での確認が必要な場合があります</p>
+              </div>
+            </div>
+          </div>
+          <p className="text-xs text-slate-500 text-center mt-3">※ 実際の出力はお子さんの情報・両親の状況を基にAIが個別生成します</p>
+          <div className="text-center mt-6">
+            <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black px-8 py-4 rounded-xl shadow-lg transition-all hover:scale-105">
+              全文を無料で生成する →
+            </Link>
+            <p className="text-xs text-slate-500 mt-2">登録不要 • 30秒で5種類のドキュメント生成 • 弁護士費用の100分の1以下</p>
           </div>
         </div>
       </section>
