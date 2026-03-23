@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
-const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 const SITE_URL = "https://kyodo-shinken-ai.vercel.app";
 const TITLE = "共同親権サポートAI｜親権計画書・面会交流・養育費を自動作成【2026年4月新制度対応】";
@@ -73,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
-      <body className={`${geist.variable} antialiased`}>
+      <body className="antialiased">
         {children}
         <Analytics />
       </body>
