@@ -174,6 +174,7 @@ function DivorceAgreementGenerator() {
                 onChange={e => setHusbandName(e.target.value)}
                 placeholder="例）田中 太郎"
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="甲（夫）の氏名"
               />
             </div>
             <div>
@@ -183,6 +184,7 @@ function DivorceAgreementGenerator() {
                 value={husbandBirthdate}
                 onChange={e => setHusbandBirthdate(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="甲（夫）の生年月日"
               />
             </div>
           </div>
@@ -200,6 +202,7 @@ function DivorceAgreementGenerator() {
                 onChange={e => setWifeName(e.target.value)}
                 placeholder="例）田中 花子"
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="乙（妻）の氏名"
               />
             </div>
             <div>
@@ -209,6 +212,7 @@ function DivorceAgreementGenerator() {
                 value={wifeBirthdate}
                 onChange={e => setWifeBirthdate(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="乙（妻）の生年月日"
               />
             </div>
           </div>
@@ -222,7 +226,8 @@ function DivorceAgreementGenerator() {
               <button
                 type="button"
                 onClick={addChild}
-                className="text-xs bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-2 py-1 rounded-lg transition"
+                className="text-xs bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-2 py-1 rounded-lg transition min-h-[44px] px-3"
+                aria-label="子の情報を追加する"
               >
                 + 子を追加
               </button>
@@ -237,7 +242,8 @@ function DivorceAgreementGenerator() {
                     <button
                       type="button"
                       onClick={() => removeChild(index)}
-                      className="text-xs text-red-400 hover:text-red-600"
+                      className="text-xs text-red-400 hover:text-red-600 min-h-[44px] px-2"
+                      aria-label={`第${index + 1}子の情報を削除する`}
                     >
                       削除
                     </button>
@@ -251,6 +257,7 @@ function DivorceAgreementGenerator() {
                       onChange={e => updateChild(index, "name", e.target.value)}
                       placeholder="氏名"
                       className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                      aria-label={`第${index + 1}子の氏名`}
                     />
                   </div>
                   <div className="col-span-1">
@@ -259,6 +266,7 @@ function DivorceAgreementGenerator() {
                       value={child.birthdate}
                       onChange={e => updateChild(index, "birthdate", e.target.value)}
                       className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                      aria-label={`第${index + 1}子の生年月日`}
                     />
                   </div>
                   <div className="col-span-1">
@@ -266,6 +274,7 @@ function DivorceAgreementGenerator() {
                       value={child.relation}
                       onChange={e => updateChild(index, "relation", e.target.value)}
                       className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                      aria-label={`第${index + 1}子の続柄`}
                     >
                       {["長男", "長女", "次男", "次女", "三男", "三女"].map(r => (
                         <option key={r} value={r}>{r}</option>
@@ -285,14 +294,18 @@ function DivorceAgreementGenerator() {
             <button
               type="button"
               onClick={() => setCustodyType("joint")}
-              className={`py-2.5 rounded-xl text-sm font-bold border transition ${custodyType === "joint" ? "bg-teal-600 text-white border-teal-600" : "bg-white text-gray-600 border-gray-200 hover:border-teal-300"}`}
+              className={`py-2.5 rounded-xl text-sm font-bold border transition min-h-[44px] ${custodyType === "joint" ? "bg-teal-600 text-white border-teal-600" : "bg-white text-gray-600 border-gray-200 hover:border-teal-300"}`}
+              aria-label="共同親権を選択"
+              aria-pressed={custodyType === "joint"}
             >
               共同親権
             </button>
             <button
               type="button"
               onClick={() => setCustodyType("sole")}
-              className={`py-2.5 rounded-xl text-sm font-bold border transition ${custodyType === "sole" ? "bg-teal-600 text-white border-teal-600" : "bg-white text-gray-600 border-gray-200 hover:border-teal-300"}`}
+              className={`py-2.5 rounded-xl text-sm font-bold border transition min-h-[44px] ${custodyType === "sole" ? "bg-teal-600 text-white border-teal-600" : "bg-white text-gray-600 border-gray-200 hover:border-teal-300"}`}
+              aria-label="単独親権を選択"
+              aria-pressed={custodyType === "sole"}
             >
               単独親権
             </button>
@@ -311,6 +324,7 @@ function DivorceAgreementGenerator() {
                 onChange={e => setAlimonyAmount(e.target.value)}
                 placeholder="例）50000"
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="養育費の月額（円）"
               />
             </div>
             <div>
@@ -319,6 +333,7 @@ function DivorceAgreementGenerator() {
                 value={alimonyDay}
                 onChange={e => setAlimonyDay(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="養育費の支払日（毎月）"
               >
                 {["1", "5", "10", "15", "20", "25", "末日"].map(d => (
                   <option key={d} value={d}>{d}日</option>
@@ -338,6 +353,7 @@ function DivorceAgreementGenerator() {
               onChange={e => setVisitationFrequency(e.target.value)}
               placeholder="頻度（例：月2回・毎週日曜日など）"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              aria-label="面会交流の頻度"
             />
             <input
               type="text"
@@ -345,6 +361,7 @@ function DivorceAgreementGenerator() {
               onChange={e => setVisitationMethod(e.target.value)}
               placeholder="方法（例：直接交流・ビデオ通話など）"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              aria-label="面会交流の方法"
             />
           </div>
         </div>
@@ -358,6 +375,7 @@ function DivorceAgreementGenerator() {
             placeholder="例）不動産（自宅）は乙が取得し、住宅ローンは乙が引き継ぐ。預貯金は折半。"
             rows={3}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none resize-none"
+            aria-label="財産分与の概要"
           />
         </div>
       </div>
@@ -366,7 +384,8 @@ function DivorceAgreementGenerator() {
       <button
         onClick={generate}
         disabled={loading || !husbandName.trim() || !wifeName.trim()}
-        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed min-h-[44px]"
+        aria-label="入力内容をもとにAIが離婚協議書ドラフトを生成する"
       >
         {loading ? "AIが作成中…" : "離婚協議書ドラフトを生成する"}
       </button>
@@ -406,13 +425,15 @@ function DivorceAgreementGenerator() {
               <div className="flex gap-2">
                 <button
                   onClick={() => { navigator.clipboard.writeText(draftText); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                  className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg transition"
+                  className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg transition min-h-[44px]"
+                  aria-label="離婚協議書ドラフトをクリップボードにコピーする"
                 >
                   {copied ? "コピー済 ✓" : "コピー"}
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg transition"
+                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg transition min-h-[44px]"
+                  aria-label="離婚協議書ドラフトをテキストファイルでダウンロードする"
                 >
                   TXTでDL
                 </button>
@@ -522,7 +543,8 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded transition border border-gray-200"
+      className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded transition border border-gray-200 min-h-[44px]"
+      aria-label="このセクションの内容をクリップボードにコピーする"
     >
       {copied ? "コピー済 ✓" : "コピー"}
     </button>
@@ -566,7 +588,8 @@ function DownloadAllButton({ result }: { result: NonNullable<Result> }) {
   return (
     <button
       onClick={handleDownload}
-      className="inline-flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition"
+      className="inline-flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition min-h-[44px]"
+      aria-label="全ドキュメントをテキストファイルでダウンロードする"
     >
       <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current"><path d="M12 16l-5-5 1.4-1.4 2.6 2.6V4h2v8.2l2.6-2.6L17 11l-5 5zM5 20v-2h14v2H5z"/></svg>
       全ドキュメントをTXTでDL
@@ -696,13 +719,17 @@ export default function ToolPage() {
         <div className="max-w-2xl mx-auto px-4 flex gap-0">
           <button
             onClick={() => setActiveMainTab("support")}
-            className={`flex-1 py-3 text-sm font-bold transition border-b-2 ${activeMainTab === "support" ? "text-teal-600 border-teal-600" : "text-gray-400 border-transparent hover:text-gray-600"}`}
+            className={`flex-1 py-3 text-sm font-bold transition border-b-2 min-h-[44px] ${activeMainTab === "support" ? "text-teal-600 border-teal-600" : "text-gray-400 border-transparent hover:text-gray-600"}`}
+            aria-label="親権サポートタブを表示する"
+            aria-selected={activeMainTab === "support"}
           >
             ⚖️ 親権サポート
           </button>
           <button
             onClick={() => setActiveMainTab("divorce-draft")}
-            className={`flex-1 py-3 text-sm font-bold transition border-b-2 relative ${activeMainTab === "divorce-draft" ? "text-blue-600 border-blue-600" : "text-gray-400 border-transparent hover:text-gray-600"}`}
+            className={`flex-1 py-3 text-sm font-bold transition border-b-2 relative min-h-[44px] ${activeMainTab === "divorce-draft" ? "text-blue-600 border-blue-600" : "text-gray-400 border-transparent hover:text-gray-600"}`}
+            aria-label="離婚協議書ドラフトタブを表示する"
+            aria-selected={activeMainTab === "divorce-draft"}
           >
             📄 離婚協議書ドラフト
             <span className="absolute -top-0.5 right-2 bg-blue-500 text-white text-xs font-black px-1.5 py-0.5 rounded-full">NEW</span>
@@ -746,6 +773,7 @@ export default function ToolPage() {
             placeholder={"例）長男・8歳（小学2年）、次女・5歳（保育園）\n2人とも現在は妻と同居中"}
             value={childrenInfo}
             onChange={(e) => setChildrenInfo(e.target.value)}
+            aria-label="お子さんの情報（年齢・人数・現在の居住状況など）"
           />
         </div>
 
@@ -756,6 +784,7 @@ export default function ToolPage() {
             placeholder={"例）\n父: 東京都在住・会社員・残業多め\n母: 神奈川県在住・パートタイム\n車で約1時間の距離"}
             value={parentInfo}
             onChange={(e) => setParentInfo(e.target.value)}
+            aria-label="両親の状況（居住地・職業・距離など）"
           />
         </div>
 
@@ -773,7 +802,8 @@ export default function ToolPage() {
                 key={p.label}
                 type="button"
                 onClick={() => setSituationInfo(p.text)}
-                className="text-xs bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-3 py-1.5 rounded-full transition font-medium"
+                className="text-xs bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-3 py-1.5 rounded-full transition font-medium min-h-[44px]"
+                aria-label={`状況テンプレートを入力: ${p.label}`}
               >
                 {p.emoji} {p.label}
               </button>
@@ -785,6 +815,7 @@ export default function ToolPage() {
             placeholder="例：協議中・比較的話し合いができる・月2回程度の面会を希望"
             value={situationInfo}
             onChange={(e) => setSituationInfo(e.target.value)}
+            aria-label="現在の状況・希望（協議状況、DV有無など）"
           />
         </div>
 
@@ -803,6 +834,7 @@ export default function ToolPage() {
                 value={calcPayer}
                 onChange={(e) => setCalcPayer(Number(e.target.value))}
                 className="w-full accent-amber-500"
+                aria-label={`支払う側の年収: ${calcPayer}万円`}
               />
               <div className="flex justify-between text-xs text-gray-400 mt-0.5"><span>200万</span><span>1,000万</span></div>
             </div>
@@ -817,6 +849,7 @@ export default function ToolPage() {
                 value={calcReceiver}
                 onChange={(e) => setCalcReceiver(Number(e.target.value))}
                 className="w-full accent-amber-500"
+                aria-label={`受け取る側の年収: ${calcReceiver}万円`}
               />
               <div className="flex justify-between text-xs text-gray-400 mt-0.5"><span>0万</span><span>500万</span></div>
             </div>
@@ -829,7 +862,9 @@ export default function ToolPage() {
                     key={n}
                     type="button"
                     onClick={() => setCalcChildren(n)}
-                    className={`flex-1 py-2 rounded-xl text-sm font-bold border transition ${calcChildren === n ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                    className={`flex-1 py-2 rounded-xl text-sm font-bold border transition min-h-[44px] ${calcChildren === n ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                    aria-label={`子ども${n}人を選択`}
+                    aria-pressed={calcChildren === n}
                   >
                     {n}人
                   </button>
@@ -843,14 +878,18 @@ export default function ToolPage() {
                 <button
                   type="button"
                   onClick={() => setCalcOver14(false)}
-                  className={`flex-1 py-2 rounded-xl text-sm font-bold border transition ${!calcOver14 ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                  className={`flex-1 py-2 rounded-xl text-sm font-bold border transition min-h-[44px] ${!calcOver14 ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                  aria-label="子どもの年齢: 14歳以下を選択"
+                  aria-pressed={!calcOver14}
                 >
                   〜14歳
                 </button>
                 <button
                   type="button"
                   onClick={() => setCalcOver14(true)}
-                  className={`flex-1 py-2 rounded-xl text-sm font-bold border transition ${calcOver14 ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                  className={`flex-1 py-2 rounded-xl text-sm font-bold border transition min-h-[44px] ${calcOver14 ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-200 hover:border-amber-300"}`}
+                  aria-label="子どもの年齢: 15歳以上を選択"
+                  aria-pressed={calcOver14}
                 >
                   15歳以上
                 </button>
@@ -874,7 +913,8 @@ export default function ToolPage() {
                 const toolEl = document.getElementById("tool-input-section");
                 if (toolEl) toolEl.scrollIntoView({ behavior: "smooth" });
               }}
-              className="flex-1 bg-amber-500 hover:bg-amber-400 text-white font-bold py-2.5 rounded-xl text-sm transition"
+              className="flex-1 bg-amber-500 hover:bg-amber-400 text-white font-bold py-2.5 rounded-xl text-sm transition min-h-[44px]"
+              aria-label="養育費の詳細についてAIに相談する"
             >
               詳しくAIに相談する →
             </button>
@@ -893,7 +933,7 @@ export default function ToolPage() {
         {!isPremium && remaining === 0 && !result && (
           <div className="bg-teal-50 border border-teal-400 rounded-xl p-4 text-center">
             <p className="text-sm text-teal-800 mb-3">無料回数を使い切りました。月額¥3,980で使い放題！</p>
-            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-2 rounded-xl text-sm transition">
+            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-2 rounded-xl text-sm transition min-h-[44px]" aria-label="プレミアムプランにアップグレードする">
               プレミアムにアップグレード
             </button>
           </div>
@@ -902,7 +942,8 @@ export default function ToolPage() {
         <button
           onClick={generate}
           disabled={loading || !childrenInfo.trim() || (!isPremium && remaining === 0)}
-          className="w-full bg-teal-500 hover:bg-teal-400 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full bg-teal-500 hover:bg-teal-400 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed min-h-[44px]"
+          aria-label="入力内容をもとに親権サポートドキュメントをAIで作成する"
         >
           {loading ? "AIが作成中…" : "親権サポートドキュメントを作成する"}
         </button>
@@ -936,7 +977,7 @@ export default function ToolPage() {
               <li>✅ 2026年4月施行の共同親権法に完全対応</li>
               <li>✅ 弁護士費用¥30〜50万 vs AI月額¥3,980</li>
             </ul>
-            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full">
+            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full min-h-[44px]" aria-label="月額3,980円のプレミアムプランにアップグレードする">
               ¥3,980/月でアップグレード
             </button>
             <div className="flex items-center justify-center gap-3 mt-3 text-xs text-gray-400">
@@ -983,7 +1024,9 @@ export default function ToolPage() {
                 <button
                   key={t.id}
                   onClick={() => { if (t.premium && !isPremium) { startCheckout(); return; } setTab(t.id); }}
-                  className={`px-4 py-3 text-xs font-bold whitespace-nowrap transition flex items-center gap-1 ${tab === t.id ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-400 hover:text-gray-600"}`}
+                  className={`px-4 py-3 text-xs font-bold whitespace-nowrap transition flex items-center gap-1 min-h-[44px] ${tab === t.id ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-400 hover:text-gray-600"}`}
+                  aria-label={t.premium && !isPremium ? `${t.label}（プレミアム機能）` : `${t.label}タブを表示する`}
+                  aria-selected={tab === t.id}
                 >
                   {t.label}
                   {t.premium && !isPremium && <span className="text-yellow-500">🔒</span>}
@@ -1148,7 +1191,7 @@ export default function ToolPage() {
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
-            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="プレミアムプラン登録ダイアログを閉じる">✕</button>
             <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
             <KomojuButton planId="standard" planLabel="プレミアムプラン ¥980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
           </div>

@@ -43,6 +43,7 @@ function AlimonyCalculator() {
               type="range" min={0} max={1500} step={50} value={payerIncome}
               onChange={e => setPayerIncome(Number(e.target.value))}
               className="w-full accent-teal-600"
+              aria-label={`支払う側の年収: ${payerIncome}万円`}
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
               <span>0万円</span>
@@ -56,6 +57,7 @@ function AlimonyCalculator() {
               type="range" min={0} max={1000} step={50} value={receiverIncome}
               onChange={e => setReceiverIncome(Number(e.target.value))}
               className="w-full accent-teal-600"
+              aria-label={`受け取る側の年収: ${receiverIncome}万円`}
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
               <span>0万円</span>
@@ -67,14 +69,16 @@ function AlimonyCalculator() {
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
               <select value={childCount} onChange={e => setChildCount(Number(e.target.value))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="子どもの人数">
                 {[1,2,3,4].map(n => <option key={n} value={n}>{n}人</option>)}
               </select>
             </div>
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">子どもの年齢</label>
               <select value={childAgeGroup} onChange={e => setChildAgeGroup(e.target.value as "under14" | "over14")}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                aria-label="子どもの年齢区分">
                 <option value="under14">14歳未満</option>
                 <option value="over14">14歳以上</option>
               </select>
@@ -148,6 +152,7 @@ function AlimonyCalculator() {
                   }, "image/png");
                 }}
                 className="inline-flex items-center gap-1.5 bg-teal-100 hover:bg-teal-200 text-teal-700 font-bold py-2 px-4 rounded-lg text-xs transition-colors"
+                aria-label="養育費シミュレーション結果を画像として保存する"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 画像を保存
@@ -249,10 +254,10 @@ function DiagnosisWidget() {
           </div>
           <p className="text-base font-bold text-gray-900 mb-6 leading-relaxed">{currentQ.q}</p>
           <div className="grid grid-cols-2 gap-3">
-            <button onClick={() => answer(true)} className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+            <button onClick={() => answer(true)} className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors" aria-label={`はい: ${currentQ.yesLabel}`}>
               {currentQ.yesLabel}
             </button>
-            <button onClick={() => answer(false)} className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl text-sm transition-colors">
+            <button onClick={() => answer(false)} className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl text-sm transition-colors" aria-label={`いいえ: ${currentQ.noLabel}`}>
               {currentQ.noLabel}
             </button>
           </div>
@@ -281,7 +286,7 @@ function DiagnosisWidget() {
             </a>
           </div>
           <div className="text-center mt-4">
-            <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors">もう一度診断する</button>
+            <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors min-h-[44px] px-2" aria-label="診断をリセットしてもう一度行う">もう一度診断する</button>
           </div>
         </div>
       ) : null}
@@ -330,7 +335,8 @@ function PostDivorceLivingSimulator() {
             <label className="block text-sm font-bold text-gray-700 mb-1">あなたの年収（万円）</label>
             <input type="range" min={0} max={800} step={25} value={income}
               onChange={e => setIncome(Number(e.target.value))}
-              className="w-full accent-purple-600" />
+              className="w-full accent-purple-600"
+              aria-label={`あなたの年収: ${income}万円`} />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
               <span>0万円</span>
               <span className="font-bold text-purple-700 text-base">{income}万円</span>
@@ -341,14 +347,16 @@ function PostDivorceLivingSimulator() {
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
               <select value={childrenCount} onChange={e => setChildrenCount(Number(e.target.value))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                aria-label="子どもの人数">
                 {[1, 2, 3].map(n => <option key={n} value={n}>{n}人</option>)}
               </select>
             </div>
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">子どもの年齢層</label>
               <select value={childAges} onChange={e => setChildAges(e.target.value as typeof childAges)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                aria-label="子どもの年齢層">
                 {(["infant", "elementary", "junior", "high"] as const).map(v => <option key={v} value={v}>{childAgeLabelMap[v]}</option>)}
               </select>
             </div>
@@ -357,7 +365,8 @@ function PostDivorceLivingSimulator() {
             <label className="block text-sm font-bold text-gray-700 mb-1">家賃（万円/月）</label>
             <input type="range" min={3} max={20} step={1} value={rentWan}
               onChange={e => setRentWan(Number(e.target.value))}
-              className="w-full accent-purple-600" />
+              className="w-full accent-purple-600"
+              aria-label={`家賃: ${rentWan}万円/月`} />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
               <span>3万円</span>
               <span className="font-bold text-purple-700 text-base">{rentWan}万円</span>
@@ -368,7 +377,8 @@ function PostDivorceLivingSimulator() {
             <label className="block text-sm font-bold text-gray-700 mb-1">受け取る養育費（万円/月・子1人あたり）</label>
             <input type="range" min={0} max={15} step={1} value={alimony}
               onChange={e => setAlimony(Number(e.target.value))}
-              className="w-full accent-purple-600" />
+              className="w-full accent-purple-600"
+              aria-label={`受け取る養育費: ${alimony}万円/月`} />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
               <span>0万円</span>
               <span className="font-bold text-purple-700 text-base">{alimony}万円×{childrenCount}人</span>
@@ -462,7 +472,8 @@ function CostSimulator() {
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
             <select value={children} onChange={(e) => setChildren(Number(e.target.value))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              aria-label="子どもの人数（弁護士費用計算用）">
               {[1, 2, 3, 4].map((n) => <option key={n} value={n}>{n}人</option>)}
             </select>
           </div>
@@ -530,8 +541,10 @@ function FaqAccordion() {
         {FAQ_ITEMS.map((item, i) => (
           <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
             <button
-              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors"
+              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors min-h-[44px]"
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
+              aria-expanded={openIndex === i}
+              aria-label={`FAQ: ${item.q}`}
             >
               <span className="text-sm font-semibold text-gray-800">{item.q}</span>
               <span className="text-gray-400 text-lg ml-3 shrink-0">{openIndex === i ? "−" : "+"}</span>
@@ -580,7 +593,7 @@ export default function LandingPage() {
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
-            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="プレミアムプラン登録ダイアログを閉じる">✕</button>
             <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
             <KomojuButton planId="standard" planLabel="プレミアムプラン ¥980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
           </div>
@@ -994,7 +1007,8 @@ export default function LandingPage() {
                 {plan.isPremium ? (
                   <button
                     onClick={startCheckout}
-                    className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
+                    className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 min-h-[44px]"
+                    aria-label="プレミアムプランに申し込む"
                   >
                     申し込む
                   </button>
