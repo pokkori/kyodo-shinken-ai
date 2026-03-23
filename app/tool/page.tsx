@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 import { track } from '@vercel/analytics';
+import { updateStreak, loadStreak, type StreakData } from "@/lib/streak";
 
 // ===== 離婚協議書AIドラフト生成コンポーネント =====
 type ChildInfo = { name: string; birthdate: string; relation: string };
@@ -708,6 +709,7 @@ export default function ToolPage() {
   const [showPaywall, setShowPaywall] = useState(false);
   const [showPayjp, setShowPayjp] = useState(false);
   const [tab, setTab] = useState<Tab>("next");
+  const [streakData, setStreakData] = useState<StreakData | null>(null);
 
   // 養育費試算ステート
   const [calcPayer, setCalcPayer] = useState(500);
@@ -720,6 +722,7 @@ export default function ToolPage() {
       setIsPremium(d.premium);
       setRemaining(d.remaining);
     });
+    setStreakData(loadStreak("kyodo_shinken"));
   }, []);
 
   async function generate() {
@@ -770,7 +773,10 @@ export default function ToolPage() {
       const parsed = parseResult(accumulated);
       setResult(parsed);
       setTab("next");
-      if (parsed) saveHistory(childrenInfo);
+      if (parsed) {
+        saveHistory(childrenInfo);
+        setStreakData(updateStreak("kyodo_shinken"));
+      }
     } catch {
       setError("エラーが発生しました。もう一度お試しください。");
     }
@@ -784,6 +790,11 @@ export default function ToolPage() {
       <nav className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
         <Link href="/" className="font-bold text-teal-600">⚖️ 共同親権サポートAI</Link>
         <div className="flex items-center gap-3">
+          {streakData && streakData.count >= 1 && (
+            <span aria-label={`${streakData.count}日連続利用中`} className="flex items-center gap-1 text-xs bg-yellow-400 text-gray-900 font-bold px-2.5 py-1 rounded-full">
+              {streakData.count}日連続
+            </span>
+          )}
           {!isPremium && remaining !== null && (
             <span className="text-xs text-gray-500">残り無料 {remaining}回</span>
           )}
