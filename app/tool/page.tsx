@@ -618,6 +618,82 @@ function calcAlimony(payerIncome: number, receiverIncome: number, numChildren: n
   return Math.round((annualAlimony / 12) * 10) / 10;
 }
 
+const HISTORY_KEY = "kyoudosinken_history";
+
+type HistoryItem = {
+  text: string; // 先頭50文字
+  date: string; // ISO文字列
+};
+
+function loadHistory(): HistoryItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]") ?? [];
+  } catch {
+    return [];
+  }
+}
+
+function saveHistory(childrenInfo: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const prev = loadHistory();
+    const newItem: HistoryItem = {
+      text: childrenInfo.slice(0, 50),
+      date: new Date().toISOString(),
+    };
+    const updated = [newItem, ...prev].slice(0, 5);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+  } catch { /* noop */ }
+}
+
+function HistoryPanel({ onRestore }: { onRestore: (text: string) => void }) {
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, [open]);
+
+  if (history.length === 0) return null;
+
+  return (
+    <div className="bg-white/80 backdrop-blur-sm border border-white/40 shadow-lg rounded-2xl overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50/80 transition-colors min-h-[44px]"
+        aria-label={open ? "ご利用履歴を閉じる" : "ご利用履歴を開く"}
+        aria-expanded={open}
+      >
+        <span className="flex items-center gap-2">
+          <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          ご利用履歴（直近{history.length}件）
+        </span>
+        <span className="text-gray-400">{open ? "−" : "+"}</span>
+      </button>
+      {open && (
+        <div className="divide-y divide-gray-100/80">
+          {history.map((item, i) => (
+            <button
+              key={i}
+              onClick={() => { onRestore(item.text); setOpen(false); }}
+              className="w-full text-left px-4 py-3 hover:bg-teal-50/80 transition-colors min-h-[44px]"
+              aria-label={`履歴を復元: ${item.text}`}
+            >
+              <p className="text-xs text-gray-700 truncate">{item.text}{item.text.length >= 50 ? "…" : ""}</p>
+              <p className="text-xs text-gray-400 mt-0.5">
+                {new Date(item.date).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+              </p>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ToolPage() {
   const [activeMainTab, setActiveMainTab] = useState<"support" | "divorce-draft">("support");
   const [childrenInfo, setChildrenInfo] = useState("");
@@ -694,6 +770,7 @@ export default function ToolPage() {
       const parsed = parseResult(accumulated);
       setResult(parsed);
       setTab("next");
+      if (parsed) saveHistory(childrenInfo);
     } catch {
       setError("エラーが発生しました。もう一度お試しください。");
     }
@@ -763,6 +840,8 @@ export default function ToolPage() {
             </div>
           </div>
         </div>
+
+        <HistoryPanel onRestore={(text) => setChildrenInfo(text)} />
 
         <div id="tool-input-section">
           <label className="block text-sm font-bold mb-2 text-gray-700">

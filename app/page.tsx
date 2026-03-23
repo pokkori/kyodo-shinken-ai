@@ -34,7 +34,7 @@ function AlimonyCalculator() {
   const formatMoney = (n: number) => `${(n / 10000).toFixed(1)}万円`;
 
   return (
-    <div className="bg-white rounded-2xl border border-teal-200 shadow-sm p-6">
+    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
@@ -241,7 +241,7 @@ function DiagnosisWidget() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-teal-200 shadow-sm overflow-hidden">
+    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl overflow-hidden">
       {!showResult ? (
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -328,7 +328,7 @@ function PostDivorceLivingSimulator() {
   const fmt = (n: number) => n >= 10000 ? `${Math.round(n / 10000 * 10) / 10}万円` : `${n.toLocaleString()}円`;
 
   return (
-    <div className="bg-white rounded-2xl border border-purple-200 shadow-sm p-6">
+    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
@@ -450,7 +450,7 @@ function CostSimulator() {
   const formatYen = (n: number) => n >= 10000 ? `${Math.round(n / 10000)}万円` : `${n.toLocaleString()}円`;
 
   return (
-    <div className="bg-white rounded-2xl border border-teal-200 shadow-sm p-6">
+    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
@@ -539,9 +539,9 @@ function FaqAccordion() {
       <h2 className="text-xl font-bold text-center mb-6">よくある質問（FAQ）</h2>
       <div className="space-y-3">
         {FAQ_ITEMS.map((item, i) => (
-          <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
+          <div key={i} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl overflow-hidden">
             <button
-              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors min-h-[44px]"
+              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white/60 hover:bg-white/80 transition-colors min-h-[44px]"
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
               aria-expanded={openIndex === i}
               aria-label={`FAQ: ${item.q}`}
@@ -716,7 +716,7 @@ export default function LandingPage() {
               { num: "着手金\n30万円〜", label: "弁護士費用の目安", source: "日本弁護士連合会" },
               { num: "2026年\n4月1日", label: "共同親権制度施行", source: "改正民法" },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white rounded-2xl p-4 text-center border border-blue-100 shadow-sm">
+              <div key={stat.label} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-4 text-center">
                 <div className="text-xl font-black text-teal-700 mb-1 whitespace-pre-line leading-tight">{stat.num}</div>
                 <div className="text-xs font-bold text-gray-800 mb-1">{stat.label}</div>
                 <div className="text-xs text-gray-400">{stat.source}</div>
@@ -773,7 +773,7 @@ export default function LandingPage() {
               "調停申立に何の書類が必要か分からない",
               "相手と話し合うための具体的な提案書を作りたい",
             ].map(p => (
-              <div key={p} className="flex gap-3 bg-white rounded-xl p-4 border border-gray-200">
+              <div key={p} className="flex gap-3 backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl p-4">
                 <span className="text-red-500 text-lg shrink-0">✗</span>
                 <p className="text-sm text-gray-700">{p}</p>
               </div>
@@ -789,7 +789,7 @@ export default function LandingPage() {
           <p className="text-center text-gray-500 text-sm mb-10">1回の入力で5種類のドキュメントが出力されます</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
-              <div key={f.title} className="bg-white rounded-xl p-6 border border-gray-200">
+              <div key={f.title} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl p-6">
                 <div className="text-2xl mb-2">{f.icon}</div>
                 <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
                 <p className="text-sm text-gray-500">{f.desc}</p>
@@ -882,7 +882,7 @@ export default function LandingPage() {
           <h2 className="text-2xl font-bold text-center mb-10">ご利用者の声</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {VOICES.map((v, i) => (
-              <div key={i} className="bg-white rounded-xl p-5 border border-gray-200">
+              <div key={i} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl p-5">
                 <div className="flex text-yellow-400 text-sm mb-3">{"★★★★★"}</div>
                 <p className="text-sm text-gray-700 mb-3 leading-relaxed">{v.text}</p>
                 <p className="text-xs text-gray-400">{v.role}</p>
@@ -1483,7 +1483,7 @@ export default function LandingPage() {
               { badge: "新設", badgeColor: "bg-green-600", title: "法定養育費 月2万円/子が自動発生", desc: "2026年4月以降に離婚する場合、合意未成立でも子1人につき月2万円の「法定養育費」が自動的に発生します。先取特権付きで差し押さえも可能に。" },
               { badge: "保護", badgeColor: "bg-red-600", title: "DV・虐待がある場合は単独親権", desc: "DV・虐待・高葛藤が認められる場合、家庭裁判所は単独親権の決定を行います。証拠の保全と専門機関への相談が重要です。" },
             ].map((item) => (
-              <div key={item.title} className="bg-white rounded-xl border border-teal-100 p-4 flex gap-3 items-start">
+              <div key={item.title} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl p-4 flex gap-3 items-start">
                 <span className={`text-xs font-black text-white px-2.5 py-1 rounded-full shrink-0 mt-0.5 ${item.badgeColor}`}>{item.badge}</span>
                 <div>
                   <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
