@@ -15,7 +15,7 @@ export default function Icon() {
         justifyContent: "center",
       }}
     >
-      👨‍👩‍👧
+      ‍‍
     </div>,
     { ...size }
   );

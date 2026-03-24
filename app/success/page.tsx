@@ -69,7 +69,7 @@ function SuccessContent() {
       {showConfetti && <Confetti />}
       <div className="max-w-lg w-full mx-auto px-4">
         <div className="text-center mb-10">
-          <div className="text-7xl mb-4">👨‍👩‍👧</div>
+          <div className="text-7xl mb-4">‍‍</div>
           <h1 className="text-3xl font-black mb-2">プレミアム登録完了！</h1>
           <p className="text-emerald-300">子どもとの時間を守る準備が整いました</p>
         </div>
@@ -78,19 +78,19 @@ function SuccessContent() {
           <h2 className="font-bold text-emerald-300 mb-3 text-sm">プレミアム特典</h2>
           <ul className="space-y-2 text-sm text-emerald-100">
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400 mt-0.5">✓</span>
+              <span className="text-emerald-400 mt-0.5"></span>
               AI書類作成が無制限（面会交流計画書・養育費算定・合意書）
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400 mt-0.5">✓</span>
+              <span className="text-emerald-400 mt-0.5"></span>
               弁護士費用を節約できる書類ドラフト自動生成
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400 mt-0.5">✓</span>
+              <span className="text-emerald-400 mt-0.5"></span>
               共同親権に関するQ&A・法律解説（Premium限定）
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400 mt-0.5">✓</span>
+              <span className="text-emerald-400 mt-0.5"></span>
               生成書類のPDF保存・再利用
             </li>
           </ul>

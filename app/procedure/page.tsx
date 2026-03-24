@@ -79,7 +79,7 @@ const PROCEDURE_STEPS = [
     step: 1,
     title: "話し合い（協議）",
     duration: "1週間〜数ヶ月",
-    icon: "🤝",
+    icon: "",
     color: "teal",
     content: [
       "父母双方が「共同親権」か「単独親権」かを話し合いで決める",
@@ -93,7 +93,7 @@ const PROCEDURE_STEPS = [
     step: 2,
     title: "家庭裁判所への調停申立",
     duration: "合意できない場合",
-    icon: "⚖️",
+    icon: "",
     color: "amber",
     content: [
       "申立先：相手方の住所地を管轄する家庭裁判所",
@@ -107,7 +107,7 @@ const PROCEDURE_STEPS = [
     step: 3,
     title: "調停（話し合い）",
     duration: "3〜8ヶ月",
-    icon: "📋",
+    icon: "",
     color: "blue",
     content: [
       "調停委員（弁護士や有識者2名）が仲介して父母交互に話し合い",
@@ -121,7 +121,7 @@ const PROCEDURE_STEPS = [
     step: 4,
     title: "審判（裁判官の決定）",
     duration: "調停不成立後",
-    icon: "🏛️",
+    icon: "️",
     color: "red",
     content: [
       "調停が成立しない場合、自動的に審判手続きへ移行",
@@ -154,7 +154,7 @@ export default function ProcedurePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <nav className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="font-bold text-teal-600">⚖️ 共同親権サポートAI</Link>
+        <Link href="/" className="font-bold text-teal-600"> 共同親権サポートAI</Link>
         <div className="flex items-center gap-4">
           <Link href="/guide" className="text-sm text-gray-600 hover:text-teal-600 hidden md:block">解説ガイド</Link>
           <Link href="/checklist" className="text-sm text-gray-600 hover:text-teal-600 hidden md:block">チェックリスト</Link>
@@ -187,11 +187,11 @@ export default function ProcedurePage() {
         <div className="bg-teal-50 border-l-4 border-teal-500 rounded-xl p-5 mb-8">
           <h2 className="text-base font-black text-teal-800 mb-3">この記事のポイント</h2>
           <ul className="space-y-2 text-sm text-teal-800">
-            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0">✓</span>共同親権の手続きは「協議→調停→審判」の順に進む</li>
-            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0">✓</span>協議で合意できれば費用は5,000円以下、弁護士不要</li>
-            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0">✓</span>調停申立の費用は収入印紙1,200円＋郵便切手で約3,000〜5,000円</li>
-            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0">✓</span>すでに離婚済みでも「親権者変更調停」で共同親権に変更可能</li>
-            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0">✓</span>当AIで申立準備書類（親権計画書・養育費・調停メモ）を無料作成できる</li>
+            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0"></span>共同親権の手続きは「協議→調停→審判」の順に進む</li>
+            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0"></span>協議で合意できれば費用は5,000円以下、弁護士不要</li>
+            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0"></span>調停申立の費用は収入印紙1,200円＋郵便切手で約3,000〜5,000円</li>
+            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0"></span>すでに離婚済みでも「親権者変更調停」で共同親権に変更可能</li>
+            <li className="flex gap-2"><span className="text-teal-500 font-bold shrink-0"></span>当AIで申立準備書類（親権計画書・養育費・調停メモ）を無料作成できる</li>
           </ul>
         </div>
 
@@ -221,7 +221,7 @@ export default function ProcedurePage() {
                       ))}
                     </ul>
                     <div className={`mt-3 p-3 rounded-lg text-xs font-medium ${s.color === "teal" ? "bg-teal-50 text-teal-700" : s.color === "amber" ? "bg-amber-50 text-amber-700" : s.color === "blue" ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700"}`}>
-                      💡 {s.tip}
+                       {s.tip}
                     </div>
                   </div>
                 </div>
@@ -341,7 +341,7 @@ export default function ProcedurePage() {
 
         {/* CTA */}
         <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl p-7 text-white text-center">
-          <div className="text-3xl mb-3">📋</div>
+          <div className="text-3xl mb-3"></div>
           <h2 className="text-xl font-black mb-2">調停申立の前にAIで書類を準備しよう</h2>
           <p className="text-teal-100 text-sm mb-5 leading-relaxed">
             お子さんの情報を入力するだけで、AIが親権計画書草案・面会交流カレンダー・養育費の目安・調停準備メモを自動生成。弁護士相談の費用を大幅節約できます。初回1回無料。

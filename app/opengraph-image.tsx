@@ -20,7 +20,7 @@ export default function Image() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 80, marginBottom: 16 }}>👨‍👧‍👦</div>
+        <div style={{ fontSize: 80, marginBottom: 16 }}>‍‍</div>
         <div style={{ fontSize: 52, fontWeight: 700, color: "#93c5fd", marginBottom: 16, textAlign: "center" }}>
           共同親権サポートAI
         </div>
@@ -28,7 +28,7 @@ export default function Image() {
           法的情報・養育費・面会交流をAIがわかりやすく解説
         </div>
         <div style={{ fontSize: 24, color: "#60a5fa", marginTop: 12, textAlign: "center" }}>
-          共同親権の疑問に24時間対応 📋
+          共同親権の疑問に24時間対応 
         </div>
         <div
           style={{

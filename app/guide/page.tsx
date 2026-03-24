@@ -94,7 +94,7 @@ export default function GuidePage() {
       <section className="bg-gradient-to-br from-teal-900 to-teal-700 text-white py-14 px-4 text-center">
         <div className="max-w-3xl mx-auto">
           <div className="inline-block bg-yellow-400 text-teal-900 text-xs font-black px-4 py-1.5 rounded-full mb-4">
-            ✅ 2026年4月1日 施行済み
+            OK 2026年4月1日 施行済み
           </div>
           <h1 className="text-3xl font-black mb-4 leading-tight">
             共同親権とは？<br />
@@ -130,7 +130,7 @@ export default function GuidePage() {
               これまでの日本の民法では、離婚後は父または母の「単独親権」のみが認められていました。改正により、2026年4月1日以降に離婚する夫婦は、<strong>協議によって共同親権か単独親権かを選択</strong>できるようになります。合意できない場合は家庭裁判所が決定します。
             </p>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-              <p className="font-bold text-amber-800 mb-1">⚠️ 重要な注意点</p>
+              <p className="font-bold text-amber-800 mb-1">! 重要な注意点</p>
               <p className="text-amber-700 text-xs">
                 DV（ドメスティック・バイオレンス）や子への虐待が認定される場合、裁判所は単独親権と判断します。DV被害者の方は必ず弁護士または法テラスにご相談ください。
               </p>
@@ -211,7 +211,7 @@ export default function GuidePage() {
 
         {/* DV被害者へ */}
         <section className="mb-12 bg-red-50 border border-red-200 rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">🚨 DV・虐待被害者の方へ</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4"> DV・虐待被害者の方へ</h2>
           <p className="text-sm text-gray-700 leading-relaxed mb-4">
             共同親権制度ではDVや子への虐待が認定される場合、裁判所は<strong>単独親権</strong>と判断します。DV被害者の方は、まず安全を確保することが最優先です。
           </p>
@@ -247,7 +247,7 @@ export default function GuidePage() {
         {" | "}
         <Link href="/privacy" className="hover:underline">プライバシーポリシー</Link>
         <p className="mt-2 text-xs">
-          ⚠️ 本ガイドはAIが生成する参考情報です。法律相談・法的サービスではありません。実際の手続きは弁護士・家庭裁判所にご相談ください。
+          ! 本ガイドはAIが生成する参考情報です。法律相談・法的サービスではありません。実際の手続きは弁護士・家庭裁判所にご相談ください。
         </p>
       </footer>
     </main>

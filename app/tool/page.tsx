@@ -125,7 +125,7 @@ function DivorceAgreementGenerator() {
       {/* 説明バナー */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <span className="text-2xl shrink-0">📄</span>
+          <span className="text-2xl shrink-0"></span>
           <div>
             <p className="text-sm font-black text-blue-900 mb-1">離婚協議書 AIドラフト生成（無料体験中）</p>
             <p className="text-xs text-blue-700 leading-relaxed">
@@ -160,7 +160,7 @@ function DivorceAgreementGenerator() {
       </div>
 
       {/* 入力フォーム */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-5">
+      <div className="backdrop-blur-md bg-white/80 border border-white/40 rounded-2xl p-5 space-y-5 shadow-lg">
         <h3 className="text-sm font-black text-gray-800">当事者情報を入力</h3>
 
         {/* 夫情報 */}
@@ -402,7 +402,7 @@ function DivorceAgreementGenerator() {
         <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-center">
           <div className="inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
           <p className="text-blue-700 font-medium text-sm mb-1">AIが離婚協議書を作成中...</p>
-          <p className="text-xs text-blue-600">📄 当事者情報確認 → ⚖️ 法的条項生成 → 📝 注意事項追加</p>
+          <p className="text-xs text-blue-600"> 当事者情報確認 →  法的条項生成 →  注意事項追加</p>
         </div>
       )}
       {loading && streamText && (
@@ -416,7 +416,7 @@ function DivorceAgreementGenerator() {
       {draftText && !loading && (
         <div className="space-y-4">
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl p-5 text-center">
-            <div className="text-3xl mb-2">📄</div>
+            <div className="text-3xl mb-2"></div>
             <p className="text-lg font-black mb-1">離婚協議書ドラフトが完成しました</p>
             <p className="text-sm text-blue-100">弁護士に持参する前の下書きとして活用してください</p>
           </div>
@@ -429,7 +429,7 @@ function DivorceAgreementGenerator() {
                   className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg transition min-h-[44px]"
                   aria-label="離婚協議書ドラフトをクリップボードにコピーする"
                 >
-                  {copied ? "コピー済 ✓" : "コピー"}
+                  {copied ? "コピー済 " : "コピー"}
                 </button>
                 <button
                   onClick={handleDownload}
@@ -463,7 +463,7 @@ function DivorceAgreementGenerator() {
           </div>
 
           <p className="text-xs text-gray-500 bg-gray-100 rounded-lg p-3">
-            ⚠️ 本ドラフトはAIが生成した参考情報です。法的効力はありません。実際の離婚協議書の作成・公正証書化は弁護士または公証人にご相談ください。
+            ! 本ドラフトはAIが生成した参考情報です。法的効力はありません。実際の離婚協議書の作成・公正証書化は弁護士または公証人にご相談ください。
           </p>
         </div>
       )}
@@ -494,7 +494,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
       );
     }
     if (line.trim() === "") return <div key={i} className="h-2" />;
-    if (line.startsWith("⚠️") || line.startsWith("🚨")) {
+    if (line.startsWith("!") || line.startsWith("")) {
       return <p key={i} className="text-sm font-semibold text-red-700 bg-red-50 rounded px-2 py-1 my-1">{line}</p>;
     }
     return <p key={i} className="text-sm text-gray-700 leading-relaxed">{line}</p>;
@@ -531,12 +531,12 @@ function parseResult(text: string): Result {
 
 type Tab = "plan" | "calendar" | "money" | "mediation" | "next" | "caution";
 const TABS: { id: Tab; label: string; premium?: boolean }[] = [
-  { id: "next", label: "🚀 次のアクション" },
-  { id: "plan", label: "📋 親権計画書" },
-  { id: "calendar", label: "📅 面会カレンダー" },
-  { id: "money", label: "💰 養育費の目安" },
-  { id: "mediation", label: "📝 調停準備" },
-  { id: "caution", label: "⚠️ 注意事項", premium: true },
+  { id: "next", label: " 次のアクション" },
+  { id: "plan", label: " 親権計画書" },
+  { id: "calendar", label: " 面会カレンダー" },
+  { id: "money", label: " 養育費の目安" },
+  { id: "mediation", label: " 調停準備" },
+  { id: "caution", label: "! 注意事項", premium: true },
 ];
 
 function CopyButton({ text }: { text: string }) {
@@ -547,7 +547,7 @@ function CopyButton({ text }: { text: string }) {
       className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded transition border border-gray-200 min-h-[44px]"
       aria-label="このセクションの内容をクリップボードにコピーする"
     >
-      {copied ? "コピー済 ✓" : "コピー"}
+      {copied ? "コピー済 " : "コピー"}
     </button>
   );
 }
@@ -788,7 +788,7 @@ export default function ToolPage() {
   return (
     <main className="min-h-screen bg-gray-50 text-gray-800">
       <nav className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="font-bold text-teal-600">⚖️ 共同親権サポートAI</Link>
+        <Link href="/" className="font-bold text-teal-600"> 共同親権サポートAI</Link>
         <div className="flex items-center gap-3">
           {streakData && streakData.count >= 1 && (
             <span aria-label={`${streakData.count}日連続利用中`} className="flex items-center gap-1 text-xs bg-yellow-400 text-gray-900 font-bold px-2.5 py-1 rounded-full">
@@ -798,7 +798,7 @@ export default function ToolPage() {
           {!isPremium && remaining !== null && (
             <span className="text-xs text-gray-500">残り無料 {remaining}回</span>
           )}
-          {isPremium && <span className="text-xs text-teal-600 font-bold">✓ プレミアム</span>}
+          {isPremium && <span className="text-xs text-teal-600 font-bold"> プレミアム</span>}
         </div>
       </nav>
 
@@ -811,7 +811,7 @@ export default function ToolPage() {
             aria-label="親権サポートタブを表示する"
             aria-selected={activeMainTab === "support"}
           >
-            ⚖️ 親権サポート
+             親権サポート
           </button>
           <button
             onClick={() => setActiveMainTab("divorce-draft")}
@@ -819,7 +819,7 @@ export default function ToolPage() {
             aria-label="離婚協議書ドラフトタブを表示する"
             aria-selected={activeMainTab === "divorce-draft"}
           >
-            📄 離婚協議書ドラフト
+             離婚協議書ドラフト
             <span className="absolute -top-0.5 right-2 bg-blue-500 text-white text-xs font-black px-1.5 py-0.5 rounded-full">NEW</span>
           </button>
         </div>
@@ -835,13 +835,13 @@ export default function ToolPage() {
             - 施行当日・施行後（4/1〜）: 「施行されました」表現 → 下記がその表現（変更不要）
         */}
         <div className="bg-red-50 border border-red-300 rounded-xl p-4 text-xs text-red-800">
-          🚨 <strong>2026年4月1日に共同親権制度が施行されました。</strong> — 改正民法により離婚後も父母双方が親権を持てる「共同親権」が選択可能です。面会交流・養育費・親権計画書の整理を今すぐ始めましょう。
+           <strong>2026年4月1日に共同親権制度が施行されました。</strong> — 改正民法により離婚後も父母双方が親権を持てる「共同親権」が選択可能です。面会交流・養育費・親権計画書の整理を今すぐ始めましょう。
         </div>
 
         {/* 法定養育費2万円アラート */}
         <div className="bg-amber-50 border-2 border-amber-400 rounded-xl p-4">
           <div className="flex items-start gap-3">
-            <span className="text-2xl shrink-0">💴</span>
+            <span className="text-2xl shrink-0"></span>
             <div>
               <p className="text-sm font-black text-amber-900 mb-1">2026年4月〜「法定養育費2万円」制度スタート</p>
               <p className="text-xs text-amber-800 leading-relaxed">
@@ -854,12 +854,12 @@ export default function ToolPage() {
 
         <HistoryPanel onRestore={(text) => setChildrenInfo(text)} />
 
-        <div id="tool-input-section">
+        <div id="tool-input-section" className="backdrop-blur-md bg-white/80 border border-white/40 rounded-2xl p-5 shadow-lg">
           <label className="block text-sm font-bold mb-2 text-gray-700">
             お子さんの情報 <span className="text-red-500">*</span>
           </label>
           <textarea
-            className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:border-teal-500 h-28"
+            className="w-full bg-white/90 border border-gray-200 rounded-xl p-4 text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:border-teal-500 h-28"
             placeholder={"例）長男・8歳（小学2年）、次女・5歳（保育園）\n2人とも現在は妻と同居中"}
             value={childrenInfo}
             onChange={(e) => setChildrenInfo(e.target.value)}
@@ -867,10 +867,10 @@ export default function ToolPage() {
           />
         </div>
 
-        <div>
+        <div className="backdrop-blur-md bg-white/80 border border-white/40 rounded-2xl p-5 shadow-lg">
           <label className="block text-sm font-bold mb-2 text-gray-700">両親の状況（任意）</label>
           <textarea
-            className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:border-teal-500 h-24"
+            className="w-full bg-white/90 border border-gray-200 rounded-xl p-4 text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:border-teal-500 h-24"
             placeholder={"例）\n父: 東京都在住・会社員・残業多め\n母: 神奈川県在住・パートタイム\n車で約1時間の距離"}
             value={parentInfo}
             onChange={(e) => setParentInfo(e.target.value)}
@@ -882,11 +882,11 @@ export default function ToolPage() {
           <label className="block text-sm font-bold mb-2 text-gray-700">現在の状況・希望（任意）</label>
           <div className="flex flex-wrap gap-2 mb-2">
             {[
-              { emoji: "🤝", label: "協議中（穏やか）", text: "現在協議中。比較的話し合いができており、月2回程度の面会を希望" },
-              { emoji: "⚖️", label: "調停申立済み", text: "家庭裁判所に調停を申し立て済み。次回期日は1ヶ月後" },
-              { emoji: "🏠", label: "子は相手方同居", text: "子どもは現在相手方と同居中。面会交流を増やしたい" },
-              { emoji: "👥", label: "共同親権を希望", text: "共同親権を強く希望。相手方はまだ検討中" },
-              { emoji: "🚨", label: "DV・モラハラあり", text: "相手方によるモラルハラスメントあり。安全な面会交流を希望" },
+              { emoji: "", label: "協議中（穏やか）", text: "現在協議中。比較的話し合いができており、月2回程度の面会を希望" },
+              { emoji: "", label: "調停申立済み", text: "家庭裁判所に調停を申し立て済み。次回期日は1ヶ月後" },
+              { emoji: "", label: "子は相手方同居", text: "子どもは現在相手方と同居中。面会交流を増やしたい" },
+              { emoji: "", label: "共同親権を希望", text: "共同親権を強く希望。相手方はまだ検討中" },
+              { emoji: "", label: "DV・モラハラあり", text: "相手方によるモラルハラスメントあり。安全な面会交流を希望" },
             ].map((p) => (
               <button
                 key={p.label}
@@ -910,8 +910,8 @@ export default function ToolPage() {
         </div>
 
         {/* 養育費かんたん試算セクション */}
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
-          <h2 className="text-base font-black text-amber-800 mb-4">💴 養育費かんたん試算（目安）</h2>
+        <div className="backdrop-blur-md bg-amber-50/90 border border-amber-200/70 rounded-2xl p-5 shadow-lg">
+          <h2 className="text-base font-black text-amber-800 mb-4"> 養育費かんたん試算（目安）</h2>
           <div className="space-y-4">
             {/* 支払う側の年収 */}
             <div>
@@ -993,7 +993,7 @@ export default function ToolPage() {
             <p className="text-3xl font-black text-amber-600">
               約{calcAlimony(calcPayer, calcReceiver, calcChildren, calcOver14)}万円<span className="text-base font-bold text-gray-500">/月</span>
             </p>
-            <p className="text-xs text-red-600 mt-2">⚠️ 実際の養育費は家庭裁判所の算定表や双方合意によります。あくまで目安としてご参考ください。</p>
+            <p className="text-xs text-red-600 mt-2">! 実際の養育費は家庭裁判所の算定表や双方合意によります。あくまで目安としてご参考ください。</p>
           </div>
 
           <div className="mt-3 flex gap-2">
@@ -1045,7 +1045,7 @@ export default function ToolPage() {
           <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5 text-center">
             <div className="inline-block w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mb-3"></div>
             <p className="text-teal-700 font-medium text-sm mb-1">AIが分析中...</p>
-            <p className="text-xs text-teal-600">⚖️ 状況分析 → 📋 法的根拠確認 → 💡 対応アドバイス生成</p>
+            <p className="text-xs text-teal-600"> 状況分析 →  法的根拠確認 →  対応アドバイス生成</p>
             <p className="text-xs text-gray-400 mt-1">通常5〜10秒かかります</p>
           </div>
         )}
@@ -1059,32 +1059,32 @@ export default function ToolPage() {
 
         {showPaywall && (
           <div className="bg-white border border-teal-500 rounded-2xl p-8 text-center shadow-sm">
-            <div className="text-4xl mb-4">🔒</div>
+            <div className="text-4xl mb-4"></div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">無料回数が終わりました</h3>
             <p className="text-gray-500 text-sm mb-4">月額¥3,980で親権計画書・養育費・調停準備まで無制限に作成</p>
             <ul className="text-sm text-teal-700 space-y-1.5 mb-5 text-left">
-              <li>✅ 6種類のドキュメント（親権計画・面会・養育費など）</li>
-              <li>✅ 2026年4月施行の共同親権法に完全対応</li>
-              <li>✅ 弁護士費用¥30〜50万 vs AI月額¥3,980</li>
+              <li>OK 6種類のドキュメント（親権計画・面会・養育費など）</li>
+              <li>OK 2026年4月施行の共同親権法に完全対応</li>
+              <li>OK 弁護士費用¥30〜50万 vs AI月額¥3,980</li>
             </ul>
             <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full min-h-[44px]" aria-label="月額3,980円のプレミアムプランにアップグレードする">
               ¥3,980/月でアップグレード
             </button>
             <div className="flex items-center justify-center gap-3 mt-3 text-xs text-gray-400">
-              <span>🛡️ 30日返金保証</span>
-              <span>🔒 SSL暗号化決済</span>
-              <span>❌ いつでも解約</span>
+              <span>️ 30日返金保証</span>
+              <span> SSL暗号化決済</span>
+              <span>NG いつでも解約</span>
             </div>
           </div>
         )}
 
         {result && (
           <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-2xl p-6 mb-4 text-center shadow-lg">
-            <div className="text-4xl mb-2">📋</div>
+            <div className="text-4xl mb-2"></div>
             <p className="text-xl font-black mb-1">6種類のドキュメントが完成しました！</p>
             <p className="text-sm text-teal-100 mb-4">次のアクション・親権計画書・面会カレンダー・養育費・調停準備を下のタブで確認</p>
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIを使ってみた⚖️\n親権計画書・面会カレンダー・養育費の目安が30秒で出てきて驚いた…\n弁護士に相談する前の整理に本当に役立った。\n2026年4月施行の共同親権制度に対応済み\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("共同親権サポートAIを使ってみた\n親権計画書・面会カレンダー・養育費の目安が30秒で出てきて驚いた…\n弁護士に相談する前の整理に本当に役立った。\n2026年4月施行の共同親権制度に対応済み\n#共同親権 #離婚 #子育て #法律")}&url=${encodeURIComponent("https://kyodo-shinken-ai.vercel.app")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-teal-700 text-sm font-black px-6 py-3 rounded-xl hover:bg-teal-50 transition"
@@ -1119,7 +1119,7 @@ export default function ToolPage() {
                   aria-selected={tab === t.id}
                 >
                   {t.label}
-                  {t.premium && !isPremium && <span className="text-yellow-500">🔒</span>}
+                  {t.premium && !isPremium && <span className="text-yellow-500"></span>}
                 </button>
               ))}
             </div>
@@ -1128,17 +1128,17 @@ export default function ToolPage() {
               {tab === "next" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600">🚀 今すぐできる次のアクション</span>
+                    <span className="text-sm font-bold text-teal-600"> 今すぐできる次のアクション</span>
                     <CopyButton text={result.nextActions} />
                   </div>
                   <div className="bg-teal-50 border border-teal-200 rounded-xl p-3 mb-4 text-xs text-teal-700 font-medium">
-                    ⚡ 2026年4月1日に共同親権制度が施行されました。今すぐ行動しましょう。
+                     2026年4月1日に共同親権制度が施行されました。今すぐ行動しましょう。
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.nextActions || "次のアクションを生成中...")}</div>
 
                   {/* A8.net: クロスハウス 離婚後の住まい探し */}
                   <div className="mt-5 bg-blue-50 border border-blue-200 rounded-xl p-4">
-                    <p className="text-sm font-black text-blue-900 mb-1">🏠 離婚後の住まいを探す</p>
+                    <p className="text-sm font-black text-blue-900 mb-1"> 離婚後の住まいを探す</p>
                     <p className="text-xs text-blue-700 mb-3">新生活のスタートに。都内3.8万円〜家具家電付きで初期費用を抑えられます。</p>
                     <a
                       href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8LLFCI+4EZ2+BYLJL"
@@ -1159,7 +1159,7 @@ export default function ToolPage() {
               {tab === "plan" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600">📋 親権計画書草案</span>
+                    <span className="text-sm font-bold text-teal-600"> 親権計画書草案</span>
                     <CopyButton text={result.plan} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.plan)}</div>
@@ -1168,7 +1168,7 @@ export default function ToolPage() {
               {tab === "calendar" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600">📅 面会交流カレンダー</span>
+                    <span className="text-sm font-bold text-teal-600"> 面会交流カレンダー</span>
                     <CopyButton text={result.calendar} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.calendar)}</div>
@@ -1177,14 +1177,14 @@ export default function ToolPage() {
               {tab === "money" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600">💰 養育費の目安</span>
+                    <span className="text-sm font-bold text-teal-600"> 養育費の目安</span>
                     <CopyButton text={result.money} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.money)}</div>
 
                   {/* 法定養育費2万円制度案内 */}
                   <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4">
-                    <p className="text-xs font-black text-amber-900 mb-1.5">💴 法定養育費制度（2026年4月〜）</p>
+                    <p className="text-xs font-black text-amber-900 mb-1.5"> 法定養育費制度（2026年4月〜）</p>
                     <ul className="space-y-1 text-xs text-amber-800">
                       <li className="flex gap-1.5"><span className="text-amber-500 shrink-0">●</span>取り決めなしでも子1人あたり<strong>月額2万円</strong>が自動発生</li>
                       <li className="flex gap-1.5"><span className="text-amber-500 shrink-0">●</span>先取特権付き — 他の債権より<strong>優先して差し押さえ可能</strong></li>
@@ -1195,7 +1195,7 @@ export default function ToolPage() {
 
                   {/* 既離婚者向け親権変更導線 */}
                   <div className="mt-3 bg-blue-50 border border-blue-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-blue-900 mb-1.5">📋 既に離婚済みの方へ — 親権変更の手続き</p>
+                    <p className="text-xs font-black text-blue-900 mb-1.5"> 既に離婚済みの方へ — 親権変更の手続き</p>
                     <ul className="space-y-1 text-xs text-blue-800">
                       <li className="flex gap-1.5"><span className="text-blue-500 shrink-0">1.</span>家庭裁判所に「親権者変更調停」を申立（印紙1,200円）</li>
                       <li className="flex gap-1.5"><span className="text-blue-500 shrink-0">2.</span>相手方と合意できれば調停成立、合意困難なら審判へ</li>
@@ -1216,7 +1216,7 @@ export default function ToolPage() {
               {tab === "mediation" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600">📝 調停準備メモ</span>
+                    <span className="text-sm font-bold text-teal-600"> 調停準備メモ</span>
                     <CopyButton text={result.mediation} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.mediation)}</div>
@@ -1225,7 +1225,7 @@ export default function ToolPage() {
               {tab === "caution" && isPremium && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600">⚠️ 注意事項・よくあるトラブル</span>
+                    <span className="text-sm font-bold text-teal-600">! 注意事項・よくあるトラブル</span>
                     <CopyButton text={result.caution} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.caution)}</div>
@@ -1243,7 +1243,7 @@ export default function ToolPage() {
 
               {/* 専門家相談アフィリ導線 */}
               <div className="mt-5 bg-teal-50 border border-teal-200 rounded-xl p-4">
-                <p className="text-sm font-black text-teal-900 mb-1">⚖️ 次のステップ：専門家に相談する</p>
+                <p className="text-sm font-black text-teal-900 mb-1"> 次のステップ：専門家に相談する</p>
                 <p className="text-xs text-teal-700 mb-3">AI書類はあくまで準備用です。実際の親権・養育費・面会交流の取り決めは弁護士への相談で安心して進められます。初回無料の事務所多数。</p>
                 <div className="space-y-2">
                   <a href="https://www.bengo4.com/c_3/" target="_blank" rel="noopener noreferrer sponsored"
@@ -1281,7 +1281,7 @@ export default function ToolPage() {
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
-            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="プレミアムプラン登録ダイアログを閉じる">✕</button>
+            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="プレミアムプラン登録ダイアログを閉じる"></button>
             <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
             <KomojuButton planId="standard" planLabel="プレミアムプラン ¥980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
           </div>

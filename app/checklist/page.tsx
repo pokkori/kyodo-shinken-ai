@@ -161,7 +161,7 @@ export default function ChecklistPage() {
       <section className="bg-gradient-to-br from-teal-900 to-teal-700 text-white py-14 px-4 text-center">
         <div className="max-w-3xl mx-auto">
           <span className="inline-block bg-yellow-400 text-teal-900 text-xs font-black px-4 py-1.5 rounded-full mb-5">
-            ✅ 2026年4月1日 施行済み
+            OK 2026年4月1日 施行済み
           </span>
           <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight">
             共同親権チェックリスト<br />
@@ -171,9 +171,9 @@ export default function ChecklistPage() {
             2026年4月施行の改正民法に対応。弁護士に相談する前に自分でできる準備を10のチェック項目で解説します。チェック済み項目はブラウザに自動保存されます。
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">📋 10項目完全網羅</span>
-            <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">⚖️ 改正民法2026対応</span>
-            <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium">💾 進捗自動保存</span>
+            <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium"> 10項目完全網羅</span>
+            <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium"> 改正民法2026対応</span>
+            <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium"> 進捗自動保存</span>
           </div>
         </div>
       </section>
@@ -199,7 +199,7 @@ export default function ChecklistPage() {
             </div>
             {completedCount === totalCount && (
               <div className="mt-3 bg-teal-50 border border-teal-200 rounded-xl p-3 flex items-center justify-between flex-wrap gap-3">
-                <p className="text-sm font-bold text-teal-700">🎉 全10項目完了！次はAIで書類を作成しましょう。</p>
+                <p className="text-sm font-bold text-teal-700"> 全10項目完了！次はAIで書類を作成しましょう。</p>
                 <div className="flex gap-2">
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`}
@@ -253,7 +253,7 @@ export default function ChecklistPage() {
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-colors ${
                         isDone ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-500"
                       }`}>
-                        {isDone ? "✓" : item.num}
+                        {isDone ? "" : item.num}
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2 flex-wrap">
@@ -322,7 +322,7 @@ export default function ChecklistPage() {
 
       <footer className="py-8 px-4 border-t border-gray-100 text-center text-xs text-gray-400">
         <div className="max-w-xl mx-auto">
-          <p className="mb-2">⚠️ 本チェックリストは法的アドバイスの補助を目的とした情報提供です。個別の法的判断は弁護士にご相談ください。</p>
+          <p className="mb-2">! 本チェックリストは法的アドバイスの補助を目的とした情報提供です。個別の法的判断は弁護士にご相談ください。</p>
           <div className="flex justify-center gap-4 mt-2">
             <Link href="/" className="underline hover:opacity-70">トップ</Link>
             <Link href="/guide" className="underline hover:opacity-70">制度ガイド</Link>
