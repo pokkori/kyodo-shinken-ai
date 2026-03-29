@@ -1022,7 +1022,7 @@ export default function ToolPage() {
 
         {!isPremium && remaining === 0 && !result && (
           <div className="bg-teal-50 border border-teal-400 rounded-xl p-4 text-center">
-            <p className="text-sm text-teal-800 mb-3">無料回数を使い切りました。月額¥3,980で使い放題！</p>
+            <p className="text-sm text-teal-800 mb-3">無料回数を使い切りました。月額¥980で使い放題！</p>
             <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-2 rounded-xl text-sm transition min-h-[44px]" aria-label="プレミアムプランにアップグレードする">
               プレミアムにアップグレード
             </button>
@@ -1061,14 +1061,14 @@ export default function ToolPage() {
           <div className="bg-white border border-teal-500 rounded-2xl p-8 text-center shadow-sm">
             <div className="text-4xl mb-4"></div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">無料回数が終わりました</h3>
-            <p className="text-gray-500 text-sm mb-4">月額¥3,980で親権計画書・養育費・調停準備まで無制限に作成</p>
+            <p className="text-gray-500 text-sm mb-4">月額¥980で親権計画書・養育費・調停準備まで無制限に作成</p>
             <ul className="text-sm text-teal-700 space-y-1.5 mb-5 text-left">
               <li>OK 6種類のドキュメント（親権計画・面会・養育費など）</li>
               <li>OK 2026年4月施行の共同親権法に完全対応</li>
-              <li>OK 弁護士費用¥30〜50万 vs AI月額¥3,980</li>
+              <li>OK 弁護士費用¥30〜50万 vs AI月額¥980</li>
             </ul>
-            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full min-h-[44px]" aria-label="月額3,980円のプレミアムプランにアップグレードする">
-              ¥3,980/月でアップグレード
+            <button onClick={() => { track('upgrade_click', { service: '共同親権サポートAI', plan: 'premium' }); startCheckout(); }} className="bg-teal-500 hover:bg-teal-400 text-white font-black px-8 py-4 rounded-xl text-lg transition w-full min-h-[44px]" aria-label="月額980円のプレミアムプランにアップグレードする">
+              ¥980/月でアップグレード
             </button>
             <div className="flex items-center justify-center gap-3 mt-3 text-xs text-gray-400">
               <span>️ 30日返金保証</span>

@@ -34,40 +34,40 @@ function AlimonyCalculator() {
   const formatMoney = (n: number) => `${(n / 10000).toFixed(1)}万円`;
 
   return (
-    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-6">
+    <div className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-2xl p-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">支払う側の年収（万円）</label>
+            <label className="block text-sm font-bold text-white/70 mb-1">支払う側の年収（万円）</label>
             <input
               type="range" min={0} max={1500} step={50} value={payerIncome}
               onChange={e => setPayerIncome(Number(e.target.value))}
               className="w-full accent-teal-600"
               aria-label={`支払う側の年収: ${payerIncome}万円`}
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-white/50 mt-1">
               <span>0万円</span>
-              <span className="font-bold text-teal-700 text-base">{payerIncome}万円</span>
+              <span className="font-bold text-blue-300 text-base">{payerIncome}万円</span>
               <span>1,500万円</span>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">受け取る側の年収（万円）</label>
+            <label className="block text-sm font-bold text-white/70 mb-1">受け取る側の年収（万円）</label>
             <input
               type="range" min={0} max={1000} step={50} value={receiverIncome}
               onChange={e => setReceiverIncome(Number(e.target.value))}
               className="w-full accent-teal-600"
               aria-label={`受け取る側の年収: ${receiverIncome}万円`}
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-white/50 mt-1">
               <span>0万円</span>
-              <span className="font-bold text-teal-700 text-base">{receiverIncome}万円</span>
+              <span className="font-bold text-blue-300 text-base">{receiverIncome}万円</span>
               <span>1,000万円</span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
+              <label className="block text-sm font-bold text-white/70 mb-1">子どもの人数</label>
               <select value={childCount} onChange={e => setChildCount(Number(e.target.value))}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
                 aria-label="子どもの人数">
@@ -75,7 +75,7 @@ function AlimonyCalculator() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの年齢</label>
+              <label className="block text-sm font-bold text-white/70 mb-1">子どもの年齢</label>
               <select value={childAgeGroup} onChange={e => setChildAgeGroup(e.target.value as "under14" | "over14")}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
                 aria-label="子どもの年齢区分">
@@ -86,28 +86,28 @@ function AlimonyCalculator() {
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <div className="bg-teal-50 border-2 border-teal-400 rounded-2xl p-6 text-center">
-            <p className="text-sm font-bold text-teal-700 mb-2">月額養育費の目安</p>
-            <div className="text-3xl font-black text-teal-800 mb-1">
+          <div className="backdrop-blur-sm bg-blue-500/10 border-2 border-teal-400 rounded-2xl p-6 text-center">
+            <p className="text-sm font-bold text-blue-300 mb-2">月額養育費の目安</p>
+            <div className="text-3xl font-black text-blue-200 mb-1">
               {formatMoney(result.min)} 〜 {formatMoney(result.max)}
             </div>
-            <p className="text-xs text-teal-600">/ 月（子ども{childCount}人）</p>
-            <div className="mt-4 space-y-1 text-xs text-gray-600 text-left">
+            <p className="text-xs text-blue-400">/ 月（子ども{childCount}人）</p>
+            <div className="mt-4 space-y-1 text-xs text-white/60 text-left">
               <p>• 支払う側: <strong>{payerIncome}万円</strong> / 受け取る側: <strong>{receiverIncome}万円</strong></p>
               <p>• 子ども{childCount}人（{childAgeGroup === "under14" ? "14歳未満" : "14歳以上"}）</p>
-              <p className="text-teal-600 font-bold mt-2">法定養育費（2026年4月〜）: 月{childCount}万円が最低ライン</p>
+              <p className="text-blue-400 font-bold mt-2">法定養育費（2026年4月〜）: 月{childCount}万円が最低ライン</p>
             </div>
           </div>
           <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
             <p className="font-bold mb-1">! この計算はあくまで参考値です</p>
             <p>実際の養育費は双方の収入・子どもの人数・生活水準・特別な事情を考慮して、調停・審判で決定されます。</p>
           </div>
-          <a href="/tool" className="mt-3 block text-center bg-teal-600 hover:bg-teal-700 text-white font-black px-6 py-3 rounded-xl text-sm transition-colors">
+          <a href="/tool" className="mt-3 block text-center bg-blue-500 hover:bg-teal-700 text-white font-black px-6 py-3 rounded-xl text-sm transition-colors">
             AIで養育費の詳細計算書を作成 →
           </a>
           {/* シェアカード生成 */}
           <div className="mt-4 border-t border-gray-100 pt-4">
-            <p className="text-xs text-gray-500 text-center mb-3">養育費の目安をシェアする</p>
+            <p className="text-xs text-white/50 text-center mb-3">養育費の目安をシェアする</p>
             <div className="flex gap-2 justify-center">
               <button
                 onClick={() => {
@@ -151,7 +151,7 @@ function AlimonyCalculator() {
                     }
                   }, "image/png");
                 }}
-                className="inline-flex items-center gap-1.5 bg-teal-100 hover:bg-teal-200 text-teal-700 font-bold py-2 px-4 rounded-lg text-xs transition-colors"
+                className="inline-flex items-center gap-1.5 bg-teal-100 hover:bg-teal-200 text-blue-300 font-bold py-2 px-4 rounded-lg text-xs transition-colors"
                 aria-label="養育費シミュレーション結果を画像として保存する"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
@@ -176,7 +176,7 @@ function AlimonyCalculator() {
             {/* 弁護士相談CTA */}
             <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
               <p className="text-xs text-amber-800 font-bold mb-1">養育費の取り決めは弁護士に相談が確実です</p>
-              <a href="https://www.bengo4.com/c_3/c_1028/" target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-teal-700 font-bold underline hover:text-teal-900 transition-colors">
+              <a href="https://www.bengo4.com/c_3/c_1028/" target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-blue-300 font-bold underline hover:text-teal-900 transition-colors">
                 離婚・養育費に強い弁護士を探す（弁護士ドットコム）→
               </a>
             </div>
@@ -241,38 +241,38 @@ function DiagnosisWidget() {
   };
 
   return (
-    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl overflow-hidden">
+    <div className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-2xl overflow-hidden">
       {!showResult ? (
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-teal-600">質問 {step + 1} / {DIAGNOSIS_QUESTIONS.length}</span>
+            <span className="text-xs font-bold text-blue-400">質問 {step + 1} / {DIAGNOSIS_QUESTIONS.length}</span>
             <div className="flex gap-1">
               {DIAGNOSIS_QUESTIONS.map((_, i) => (
-                <div key={i} className={`w-6 h-1.5 rounded-full ${i < step ? "bg-teal-500" : i === step ? "bg-teal-300" : "bg-gray-200"}`} />
+                <div key={i} className={`w-6 h-1.5 rounded-full ${i < step ? "backdrop-blur-sm bg-blue-500/100" : i === step ? "bg-teal-300" : "bg-white/20"}`} />
               ))}
             </div>
           </div>
-          <p className="text-base font-bold text-gray-900 mb-6 leading-relaxed">{currentQ.q}</p>
+          <p className="text-base font-bold text-white mb-6 leading-relaxed">{currentQ.q}</p>
           <div className="grid grid-cols-2 gap-3">
-            <button onClick={() => answer(true)} className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors" aria-label={`はい: ${currentQ.yesLabel}`}>
+            <button onClick={() => answer(true)} className="bg-blue-500 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors" aria-label={`はい: ${currentQ.yesLabel}`}>
               {currentQ.yesLabel}
             </button>
-            <button onClick={() => answer(false)} className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl text-sm transition-colors" aria-label={`いいえ: ${currentQ.noLabel}`}>
+            <button onClick={() => answer(false)} className="bg-gray-100 hover:bg-white/20 text-white/70 font-bold py-3 rounded-xl text-sm transition-colors" aria-label={`いいえ: ${currentQ.noLabel}`}>
               {currentQ.noLabel}
             </button>
           </div>
         </div>
       ) : result ? (
-        <div className={`p-6 ${result.color === "teal" ? "bg-teal-50 border-t-4 border-teal-500" : result.color === "amber" ? "bg-amber-50 border-t-4 border-amber-500" : "bg-red-50 border-t-4 border-red-500"}`}>
+        <div className={`p-6 ${result.color === "teal" ? "backdrop-blur-sm bg-blue-500/10 border-t-4 border-teal-500" : result.color === "amber" ? "bg-amber-50 border-t-4 border-amber-500" : "bg-red-50 border-t-4 border-red-500"}`}>
           <div className="text-center mb-4">
-            <span className={`inline-block text-xs font-black px-3 py-1 rounded-full mb-3 ${result.color === "teal" ? "bg-teal-100 text-teal-700" : result.color === "amber" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>
+            <span className={`inline-block text-xs font-black px-3 py-1 rounded-full mb-3 ${result.color === "teal" ? "bg-teal-100 text-blue-300" : result.color === "amber" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>
               診断結果
             </span>
-            <h3 className={`text-xl font-black mb-2 ${result.color === "teal" ? "text-teal-800" : result.color === "amber" ? "text-amber-800" : "text-red-800"}`}>{result.label}</h3>
-            <p className="text-sm text-gray-600 leading-relaxed">{result.desc}</p>
+            <h3 className={`text-xl font-black mb-2 ${result.color === "teal" ? "text-blue-200" : result.color === "amber" ? "text-amber-800" : "text-red-800"}`}>{result.label}</h3>
+            <p className="text-sm text-white/60 leading-relaxed">{result.desc}</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 mt-5">
-            <a href="/tool" className="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+            <a href="/tool" className="flex-1 text-center bg-blue-500 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-colors">
               {result.cta}
             </a>
             <a
@@ -286,7 +286,7 @@ function DiagnosisWidget() {
             </a>
           </div>
           <div className="text-center mt-4">
-            <button onClick={reset} className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors min-h-[44px] px-2" aria-label="診断をリセットしてもう一度行う">もう一度診断する</button>
+            <button onClick={reset} className="text-xs text-white/40 hover:text-white/60 underline transition-colors min-h-[44px] px-2" aria-label="診断をリセットしてもう一度行う">もう一度診断する</button>
           </div>
         </div>
       ) : null}
@@ -328,16 +328,16 @@ function PostDivorceLivingSimulator() {
   const fmt = (n: number) => n >= 10000 ? `${Math.round(n / 10000 * 10) / 10}万円` : `${n.toLocaleString()}円`;
 
   return (
-    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-6">
+    <div className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-2xl p-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">あなたの年収（万円）</label>
+            <label className="block text-sm font-bold text-white/70 mb-1">あなたの年収（万円）</label>
             <input type="range" min={0} max={800} step={25} value={income}
               onChange={e => setIncome(Number(e.target.value))}
               className="w-full accent-purple-600"
               aria-label={`あなたの年収: ${income}万円`} />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-white/50 mt-1">
               <span>0万円</span>
               <span className="font-bold text-purple-700 text-base">{income}万円</span>
               <span>800万円</span>
@@ -345,7 +345,7 @@ function PostDivorceLivingSimulator() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
+              <label className="block text-sm font-bold text-white/70 mb-1">子どもの人数</label>
               <select value={childrenCount} onChange={e => setChildrenCount(Number(e.target.value))}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 aria-label="子どもの人数">
@@ -353,7 +353,7 @@ function PostDivorceLivingSimulator() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">子どもの年齢層</label>
+              <label className="block text-sm font-bold text-white/70 mb-1">子どもの年齢層</label>
               <select value={childAges} onChange={e => setChildAges(e.target.value as typeof childAges)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 aria-label="子どもの年齢層">
@@ -362,24 +362,24 @@ function PostDivorceLivingSimulator() {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">家賃（万円/月）</label>
+            <label className="block text-sm font-bold text-white/70 mb-1">家賃（万円/月）</label>
             <input type="range" min={3} max={20} step={1} value={rentWan}
               onChange={e => setRentWan(Number(e.target.value))}
               className="w-full accent-purple-600"
               aria-label={`家賃: ${rentWan}万円/月`} />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-white/50 mt-1">
               <span>3万円</span>
               <span className="font-bold text-purple-700 text-base">{rentWan}万円</span>
               <span>20万円</span>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">受け取る養育費（万円/月・子1人あたり）</label>
+            <label className="block text-sm font-bold text-white/70 mb-1">受け取る養育費（万円/月・子1人あたり）</label>
             <input type="range" min={0} max={15} step={1} value={alimony}
               onChange={e => setAlimony(Number(e.target.value))}
               className="w-full accent-purple-600"
               aria-label={`受け取る養育費: ${alimony}万円/月`} />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-white/50 mt-1">
               <span>0万円</span>
               <span className="font-bold text-purple-700 text-base">{alimony}万円×{childrenCount}人</span>
               <span>15万円</span>
@@ -389,15 +389,15 @@ function PostDivorceLivingSimulator() {
         <div className="space-y-3">
           <div className="bg-purple-50 border-2 border-purple-300 rounded-2xl p-4">
             <p className="text-xs font-bold text-purple-700 mb-2">月間収入</p>
-            <div className="space-y-1.5 text-xs text-gray-600">
-              <div className="flex justify-between"><span>手取り収入（概算）</span><span className="font-bold text-gray-900">{fmt(result.handsOnIncome)}</span></div>
-              <div className="flex justify-between"><span>養育費収入</span><span className="font-bold text-teal-700">{fmt(result.alimonyAmount)}</span></div>
+            <div className="space-y-1.5 text-xs text-white/60">
+              <div className="flex justify-between"><span>手取り収入（概算）</span><span className="font-bold text-white">{fmt(result.handsOnIncome)}</span></div>
+              <div className="flex justify-between"><span>養育費収入</span><span className="font-bold text-blue-300">{fmt(result.alimonyAmount)}</span></div>
               <div className="flex justify-between border-t pt-1.5 mt-1.5"><span className="font-bold">合計収入</span><span className="font-black text-purple-700 text-sm">{fmt(result.totalIn)}</span></div>
             </div>
           </div>
           <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
             <p className="text-xs font-bold text-red-600 mb-2">月間支出（概算）</p>
-            <div className="space-y-1 text-xs text-gray-600">
+            <div className="space-y-1 text-xs text-white/60">
               <div className="flex justify-between"><span>家賃</span><span>{fmt(result.rentYen)}</span></div>
               <div className="flex justify-between"><span>食費</span><span>{fmt(result.foodBase)}</span></div>
               <div className="flex justify-between"><span>教育費</span><span>{fmt(result.eduBase)}</span></div>
@@ -413,7 +413,7 @@ function PostDivorceLivingSimulator() {
             <div className={`text-2xl font-black ${result.balance >= 0 ? "text-green-700" : "text-red-700"}`}>
               {result.balance >= 0 ? "+" : ""}{fmt(result.balance)}
             </div>
-            <p className="text-xs mt-2 text-gray-500">
+            <p className="text-xs mt-2 text-white/50">
               {result.balance >= 0 ? "貯蓄・子どもの将来のために積み立てましょう" : "養育費の増額交渉または収入増加を検討してください"}
             </p>
           </div>
@@ -450,18 +450,18 @@ function CostSimulator() {
   const formatYen = (n: number) => n >= 10000 ? `${Math.round(n / 10000)}万円` : `${n.toLocaleString()}円`;
 
   return (
-    <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-6">
+    <div className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-2xl p-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">ケースの複雑さ</label>
+            <label className="block text-sm font-bold text-white/70 mb-2">ケースの複雑さ</label>
             <div className="space-y-2">
               {(["simple", "normal", "complex"] as const).map((v) => (
                 <button
                   key={v}
                   onClick={() => setComplexity(v)}
                   className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
-                    complexity === v ? "bg-teal-600 text-white border-teal-600" : "bg-gray-50 text-gray-700 border-gray-200 hover:border-teal-300"
+                    complexity === v ? "bg-blue-500 text-white border-teal-600" : "bg-white/5 text-white/70 border-white/15 hover:border-teal-300"
                   }`}
                 >
                   {complexityLabels[v]}
@@ -470,7 +470,7 @@ function CostSimulator() {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">子どもの人数</label>
+            <label className="block text-sm font-bold text-white/70 mb-1">子どもの人数</label>
             <select value={children} onChange={(e) => setChildren(Number(e.target.value))}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
               aria-label="子どもの人数（弁護士費用計算用）">
@@ -484,9 +484,9 @@ function CostSimulator() {
             <div className="text-2xl font-black text-red-700">{formatYen(costs.withLawyer.total)}</div>
             <div className="text-xs text-red-500 mt-1">着手金 {formatYen(costs.withLawyer.retainer)} + 成功報酬 {formatYen(costs.withLawyer.success)}{complexity === "complex" && " + 日当・実費"}</div>
           </div>
-          <div className="bg-teal-50 border-2 border-teal-400 rounded-xl p-4">
-            <p className="text-xs font-bold text-teal-600 mb-2">本AIサービスを利用した場合</p>
-            <div className="text-2xl font-black text-teal-700">¥0〜¥980/月</div>
+          <div className="backdrop-blur-sm bg-blue-500/10 border-2 border-teal-400 rounded-xl p-4">
+            <p className="text-xs font-bold text-blue-400 mb-2">本AIサービスを利用した場合</p>
+            <div className="text-2xl font-black text-blue-300">¥0〜¥980/月</div>
             <div className="text-xs text-teal-500 mt-1">親権計画書・面会カレンダー・養育費計算 初回無料</div>
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
@@ -499,7 +499,7 @@ function CostSimulator() {
           </a>
         </div>
       </div>
-      <p className="text-xs text-gray-400 mt-4 text-center">※費用はあくまで参考値です。実際の弁護士費用は事案・事務所により大きく異なります</p>
+      <p className="text-xs text-white/40 mt-4 text-center">※費用はあくまで参考値です。実際の弁護士費用は事案・事務所により大きく異なります</p>
     </div>
   );
 }
@@ -539,18 +539,18 @@ function FaqAccordion() {
       <h2 className="text-xl font-bold text-center mb-6">よくある質問（FAQ）</h2>
       <div className="space-y-3">
         {FAQ_ITEMS.map((item, i) => (
-          <div key={i} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl overflow-hidden">
+          <div key={i} className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-xl overflow-hidden">
             <button
-              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white/60 hover:bg-white/80 transition-colors min-h-[44px]"
+              className="w-full text-left px-5 py-4 flex justify-between items-center bg-white/5 hover:bg-white/10 transition-colors min-h-[44px]"
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
               aria-expanded={openIndex === i}
               aria-label={`FAQ: ${item.q}`}
             >
-              <span className="text-sm font-semibold text-gray-800">{item.q}</span>
-              <span className="text-gray-400 text-lg ml-3 shrink-0">{openIndex === i ? "−" : "+"}</span>
+              <span className="text-sm font-semibold text-white/80">{item.q}</span>
+              <span className="text-white/40 text-lg ml-3 shrink-0">{openIndex === i ? "−" : "+"}</span>
             </button>
             {openIndex === i && (
-              <div className="px-5 pb-4 bg-gray-50 text-sm text-gray-600 leading-relaxed">
+              <div className="px-5 pb-4 bg-white/5 text-sm text-white/60 leading-relaxed">
                 {item.a}
               </div>
             )}
@@ -577,11 +577,24 @@ export default function LandingPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen text-white relative" style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(99,102,241,0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(37,99,235,0.08) 0%, transparent 50%), #0B0F1E' }}>
+      {/* Floating particles */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        {[
+          { size: 4, x: '10%', y: '20%', dur: '6s', delay: '0s' },
+          { size: 3, x: '85%', y: '15%', dur: '8s', delay: '1s' },
+          { size: 5, x: '70%', y: '60%', dur: '7s', delay: '2s' },
+          { size: 3, x: '25%', y: '75%', dur: '9s', delay: '0.5s' },
+          { size: 4, x: '50%', y: '40%', dur: '10s', delay: '3s' },
+          { size: 6, x: '90%', y: '80%', dur: '7s', delay: '1.5s' },
+        ].map((p, i) => (
+          <div key={i} className="absolute rounded-full animate-pulse" style={{ width: p.size, height: p.size, left: p.x, top: p.y, background: 'rgba(59,130,246,0.3)', animationDuration: p.dur, animationDelay: p.delay }} />
+        ))}
+      </div>
       {/* 施行済みバナー */}
-      <div className="bg-teal-700 text-white text-center py-3 px-4">
+      <div className="text-white text-center py-3 px-4" style={{ background: 'linear-gradient(135deg, #3B82F6, #818CF8)' }}>
         <div className="max-w-2xl mx-auto flex items-center justify-center gap-2 flex-wrap">
-          <span className="text-lg">OK</span>
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
           <span className="font-bold text-sm md:text-base">
             共同親権制度は2026年4月1日に施行されました
           </span>
@@ -592,21 +605,26 @@ export default function LandingPage() {
       </div>
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
-            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="プレミアムプラン登録ダイアログを閉じる"></button>
+          <div className="rounded-2xl p-6 max-w-sm w-full relative" style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 25px 50px rgba(0,0,0,0.2)' }}>
+            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-white/40 hover:text-white/60 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="プレミアムプラン登録ダイアログを閉じる">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
             <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
-            <KomojuButton planId="standard" planLabel="プレミアムプラン ¥980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
+            <KomojuButton planId="standard" planLabel="プレミアムプラン ¥980/月を始める" className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-teal-700 disabled:opacity-50" />
           </div>
         </div>
       )}
-      <nav className="border-b border-gray-100 px-6 py-4 sticky top-0 bg-white/95 backdrop-blur z-10">
+      <nav className="px-6 py-4 sticky top-0 z-10" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="font-bold text-gray-900"> 共同親権サポートAI</span>
+          <span className="font-bold text-white flex items-center gap-2">
+            <svg className="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            共同親権サポートAI
+          </span>
           <div className="flex items-center gap-3">
-            <Link href="/guide" className="text-sm text-teal-700 hover:underline hidden sm:block">制度ガイド</Link>
-            <Link href="/procedure" className="text-sm text-teal-700 hover:underline hidden lg:block">手続きガイド</Link>
-            <Link href="/checklist" className="text-sm text-teal-700 hover:underline hidden md:block">チェックリスト</Link>
-            <Link href="/tool" className="bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-700">
+            <Link href="/guide" className="text-sm text-blue-300 hover:underline hidden sm:block">制度ガイド</Link>
+            <Link href="/procedure" className="text-sm text-blue-300 hover:underline hidden lg:block">手続きガイド</Link>
+            <Link href="/checklist" className="text-sm text-blue-300 hover:underline hidden md:block">チェックリスト</Link>
+            <Link href="/tool" className="bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-700">
               無料で試す
             </Link>
           </div>
@@ -615,28 +633,33 @@ export default function LandingPage() {
 
       {/* 施行告知バナー — 施行前後で動的切替 */}
       {daysLeft !== null && daysLeft > 0 ? (
-        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4">
-           2026年4月1日施行決定！新制度スタートまで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 今すぐ準備を！<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で書類作成 →</Link>
+        <div className="text-white text-center text-sm font-bold py-3 px-4" style={{ background: 'linear-gradient(135deg, #DC2626, #B91C1C)' }}>
+          <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          2026年4月1日施行決定！新制度スタートまで<strong className="text-yellow-200 text-lg mx-2">あと{daysLeft}日</strong>— 今すぐ準備を！<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で書類作成 →</Link>
         </div>
       ) : daysLeft === 0 ? (
-        <div className="bg-red-600 text-white text-center text-sm font-bold py-3 px-4 animate-pulse">
-           共同親権制度が<strong>本日2026年4月1日に施行</strong>されました！ 今すぐ手続きを開始しましょう<Link href="/tool" className="ml-2 underline hover:no-underline">AIで書類を作成する →</Link>
+        <div className="text-white text-center text-sm font-bold py-3 px-4 animate-pulse" style={{ background: 'linear-gradient(135deg, #DC2626, #B91C1C)' }}>
+          <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          共同親権制度が<strong>本日2026年4月1日に施行</strong>されました！ 今すぐ手続きを開始しましょう<Link href="/tool" className="ml-2 underline hover:no-underline">AIで書類を作成する →</Link>
         </div>
       ) : (
-        <div className="bg-teal-700 text-white text-center text-sm font-semibold py-2.5 px-4">
-          OK 共同親権制度は<strong>2026年4月1日に施行済み</strong>です — AIで今すぐ親権計画書を作成<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で試す →</Link>
+        <div className="text-white text-center text-sm font-semibold py-2.5 px-4" style={{ background: 'linear-gradient(135deg, #3B82F6, #818CF8)' }}>
+          <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          共同親権制度は<strong>2026年4月1日に施行済み</strong>です — AIで今すぐ親権計画書を作成<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で試す →</Link>
         </div>
       )}
 
       {/* ヒーロー — ダークグラデーション刷新 */}
-      <section className="bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 text-white px-4 py-16 md:py-24 text-center overflow-x-hidden">
+      <section className="text-white px-4 py-16 md:py-24 text-center overflow-x-hidden relative z-10">
         <div className="max-w-4xl mx-auto">
         {/* 法的安心感バッジ */}
-        <div className="inline-block bg-yellow-400 text-teal-900 text-xs font-black px-4 py-2 rounded-full mb-6 shadow-lg">
-           弁護士費用の100分の1で法的書類作成
+        <div className="inline-block bg-yellow-400 text-teal-900 text-xs font-black px-4 py-2 rounded-full mb-6" style={{ boxShadow: '0 0 20px rgba(250, 204, 21, 0.3)' }}>
+          <svg className="w-3.5 h-3.5 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          弁護士費用の100分の1で法的書類作成
         </div>
-        <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
-          2026年4月1日 共同親権制度、施行。<br /><span className="text-teal-300">あなたの子どもへの権利、どう変わる？今すぐ確認を。</span>
+        <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
+          <span className="text-white">2026年4月1日 共同親権制度、施行。</span><br />
+          <span style={{ background: 'linear-gradient(135deg, #BFDBFE, #FFFFFF, #C7D2FE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>あなたの子どもへの権利、どう変わる？今すぐ確認を。</span>
         </h1>
         <div className="bg-red-500/20 border border-red-400/50 rounded-xl px-4 py-3 text-sm text-red-200 font-medium max-w-xl mx-auto mb-6">
           ! 準備なしで交渉に臨むと、子どもと過ごせる時間を失うリスクがあります
@@ -656,7 +679,7 @@ export default function LandingPage() {
           <span className="bg-green-400/20 border border-green-400/40 text-green-200 rounded-full px-4 py-1.5 text-sm font-medium"> 満足度 4.6/5.0</span>
           <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium"> 弁護士費用の100分の1以下</span>
         </div>
-        <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl shadow-2xl mb-3 w-full sm:w-auto transition-colors">
+        <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl mb-3 w-full sm:w-auto transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px]" style={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.3), 0 4px 15px rgba(0,0,0,0.2)' }}>
           施行前に今すぐ確認する（無料）→
         </Link>
         <p className="text-sm font-semibold text-teal-200 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
@@ -665,20 +688,20 @@ export default function LandingPage() {
       </section>
 
       {/* 費用比較バナー（NEW: 離婚協議書ドラフト機能告知） */}
-      <section className="bg-white py-8 px-4 border-b border-blue-100">
+      <section className="relative z-10 py-8 px-4 border-b border-white/5">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-5">
             <span className="inline-block bg-blue-100 text-blue-800 text-xs font-black px-3 py-1 rounded-full border border-blue-300"> NEW 離婚協議書AIドラフト生成 — 無料体験中</span>
           </div>
           <div className="bg-gradient-to-r from-blue-50 to-teal-50 border-2 border-blue-200 rounded-2xl p-5">
-            <p className="text-sm font-black text-gray-800 mb-4 text-center">離婚協議書の作成にかかる費用</p>
+            <p className="text-sm font-black text-white/80 mb-4 text-center">離婚協議書の作成にかかる費用</p>
             <div className="grid grid-cols-3 gap-3 mb-4">
-              <div className="bg-white border border-red-200 rounded-xl p-3 text-center shadow-sm">
+              <div className="backdrop-blur-sm bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center shadow-sm">
                 <p className="text-xs font-bold text-red-500 mb-1">弁護士に依頼</p>
                 <p className="text-xl font-black text-red-600">¥22万〜</p>
                 <p className="text-xs text-red-400">〜¥50万</p>
               </div>
-              <div className="bg-white border border-amber-200 rounded-xl p-3 text-center shadow-sm">
+              <div className="backdrop-blur-sm bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-center shadow-sm">
                 <p className="text-xs font-bold text-amber-600 mb-1">司法書士</p>
                 <p className="text-xl font-black text-amber-600">¥5万〜</p>
                 <p className="text-xs text-amber-400">〜¥15万</p>
@@ -697,7 +720,7 @@ export default function LandingPage() {
             >
               離婚協議書AIドラフトを無料で試す →
             </Link>
-            <p className="text-center text-xs text-gray-400 mt-2">※弁護士費用は参考値です。KOMOJU決済審査通過後 ¥980/件の有料機能になる予定</p>
+            <p className="text-center text-xs text-white/40 mt-2">※弁護士費用は参考値です。KOMOJU決済審査通過後 ¥980/件の有料機能になる予定</p>
           </div>
         </div>
       </section>
@@ -707,7 +730,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-6">
             <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">知っていますか？</p>
-            <h2 className="text-xl font-bold text-gray-900">日本の離婚・養育費の実態</h2>
+            <h2 className="text-xl font-bold text-white">日本の離婚・養育費の実態</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -716,19 +739,19 @@ export default function LandingPage() {
               { num: "着手金\n30万円〜", label: "弁護士費用の目安", source: "日本弁護士連合会" },
               { num: "2026年\n4月1日", label: "共同親権制度施行", source: "改正民法" },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white/80 backdrop-blur-md border border-white/40 shadow-lg rounded-2xl p-4 text-center">
-                <div className="text-xl font-black text-teal-700 mb-1 whitespace-pre-line leading-tight">{stat.num}</div>
-                <div className="text-xs font-bold text-gray-800 mb-1">{stat.label}</div>
-                <div className="text-xs text-gray-400">{stat.source}</div>
+              <div key={stat.label} className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-2xl p-4 text-center">
+                <div className="text-xl font-black text-blue-300 mb-1 whitespace-pre-line leading-tight">{stat.num}</div>
+                <div className="text-xs font-bold text-white/80 mb-1">{stat.label}</div>
+                <div className="text-xs text-white/40">{stat.source}</div>
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-gray-400 mt-4">※参考値。各省庁・公表データをもとにした概算です</p>
+          <p className="text-center text-xs text-white/40 mt-4">※参考値。各省庁・公表データをもとにした概算です</p>
         </div>
       </section>
 
       {/* 感情フック：ストーリー型 */}
-      <section className="bg-white py-14 px-4">
+      <section className="relative z-10 py-14 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-block bg-red-50 text-red-600 text-xs font-bold px-4 py-2 rounded-full mb-4 border border-red-200">
@@ -744,16 +767,16 @@ export default function LandingPage() {
               <div key={p.title} className="flex gap-4 bg-white/80 backdrop-blur-md border border-white/40 shadow-sm rounded-2xl p-5">
                 <div className="text-3xl shrink-0">{p.icon}</div>
                 <div>
-                  <p className="font-bold text-gray-900 text-sm mb-1">{p.title}</p>
-                  <p className="text-xs text-gray-600 leading-relaxed">{p.body}</p>
+                  <p className="font-bold text-white text-sm mb-1">{p.title}</p>
+                  <p className="text-xs text-white/60 leading-relaxed">{p.body}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-8 bg-teal-50 border border-teal-200 rounded-2xl p-6 text-center">
-            <p className="text-teal-800 font-bold text-sm mb-1">その悩み、AIが30秒で解決できます</p>
-            <p className="text-teal-600 text-xs mb-4">親権計画書・面会カレンダー・養育費の目安・調停準備メモをセットで生成</p>
-            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+          <div className="mt-8 backdrop-blur-sm bg-blue-500/10 border border-teal-200 rounded-2xl p-6 text-center">
+            <p className="text-blue-200 font-bold text-sm mb-1">その悩み、AIが30秒で解決できます</p>
+            <p className="text-blue-400 text-xs mb-4">親権計画書・面会カレンダー・養育費の目安・調停準備メモをセットで生成</p>
+            <Link href="/tool" className="inline-block bg-blue-500 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
               今すぐ無料で書類を作成する →
             </Link>
           </div>
@@ -761,7 +784,7 @@ export default function LandingPage() {
       </section>
 
       {/* 課題 */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-white/5 py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-center mb-10">こんな悩みを解決します</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
@@ -773,9 +796,9 @@ export default function LandingPage() {
               "調停申立に何の書類が必要か分からない",
               "相手と話し合うための具体的な提案書を作りたい",
             ].map(p => (
-              <div key={p} className="flex gap-3 bg-white/80 backdrop-blur-md border border-white/40 shadow-lg rounded-xl p-4">
+              <div key={p} className="flex gap-3 backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-xl p-4">
                 <span className="text-red-500 text-lg shrink-0"></span>
-                <p className="text-sm text-gray-700">{p}</p>
+                <p className="text-sm text-white/70">{p}</p>
               </div>
             ))}
           </div>
@@ -786,13 +809,13 @@ export default function LandingPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-center mb-3">生成されるドキュメントセット</h2>
-          <p className="text-center text-gray-500 text-sm mb-10">1回の入力で5種類のドキュメントが出力されます</p>
+          <p className="text-center text-white/50 text-sm mb-10">1回の入力で5種類のドキュメントが出力されます</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
-              <div key={f.title} className="bg-white/80 backdrop-blur-md border border-white/40 shadow-lg rounded-xl p-6">
+              <div key={f.title} className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-xl p-6">
                 <div className="text-2xl mb-2">{f.icon}</div>
-                <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-sm text-gray-500">{f.desc}</p>
+                <h3 className="font-bold text-white mb-2">{f.title}</h3>
+                <p className="text-sm text-white/50">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -800,12 +823,12 @@ export default function LandingPage() {
       </section>
 
       {/* AIサンプル出力: 親権計画書ドラフト */}
-      <section className="py-14 px-4 bg-teal-50 border-t border-teal-100">
+      <section className="py-14 px-4 backdrop-blur-sm bg-blue-500/10 border-t border-teal-100">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full mb-3">実際の出力サンプル</div>
-            <h2 className="text-2xl font-bold text-gray-900">AIが生成する親権計画書ドラフト</h2>
-            <p className="text-gray-500 text-sm mt-2">「弁護士費用なしでここまで作れるなら使いたい」— 実際の書式をご確認ください</p>
+            <h2 className="text-2xl font-bold text-white">AIが生成する親権計画書ドラフト</h2>
+            <p className="text-white/50 text-sm mt-2">「弁護士費用なしでここまで作れるなら使いたい」— 実際の書式をご確認ください</p>
           </div>
           <div className="bg-[#1e293b] rounded-2xl overflow-hidden shadow-xl font-mono text-sm">
             <div className="px-5 py-3 bg-[#0f172a] flex items-center gap-2 border-b border-slate-700">
@@ -857,7 +880,7 @@ export default function LandingPage() {
       </section>
 
       {/* 使い方 */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-white/5 py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-center mb-10">使い方は3ステップ</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
@@ -867,9 +890,9 @@ export default function LandingPage() {
               { step: "3", title: "ドキュメントを受け取る", desc: "30秒で5種類のドキュメントが生成" },
             ].map(s => (
               <div key={s.step} className="text-center">
-                <div className="w-10 h-10 rounded-full bg-teal-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.step}</div>
-                <p className="font-semibold text-gray-900 mb-1 text-sm">{s.title}</p>
-                <p className="text-xs text-gray-500">{s.desc}</p>
+                <div className="w-10 h-10 rounded-full bg-blue-500 text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">{s.step}</div>
+                <p className="font-semibold text-white mb-1 text-sm">{s.title}</p>
+                <p className="text-xs text-white/50">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -882,10 +905,10 @@ export default function LandingPage() {
           <h2 className="text-2xl font-bold text-center mb-10">ご利用者の声</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {VOICES.map((v, i) => (
-              <div key={i} className="bg-white/80 backdrop-blur-md border border-white/40 shadow-lg rounded-xl p-5">
+              <div key={i} className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-xl p-5">
                 <div className="flex text-yellow-400 text-sm mb-3">{""}</div>
-                <p className="text-sm text-gray-700 mb-3 leading-relaxed">{v.text}</p>
-                <p className="text-xs text-gray-400">{v.role}</p>
+                <p className="text-sm text-white/70 mb-3 leading-relaxed">{v.text}</p>
+                <p className="text-xs text-white/40">{v.role}</p>
               </div>
             ))}
           </div>
@@ -893,12 +916,12 @@ export default function LandingPage() {
       </section>
 
       {/* 競合比較表 */}
-      <section className="py-14 px-4 bg-white border-b border-teal-100">
+      <section className="py-14 px-4 relative z-10 border-b border-white/5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <p className="text-xs font-bold text-teal-600 tracking-widest uppercase mb-2">他サービスとの比較</p>
-            <h2 className="text-2xl font-bold text-gray-900">共同親権サポートAIが選ばれる理由</h2>
-            <p className="text-gray-500 text-sm mt-2">りむすび・ペア育児・法テラスと比べてみました</p>
+            <p className="text-xs font-bold text-blue-400 tracking-widest uppercase mb-2">他サービスとの比較</p>
+            <h2 className="text-2xl font-bold text-white">共同親権サポートAIが選ばれる理由</h2>
+            <p className="text-white/50 text-sm mt-2">りむすび・ペア育児・法テラスと比べてみました</p>
           </div>
           <div className="overflow-x-auto rounded-2xl border border-teal-200 shadow-sm">
             <table className="w-full text-sm">
@@ -921,20 +944,20 @@ export default function LandingPage() {
                   { feature: "DV被害者対応", us: "OK 緊急窓口掲載", a: "OK 専門サポート", b: "! 情報提供のみ", c: "OK 弁護士紹介" },
                   { feature: "24時間利用可能", us: "OK いつでも", a: "NG 営業時間内", b: "OK アプリ内", c: "NG 平日のみ" },
                 ].map((row, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"} style={{ borderBottom: "1px solid #e5e7eb" }}>
-                    <td className="px-4 py-3 font-semibold text-gray-700 text-xs">{row.feature}</td>
-                    <td className="px-4 py-3 text-center font-bold text-teal-700 text-xs bg-teal-50">{row.us}</td>
-                    <td className="px-4 py-3 text-center text-gray-500 text-xs">{row.a}</td>
-                    <td className="px-4 py-3 text-center text-gray-500 text-xs">{row.b}</td>
-                    <td className="px-4 py-3 text-center text-gray-500 text-xs">{row.c}</td>
+                  <tr key={i} className={i % 2 === 0 ? "bg-white/5" : "bg-white/5"} style={{ borderBottom: "1px solid #e5e7eb" }}>
+                    <td className="px-4 py-3 font-semibold text-white/70 text-xs">{row.feature}</td>
+                    <td className="px-4 py-3 text-center font-bold text-blue-300 text-xs backdrop-blur-sm bg-blue-500/10">{row.us}</td>
+                    <td className="px-4 py-3 text-center text-white/50 text-xs">{row.a}</td>
+                    <td className="px-4 py-3 text-center text-white/50 text-xs">{row.b}</td>
+                    <td className="px-4 py-3 text-center text-white/50 text-xs">{row.c}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-center text-xs text-gray-400 mt-3">※ 2026年3月調査。各サービスの内容・料金は変更になる場合があります</p>
+          <p className="text-center text-xs text-white/40 mt-3">※ 2026年3月調査。各サービスの内容・料金は変更になる場合があります</p>
           <div className="text-center mt-6">
-            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+            <Link href="/tool" className="inline-block bg-blue-500 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
               今すぐ無料で書類を作成する →
             </Link>
           </div>
@@ -942,43 +965,43 @@ export default function LandingPage() {
       </section>
 
       {/* 料金 */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-white/5 py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-center mb-3">料金プラン</h2>
-          <p className="text-center text-gray-500 text-sm mb-8">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
+          <p className="text-center text-white/50 text-sm mb-8">すべてのプランで親権計画書・面会カレンダー・養育費・調停メモがセット</p>
 
           {/* 費用比較表 */}
-          <div className="bg-white border border-teal-200 rounded-2xl px-6 py-5 max-w-xl mx-auto mb-8 shadow-sm">
-            <p className="text-center text-sm font-bold text-gray-700 mb-4"> 弁護士費用と比べると...</p>
+          <div className="backdrop-blur-md bg-white/[0.07] border border-white/15 rounded-2xl px-6 py-5 max-w-xl mx-auto mb-8 shadow-sm">
+            <p className="text-center text-sm font-bold text-white/70 mb-4"> 弁護士費用と比べると...</p>
             <div className="overflow-x-auto">
               <table className="w-full text-sm border-collapse">
                 <thead>
-                  <tr className="bg-gray-50">
-                    <th className="border border-gray-200 px-4 py-2 text-left text-xs text-gray-500 font-semibold"></th>
-                    <th className="border border-gray-200 px-4 py-2 text-center text-xs text-red-600 font-bold">弁護士</th>
-                    <th className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-700 font-bold">本AI</th>
+                  <tr className="bg-white/5">
+                    <th className="border border-white/15 px-4 py-2 text-left text-xs text-white/50 font-semibold"></th>
+                    <th className="border border-white/15 px-4 py-2 text-center text-xs text-red-600 font-bold">弁護士</th>
+                    <th className="border border-white/15 px-4 py-2 text-center text-xs text-blue-300 font-bold">本AI</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">相談料</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">¥5,000〜/時間</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">基本無料</td>
+                    <td className="border border-white/15 px-4 py-2 text-xs text-white/60">相談料</td>
+                    <td className="border border-white/15 px-4 py-2 text-center text-xs text-red-500 font-semibold">¥5,000〜/時間</td>
+                    <td className="border border-white/15 px-4 py-2 text-center text-xs text-blue-400 font-semibold">基本無料</td>
                   </tr>
-                  <tr className="bg-gray-50">
-                    <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">着手金</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">¥30万〜</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">不要</td>
+                  <tr className="bg-white/5">
+                    <td className="border border-white/15 px-4 py-2 text-xs text-white/60">着手金</td>
+                    <td className="border border-white/15 px-4 py-2 text-center text-xs text-red-500 font-semibold">¥30万〜</td>
+                    <td className="border border-white/15 px-4 py-2 text-center text-xs text-blue-400 font-semibold">不要</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-200 px-4 py-2 text-xs text-gray-600">継続利用</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-red-500 font-semibold">都度費用発生</td>
-                    <td className="border border-gray-200 px-4 py-2 text-center text-xs text-teal-600 font-semibold">¥980/月（無制限）</td>
+                    <td className="border border-white/15 px-4 py-2 text-xs text-white/60">継続利用</td>
+                    <td className="border border-white/15 px-4 py-2 text-center text-xs text-red-500 font-semibold">都度費用発生</td>
+                    <td className="border border-white/15 px-4 py-2 text-center text-xs text-blue-400 font-semibold">¥980/月（無制限）</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p className="text-center text-xs font-bold text-teal-700 mt-4 bg-teal-50 rounded-lg py-2">
+            <p className="text-center text-xs font-bold text-blue-300 mt-4 backdrop-blur-sm bg-blue-500/10 rounded-lg py-2">
               弁護士費用の <span className="text-lg">100分の1以下</span> で書類準備が整います
             </p>
           </div>
@@ -988,18 +1011,18 @@ export default function LandingPage() {
               { name: "離婚協議書ドラフト", price: "¥980", sub: "/件（体験中: 無料）", features: ["離婚協議書ドラフト自動生成", "法的用語使用・実務書式", "TXTダウンロード可", "弁護士持参用として使用可"], isPremium: false, isNew: true },
               { name: "プレミアム", price: "¥980", sub: "/月（無制限）", features: ["全機能を無制限で利用", "注意事項・トラブル事例（限定）", "複数パターンで比較作成", "いつでも解約可能"], isPremium: true, isNew: false },
             ].map(plan => (
-              <div key={plan.name} className={`bg-white/80 backdrop-blur-md rounded-2xl border p-6 relative ${plan.isPremium ? "border-teal-500 shadow-lg" : plan.isNew ? "border-blue-400 shadow-md" : "border-gray-200"}`}>
+              <div key={plan.name} className={`bg-white/80 backdrop-blur-md rounded-2xl border p-6 relative ${plan.isPremium ? "border-teal-500 shadow-lg" : plan.isNew ? "border-blue-400 shadow-md" : "border-white/15"}`}>
                 {plan.isPremium && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-teal-600 text-white px-3 py-0.5 rounded-full whitespace-nowrap">おすすめ</div>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-blue-500 text-white px-3 py-0.5 rounded-full whitespace-nowrap">おすすめ</div>
                 )}
                 {plan.isNew && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-blue-600 text-white px-3 py-0.5 rounded-full whitespace-nowrap">NEW 無料体験中</div>
                 )}
-                <p className="font-bold text-gray-900 mb-1">{plan.name}</p>
-                <p className={`text-2xl font-bold ${plan.isNew ? "text-blue-600" : "text-teal-600"}`}>{plan.price}<span className="text-sm font-normal text-gray-500">{plan.sub}</span></p>
+                <p className="font-bold text-white mb-1">{plan.name}</p>
+                <p className={`text-2xl font-bold ${plan.isNew ? "text-blue-600" : "text-blue-400"}`}>{plan.price}<span className="text-sm font-normal text-white/50">{plan.sub}</span></p>
                 <ul className="mt-4 mb-5 space-y-2">
                   {plan.features.map(f => (
-                    <li key={f} className="text-sm text-gray-600 flex items-center gap-2">
+                    <li key={f} className="text-sm text-white/60 flex items-center gap-2">
                       <span className="text-green-500"></span>{f}
                     </li>
                   ))}
@@ -1007,7 +1030,7 @@ export default function LandingPage() {
                 {plan.isPremium ? (
                   <button
                     onClick={startCheckout}
-                    className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 min-h-[44px]"
+                    className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-blue-500 text-white hover:bg-teal-700 min-h-[44px]"
                     aria-label="プレミアムプランに申し込む"
                   >
                     申し込む
@@ -1017,7 +1040,7 @@ export default function LandingPage() {
                     無料で試す（→ 協議書ドラフトタブ）
                   </Link>
                 ) : (
-                  <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+                  <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-gray-100 text-white/70 hover:bg-white/20">
                     無料で試す
                   </Link>
                 )}
@@ -1046,7 +1069,7 @@ export default function LandingPage() {
               { step: "5", icon: "", title: "弁護士に確認・公正証書にする", desc: "AIで準備した書類を弁護士に確認してもらい、公正証書化することで強制執行力が生まれます。費用は約5〜10万円。", badge: "任意" },
             ].map((item) => (
               <div key={item.step} className="flex gap-4 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4">
-                <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center font-black text-lg shrink-0">{item.step}</div>
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center font-black text-lg shrink-0">{item.step}</div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="text-base font-bold text-white">{item.icon} {item.title}</span>
@@ -1066,12 +1089,12 @@ export default function LandingPage() {
       </section>
 
       {/* 共同親権 法改正タイムライン */}
-      <section className="py-14 px-4 bg-white border-b border-teal-100">
+      <section className="py-14 px-4 relative z-10 border-b border-white/5">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
-            <p className="text-xs font-bold text-teal-600 tracking-widest uppercase mb-2">法改正の流れ</p>
-            <h2 className="text-2xl font-bold text-gray-900">共同親権 法改正タイムライン</h2>
-            <p className="text-gray-500 text-sm mt-2">2022年から2026年まで、制度がどう変わったかを時系列で確認できます</p>
+            <p className="text-xs font-bold text-blue-400 tracking-widest uppercase mb-2">法改正の流れ</p>
+            <h2 className="text-2xl font-bold text-white">共同親権 法改正タイムライン</h2>
+            <p className="text-white/50 text-sm mt-2">2022年から2026年まで、制度がどう変わったかを時系列で確認できます</p>
           </div>
           <div className="relative">
             {/* 縦線 */}
@@ -1084,7 +1107,7 @@ export default function LandingPage() {
                   title: "法制審議会が答申",
                   desc: "法制審議会が離婚後の共同親権を認める民法改正の答申を取りまとめ。単独親権制度の見直し議論が本格化。",
                   badge: "審議開始",
-                  badgeColor: "bg-gray-100 text-gray-600",
+                  badgeColor: "bg-gray-100 text-white/60",
                   lineColor: "border-gray-400",
                   dotColor: "bg-gray-400",
                 },
@@ -1104,9 +1127,9 @@ export default function LandingPage() {
                   title: "共同親権制度 施行",
                   desc: "改正民法施行。新しい離婚では協議で共同親権か単独親権かを選択。合意できない場合は家庭裁判所が判断。法定養育費（月2万円）も自動発生。",
                   badge: "施行済み",
-                  badgeColor: "bg-teal-100 text-teal-700",
+                  badgeColor: "bg-teal-100 text-blue-300",
                   lineColor: "border-teal-500",
-                  dotColor: "bg-teal-600",
+                  dotColor: "bg-blue-500",
                 },
                 {
                   year: "2026年4月〜",
@@ -1122,21 +1145,21 @@ export default function LandingPage() {
                 <div key={i} className="relative pl-16">
                   {/* ドット */}
                   <div className={`absolute left-4 top-3 w-4 h-4 rounded-full border-4 ${item.lineColor} ${item.dotColor} -translate-x-2`} />
-                  <div className="bg-white border border-teal-100 rounded-2xl p-5 shadow-sm">
+                  <div className="backdrop-blur-md bg-white/[0.07] border border-white/10 rounded-2xl p-5 shadow-sm">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <span className="text-xl">{item.icon}</span>
                       <span className="font-black text-teal-900 text-sm">{item.year}</span>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${item.badgeColor}`}>{item.badge}</span>
                     </div>
-                    <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
-                    <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                    <h3 className="font-bold text-white mb-1">{item.title}</h3>
+                    <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-6 text-center">
-            <a href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+            <a href="/tool" className="inline-block bg-blue-500 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
               法改正に対応した書類をAIで作成する →
             </a>
           </div>
@@ -1144,16 +1167,16 @@ export default function LandingPage() {
       </section>
 
       {/* 共同親権 手続きチェックリスト */}
-      <section className="py-14 px-4 bg-white border-b border-teal-100">
+      <section className="py-14 px-4 relative z-10 border-b border-white/5">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
-            <p className="text-xs font-bold text-teal-600 tracking-widest uppercase mb-2">手続きガイド</p>
-            <h2 className="text-2xl font-bold text-gray-900">共同親権 手続きチェックリスト</h2>
-            <p className="text-gray-500 text-sm mt-2">抜け漏れなく準備するための確認リスト</p>
+            <p className="text-xs font-bold text-blue-400 tracking-widest uppercase mb-2">手続きガイド</p>
+            <h2 className="text-2xl font-bold text-white">共同親権 手続きチェックリスト</h2>
+            <p className="text-white/50 text-sm mt-2">抜け漏れなく準備するための確認リスト</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-teal-50 border border-teal-200 rounded-2xl p-5">
-              <h3 className="font-black text-teal-800 mb-3"> 書類準備チェック</h3>
+            <div className="backdrop-blur-sm bg-blue-500/10 border border-teal-200 rounded-2xl p-5">
+              <h3 className="font-black text-blue-200 mb-3"> 書類準備チェック</h3>
               <ul className="space-y-2">
                 {[
                   "戸籍謄本（子どもを含む）",
@@ -1163,7 +1186,7 @@ export default function LandingPage() {
                   "財産一覧（預金・不動産・保険）",
                   "DV証拠（診断書・警察受理番号等）※該当者のみ",
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-teal-800">
+                  <li key={i} className="flex items-start gap-2 text-sm text-blue-200">
                     <span className="text-teal-400 mt-0.5"></span>
                     <span>{item}</span>
                   </li>
@@ -1189,9 +1212,9 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          <div className="mt-6 bg-gray-50 border border-gray-200 rounded-xl p-4 text-center">
-            <p className="text-sm font-bold text-gray-700 mb-2">AIで親権計画書・面会カレンダー・養育費の目安を自動生成</p>
-            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+          <div className="mt-6 bg-white/5 border border-white/15 rounded-xl p-4 text-center">
+            <p className="text-sm font-bold text-white/70 mb-2">AIで親権計画書・面会カレンダー・養育費の目安を自動生成</p>
+            <Link href="/tool" className="inline-block bg-blue-500 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
               チェックリストの内容をAIで書類化する →
             </Link>
           </div>
@@ -1203,45 +1226,45 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-blue-300"> 5問診断</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">共同親権 適用可能性チェック</h2>
-            <p className="text-sm text-gray-600">5つの質問に答えるだけで、あなたのケースに共同親権が適しているか即判定。結果をXでシェアできます。</p>
+            <h2 className="text-2xl font-bold text-white mb-2">共同親権 適用可能性チェック</h2>
+            <p className="text-sm text-white/60">5つの質問に答えるだけで、あなたのケースに共同親権が適しているか即判定。結果をXでシェアできます。</p>
           </div>
           <DiagnosisWidget />
         </div>
       </section>
 
       {/* 費用シミュレーター */}
-      <section className="py-14 px-4 bg-white border-b border-teal-100">
+      <section className="py-14 px-4 relative z-10 border-b border-white/5">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
-            <div className="inline-block bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-300"> 費用シミュレーター</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">弁護士あり/なし 費用比較シミュレーター</h2>
-            <p className="text-sm text-gray-600">ケースの複雑さを選ぶだけで弁護士費用の目安とAIサービスの差額を計算します</p>
+            <div className="inline-block bg-teal-100 text-blue-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-300"> 費用シミュレーター</div>
+            <h2 className="text-2xl font-bold text-white mb-2">弁護士あり/なし 費用比較シミュレーター</h2>
+            <p className="text-sm text-white/60">ケースの複雑さを選ぶだけで弁護士費用の目安とAIサービスの差額を計算します</p>
           </div>
           <CostSimulator />
         </div>
       </section>
 
       {/* SEOテキスト: 共同親権制度の基礎知識 */}
-      <section className="py-14 px-4 bg-gray-50 border-b border-gray-200">
+      <section className="py-14 px-4 bg-white/5 border-b border-white/15">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">共同親権制度の基礎知識</h2>
-          <div className="space-y-5 text-sm text-gray-700 leading-relaxed">
-            <div className="bg-white rounded-2xl border border-gray-200 p-5">
-              <h3 className="font-bold text-gray-900 text-base mb-2">共同親権とは？</h3>
+          <h2 className="text-2xl font-bold text-white mb-6">共同親権制度の基礎知識</h2>
+          <div className="space-y-5 text-sm text-white/70 leading-relaxed">
+            <div className="backdrop-blur-md bg-white/[0.07] rounded-2xl border border-white/15 p-5">
+              <h3 className="font-bold text-white text-base mb-2">共同親権とは？</h3>
               <p>2026年4月1日施行の改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。これまでの日本の民法では、離婚後は父母のいずれか一方のみが親権を持つ「単独親権」しか認められていませんでしたが、法改正によって父母の合意または家庭裁判所の判断により共同親権が設定できるようになりました。</p>
             </div>
-            <div className="bg-white rounded-2xl border border-gray-200 p-5">
-              <h3 className="font-bold text-gray-900 text-base mb-2">共同親権と単独親権の違い</h3>
+            <div className="backdrop-blur-md bg-white/[0.07] rounded-2xl border border-white/15 p-5">
+              <h3 className="font-bold text-white text-base mb-2">共同親権と単独親権の違い</h3>
               <p>共同親権では、子どもの転居・進学・医療の同意など「重要事項」については父母双方の合意が原則必要になります。一方で、日常的な養育（食事・学校の送迎など）は基本居住地の親が単独で行えます。単独親権では、親権者が単独で重要事項を決定できます。</p>
             </div>
-            <div className="bg-white rounded-2xl border border-gray-200 p-5">
-              <h3 className="font-bold text-gray-900 text-base mb-2">2026年4月から何が変わった？</h3>
+            <div className="backdrop-blur-md bg-white/[0.07] rounded-2xl border border-white/15 p-5">
+              <h3 className="font-bold text-white text-base mb-2">2026年4月から何が変わった？</h3>
               <p>（1）新しい離婚では共同親権・単独親権のいずれかを協議で選択。（2）合意できない場合は家庭裁判所が決定。（3）養育費の未取り決め時に月2万円/子の「法定養育費」が自動発生。（4）養育費不払い時の差し押さえ手続きが簡易化。これらの変更が2026年4月1日から施行されています。</p>
             </div>
           </div>
           <div className="mt-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">共同親権 よくある5つの誤解</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">共同親権 よくある5つの誤解</h2>
             <div className="space-y-4">
               {[
                 { misunderstanding: "誤解1: 共同親権になったら子どもが「2つの家」で同じ日数暮らす", truth: "基本居住地はいずれか一方の親の家に定めます。共同親権は「親権の共有」であり、必ずしも居住を半々にするものではありません。" },
@@ -1250,15 +1273,15 @@ export default function LandingPage() {
                 { misunderstanding: "誤解4: 法定養育費2万円が相場", truth: "法定養育費は最低保証額です。裁判所の養育費算定表に基づく相場は子の年齢・人数・両親の収入によって異なり、多くの場合2万円を上回ります。" },
                 { misunderstanding: "誤解5: AIで作成した書類に法的効力がある", truth: "AIが生成する書類は草案・参考情報です。法的効力を持たせるには弁護士確認・公正証書化が必要です。本サービスは弁護士相談前の「準備・整理」ツールです。" },
               ].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl border border-gray-200 p-4">
+                <div key={i} className="backdrop-blur-sm bg-white/[0.07] rounded-xl border border-white/15 p-4">
                   <p className="text-sm font-bold text-red-600 mb-1">NG {item.misunderstanding}</p>
-                  <p className="text-sm text-gray-600">OK {item.truth}</p>
+                  <p className="text-sm text-white/60">OK {item.truth}</p>
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-8 text-center">
-            <Link href="/tool" className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
+            <Link href="/tool" className="inline-block bg-blue-500 hover:bg-teal-700 text-white font-black px-8 py-3 rounded-xl text-sm transition-colors">
               AIで親権計画書・養育費・面会スケジュールを無料作成 →
             </Link>
           </div>
@@ -1266,12 +1289,12 @@ export default function LandingPage() {
       </section>
 
       {/* 養育費かんたん計算機 */}
-      <section className="py-14 px-4 bg-teal-50 border-y border-teal-200">
+      <section className="py-14 px-4 backdrop-blur-sm bg-blue-500/10 border-y border-teal-200">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
-            <div className="inline-block bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-300"> 養育費かんたん計算機</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">養育費の目安を30秒で計算</h2>
-            <p className="text-sm text-gray-600">裁判所の算定表をもとにした参考値です（実際の金額は弁護士・調停で決定）</p>
+            <div className="inline-block bg-teal-100 text-blue-200 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-teal-300"> 養育費かんたん計算機</div>
+            <h2 className="text-2xl font-bold text-white mb-2">養育費の目安を30秒で計算</h2>
+            <p className="text-sm text-white/60">裁判所の算定表をもとにした参考値です（実際の金額は弁護士・調停で決定）</p>
           </div>
           <AlimonyCalculator />
         </div>
@@ -1282,23 +1305,23 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-block bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-purple-300"> 生活費シミュレーター</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">離婚後 ひとり親世帯の生活費シミュレーション</h2>
-            <p className="text-sm text-gray-600">年収・家賃・養育費を入力して、離婚後の月間収支を試算できます</p>
+            <h2 className="text-2xl font-bold text-white mb-2">離婚後 ひとり親世帯の生活費シミュレーション</h2>
+            <p className="text-sm text-white/60">年収・家賃・養育費を入力して、離婚後の月間収支を試算できます</p>
           </div>
           <PostDivorceLivingSimulator />
           <div className="mt-6 grid md:grid-cols-2 gap-4">
-            <div className="bg-white border border-purple-200 rounded-xl p-4">
+            <div className="backdrop-blur-sm bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
               <h3 className="font-bold text-purple-800 text-sm mb-2"> ひとり親向け公的支援</h3>
-              <ul className="space-y-1.5 text-xs text-gray-600">
+              <ul className="space-y-1.5 text-xs text-white/60">
                 <li>• <strong>児童扶養手当</strong>: 子1人月最大4.4万円（所得制限あり）</li>
                 <li>• <strong>就学援助</strong>: 学用品・給食費・修学旅行費などを補助</li>
                 <li>• <strong>医療費助成</strong>: 自治体によって子どもの医療費が無料または低額</li>
                 <li>• <strong>保育所優先入所</strong>: ひとり親世帯は保育所入所に加点あり</li>
               </ul>
             </div>
-            <div className="bg-white border border-purple-200 rounded-xl p-4">
+            <div className="backdrop-blur-sm bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
               <h3 className="font-bold text-purple-800 text-sm mb-2"> 支援窓口</h3>
-              <ul className="space-y-1.5 text-xs text-gray-600">
+              <ul className="space-y-1.5 text-xs text-white/60">
                 <li>• <strong>母子家庭等就業・自立支援センター</strong>: 就労支援・資格取得補助</li>
                 <li>• <strong>福祉事務所</strong>: 生活保護・各種手当の相談窓口</li>
                 <li>• <strong>法テラス</strong>: 養育費増額調停の費用立替制度あり</li>
@@ -1314,8 +1337,8 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-6">
             <div className="inline-block bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-amber-300"> 弁護士への相談も検討されている方へ</div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">AIで整理した内容を、弁護士に相談する</h2>
-            <p className="text-sm text-gray-600">このAIで準備した親権計画書・養育費の資料を持参すれば、弁護士との相談時間を大幅に節約できます。</p>
+            <h2 className="text-xl font-bold text-white mb-2">AIで整理した内容を、弁護士に相談する</h2>
+            <p className="text-sm text-white/60">このAIで準備した親権計画書・養育費の資料を持参すれば、弁護士との相談時間を大幅に節約できます。</p>
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {[
@@ -1349,19 +1372,19 @@ export default function LandingPage() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white rounded-xl p-4 border border-amber-200 hover:shadow-md hover:border-amber-400 transition-all block group"
+                className="backdrop-blur-sm bg-white/[0.07] rounded-xl p-4 border border-amber-500/20 hover:shadow-md hover:border-amber-400 transition-all block group"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">{item.icon}</span>
-                  <span className="font-bold text-gray-900 text-sm group-hover:text-amber-700">{item.name}</span>
+                  <span className="font-bold text-white text-sm group-hover:text-amber-700">{item.name}</span>
                 </div>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${item.badgeColor} mb-2 inline-block`}>{item.badge}</span>
-                <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
                 <p className="text-xs text-amber-600 mt-2 font-medium">詳しく見る →</p>
               </a>
             ))}
           </div>
-          <p className="text-center text-xs text-gray-400 mt-4">※ AIで書類を準備してから相談すると、相談時間を節約できます</p>
+          <p className="text-center text-xs text-white/40 mt-4">※ AIで書類を準備してから相談すると、相談時間を節約できます</p>
         </div>
       </section>
 
@@ -1370,8 +1393,8 @@ export default function LandingPage() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-6">
             <div className="inline-block bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full mb-3 border border-red-300"> DV・虐待被害者の方へ</div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">DV・モラハラ被害者のための緊急相談窓口</h2>
-            <p className="text-sm text-gray-600">共同親権制度ではDV・虐待が認定される場合、裁判所は単独親権と判断します。まず安全を確保してください。</p>
+            <h2 className="text-xl font-bold text-white mb-2">DV・モラハラ被害者のための緊急相談窓口</h2>
+            <p className="text-sm text-white/60">共同親権制度ではDV・虐待が認定される場合、裁判所は単独親権と判断します。まず安全を確保してください。</p>
           </div>
           <div className="bg-red-800 text-white rounded-2xl p-5 mb-4">
             <p className="font-black text-base mb-2">! 今すぐ逃げる必要がある方</p>
@@ -1420,14 +1443,14 @@ export default function LandingPage() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white rounded-xl p-4 border border-red-200 hover:shadow-md hover:border-red-400 transition-all block"
+                className="backdrop-blur-sm bg-white/[0.07] rounded-xl p-4 border border-red-500/20 hover:shadow-md hover:border-red-400 transition-all block"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">{item.icon}</span>
-                  <span className="font-bold text-gray-900 text-sm">{item.name}</span>
+                  <span className="font-bold text-white text-sm">{item.name}</span>
                 </div>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 mb-2 inline-block">{item.badge}</span>
-                <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
                 <p className="text-xs text-red-600 mt-2 font-medium">詳しく見る →</p>
               </a>
             ))}
@@ -1444,9 +1467,9 @@ export default function LandingPage() {
       </section>
 
       {/* SEOテキスト: 共同親権AIの使い方 */}
-      <section className="py-14 px-4 bg-white border-b border-gray-100">
+      <section className="py-14 px-4 relative z-10 border-b border-white/5">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">共同親権サポートAIの効果的な使い方</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">共同親権サポートAIの効果的な使い方</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {[
               { icon: "", title: "弁護士相談前の整理ツールとして", desc: "弁護士に相談する前に親権計画書の草案をAIで作成しておくと、相談時間を効率化できます。弁護士費用は着手金30万円〜が相場。AI書類で準備してから相談すると費用を大幅に削減できます。" },
@@ -1454,17 +1477,17 @@ export default function LandingPage() {
               { icon: "", title: "面会交流スケジュールの作成に", desc: "月次ルール・長期休暇・誕生日行事の取り決めをAIがカレンダー形式で自動生成。「月2回の第1・3土曜」などの具体的なスケジュールを自動作成します。" },
               { icon: "", title: "家庭裁判所への調停申立準備に", desc: "調停申立に必要な書類・費用（収入印紙1,200円〜）・準備事項をAIがリスト化。初めての調停でも何を準備すべきか分かります。" },
             ].map((item) => (
-              <div key={item.title} className="flex gap-4 bg-gray-50 border border-gray-200 rounded-2xl p-5">
+              <div key={item.title} className="flex gap-4 bg-white/5 border border-white/15 rounded-2xl p-5">
                 <span className="text-2xl shrink-0">{item.icon}</span>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
-                  <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                  <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
+                  <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
           </div>
           <div className="mt-6 text-center">
-            <Link href="/checklist" className="inline-flex items-center gap-2 text-teal-700 font-semibold text-sm hover:underline">
+            <Link href="/checklist" className="inline-flex items-center gap-2 text-blue-300 font-semibold text-sm hover:underline">
                共同親権チェックリスト10項目を確認する →
             </Link>
           </div>
@@ -1472,28 +1495,28 @@ export default function LandingPage() {
       </section>
 
       {/* SEOテキスト: 2026年法改正の要点 */}
-      <section className="py-12 px-4 bg-teal-50 border-b border-teal-100">
+      <section className="py-12 px-4 backdrop-blur-sm bg-blue-500/10 border-b border-teal-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">2026年4月 共同親権制度の要点まとめ</h2>
-          <p className="text-gray-500 text-sm mb-6">改正民法のポイントをわかりやすく整理しました</p>
+          <h2 className="text-xl font-bold text-white mb-2">2026年4月 共同親権制度の要点まとめ</h2>
+          <p className="text-white/50 text-sm mb-6">改正民法のポイントをわかりやすく整理しました</p>
           <div className="space-y-3">
             {[
-              { badge: "新ルール", badgeColor: "bg-teal-600", title: "共同親権か単独親権かを選択できる", desc: "2026年4月1日以降の離婚では、父母の協議または家庭裁判所の決定によって「共同親権」または「単独親権」を選択できます。" },
+              { badge: "新ルール", badgeColor: "bg-blue-500", title: "共同親権か単独親権かを選択できる", desc: "2026年4月1日以降の離婚では、父母の協議または家庭裁判所の決定によって「共同親権」または「単独親権」を選択できます。" },
               { badge: "注意点", badgeColor: "bg-blue-600", title: "日常的な養育は基本居住親が単独決定できる", desc: "食事・学校の出欠・日常の医療など通常の養育行為は基本居住親が単独で決定可能。転居・進学・宗教など「重要事項」のみ双方合意が必要です。" },
               { badge: "新設", badgeColor: "bg-green-600", title: "法定養育費 月2万円/子が自動発生", desc: "2026年4月以降に離婚する場合、合意未成立でも子1人につき月2万円の「法定養育費」が自動的に発生します。先取特権付きで差し押さえも可能に。" },
               { badge: "保護", badgeColor: "bg-red-600", title: "DV・虐待がある場合は単独親権", desc: "DV・虐待・高葛藤が認められる場合、家庭裁判所は単独親権の決定を行います。証拠の保全と専門機関への相談が重要です。" },
             ].map((item) => (
-              <div key={item.title} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-xl p-4 flex gap-3 items-start">
+              <div key={item.title} className="backdrop-blur-md bg-white/[0.07] border border-white/15 shadow-xl rounded-xl p-4 flex gap-3 items-start">
                 <span className={`text-xs font-black text-white px-2.5 py-1 rounded-full shrink-0 mt-0.5 ${item.badgeColor}`}>{item.badge}</span>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
-                  <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                  <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
+                  <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
           </div>
           <div className="mt-4 text-center">
-            <Link href="/guide" className="inline-flex items-center gap-2 text-teal-700 font-semibold text-sm hover:underline">
+            <Link href="/guide" className="inline-flex items-center gap-2 text-blue-300 font-semibold text-sm hover:underline">
                共同親権 法改正ガイドを詳しく読む →
             </Link>
           </div>
@@ -1513,17 +1536,17 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-teal-600 py-16 text-center px-4 overflow-x-hidden">
+      <section className="bg-blue-500 py-16 text-center px-4 overflow-x-hidden">
         <h2 className="text-xl md:text-2xl font-bold text-white mb-3">今すぐ共同親権の準備を始める</h2>
         <p className="text-teal-100 text-sm mb-8">登録不要・クレジットカード不要で1回無料</p>
-        <Link href="/tool" className="inline-block bg-white text-teal-600 font-bold text-lg px-8 py-4 rounded-xl hover:bg-teal-50 shadow-lg w-full sm:w-auto">
+        <Link href="/tool" className="inline-block text-white font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg w-full sm:w-auto">
           無料でドキュメントを作成する →
         </Link>
       </section>
 
       {/* スティッキーモバイルCTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-teal-200 px-4 py-3 z-40 sm:hidden shadow-lg">
-        <Link href="/tool" className="block w-full bg-teal-600 hover:bg-teal-700 text-white font-black text-center py-3.5 rounded-xl text-sm transition-colors">
+      <div className="fixed bottom-0 left-0 right-0 backdrop-blur-lg bg-[#0B0F1E]/90 border-t border-white/10 px-4 py-3 z-40 sm:hidden shadow-lg">
+        <Link href="/tool" className="block w-full bg-blue-500 hover:bg-teal-700 text-white font-black text-center py-3.5 rounded-xl text-sm transition-colors">
           共同親権書類を無料作成する →
         </Link>
       </div>
@@ -1551,7 +1574,7 @@ export default function LandingPage() {
 
       {/* シェアセクション */}
       <section className="py-10 px-6 max-w-3xl mx-auto text-center">
-        <p className="text-sm font-bold text-gray-700 mb-4">同じ悩みを持つ方に教えてあげましょう</p>
+        <p className="text-sm font-bold text-white/70 mb-4">同じ悩みを持つ方に教えてあげましょう</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href={"https://twitter.com/intent/tweet?text=" + encodeURIComponent("共同親権制度（2026年4月施行）の親権計画書・養育費計算・面会カレンダーが弁護士費用の100分の1以下で作れるAIを見つけた！無料で試せる → https://kyodo-shinken-ai.vercel.app #共同親権 #離婚 #育児 #養育費")}
@@ -1578,7 +1601,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="border-t py-6 text-center text-xs text-gray-400 space-x-4 pb-24 sm:pb-6">
+      <footer className="border-t py-6 text-center text-xs text-white/40 space-x-4 pb-24 sm:pb-6">
         <Link href="/legal" className="hover:underline">特定商取引法に基づく表記</Link>
         <Link href="/privacy" className="hover:underline">プライバシーポリシー</Link>
       </footer>
