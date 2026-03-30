@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 import { ShareButtons } from "@/components/ShareButtons";
+import { StreakBanner } from "@/components/StreakBanner";
+import { UsageCounter } from "@/components/UsageCounter";
 import { AdBanner } from "@/components/AdBanner";
 
 // 養育費かんたん計算コンポーネント
@@ -684,6 +686,8 @@ export default function LandingPage() {
         </div>
       )}
 
+      <StreakBanner />
+
       {/* ヒーロー — ダークグラデーション刷新 */}
       <section className="text-white px-4 py-16 md:py-24 text-center overflow-x-hidden relative z-10">
         <div className="max-w-4xl mx-auto">
@@ -714,6 +718,7 @@ export default function LandingPage() {
           <span className="bg-green-400/20 border border-green-400/40 text-green-200 rounded-full px-4 py-1.5 text-sm font-medium"> 満足度 4.6/5.0</span>
           <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium"> 弁護士費用の100分の1以下</span>
         </div>
+        <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
         <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl mb-3 w-full sm:w-auto transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px]" style={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.3), 0 4px 15px rgba(0,0,0,0.2)' }}>
           施行前に今すぐ確認する（無料）→
         </Link>
