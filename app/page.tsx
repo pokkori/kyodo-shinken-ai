@@ -579,6 +579,39 @@ export default function LandingPage() {
   }
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: '共同親権制度はいつから始まりましたか？', acceptedAnswer: { '@type': 'Answer', text: '2026年4月1日に施行されました。改正民法により、離婚後も父母双方が親権を持つ「共同親権」が選択できるようになりました。' } },
+              { '@type': 'Question', name: '既に離婚している場合、共同親権に変更できますか？', acceptedAnswer: { '@type': 'Answer', text: 'できます。「親権者変更」の家庭裁判所への申立によって共同親権に変更することが可能です。申立費用は収入印紙1,200円＋連絡用郵便切手が必要です。' } },
+              { '@type': 'Question', name: '相手が共同親権を拒否したらどうなりますか？', acceptedAnswer: { '@type': 'Answer', text: '父母が合意できない場合は家庭裁判所が判断します。裁判所は「子の利益」を最優先に、双方の親との関係・DVの有無・協力の可能性などを総合的に判断します。' } },
+              { '@type': 'Question', name: 'DV・モラハラ被害者でも共同親権になるのですか？', acceptedAnswer: { '@type': 'Answer', text: 'DV・虐待が認定される場合、裁判所は単独親権とする判断を行います。DV被害者は証拠をしっかり保全した上で、必ず弁護士または法テラスにご相談ください。' } },
+              { '@type': 'Question', name: '法定養育費2万円とは何ですか？', acceptedAnswer: { '@type': 'Answer', text: '2026年4月1日以降の離婚では、養育費の取り決めが未合意でも子ども1人あたり月額2万円の「法定養育費」が自動的に発生します。先取特権が付与されています。' } },
+              { '@type': 'Question', name: 'このAIは弁護士の代わりになりますか？', acceptedAnswer: { '@type': 'Answer', text: '法的アドバイスの補助ツールです。AIは書類の草案作成や論点整理に役立ちますが、法的効力のある書類作成や正式な法的アドバイスについては弁護士にご相談ください。' } },
+              { '@type': 'Question', name: '費用はかかりますか？', acceptedAnswer: { '@type': 'Answer', text: '基本機能は無料でご利用いただけます。より詳細な相談機能や繰り返し利用にはプレミアムプラン（¥980/月）をご利用ください。' } },
+              { '@type': 'Question', name: '個人情報は安全ですか？', acceptedAnswer: { '@type': 'Answer', text: '入力データは外部に共有されません。入力内容はAI生成後に即時消去され、サーバーに保存されることはありません。' } },
+            ],
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: '共同親権サポートAI',
+            operatingSystem: 'Web',
+            applicationCategory: 'LifestyleApplication',
+            offers: { '@type': 'Offer', price: 0, priceCurrency: 'JPY' },
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
     <main className="min-h-screen text-white relative" style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(99,102,241,0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(37,99,235,0.08) 0%, transparent 50%), #0B0F1E' }}>
       {/* Floating particles */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
@@ -1583,8 +1616,13 @@ export default function LandingPage() {
       <footer className="border-t py-6 text-center text-xs text-white/40 space-x-4 pb-24 sm:pb-6">
         <Link href="/legal" className="hover:underline">特定商取引法に基づく表記</Link>
         <Link href="/privacy" className="hover:underline">プライバシーポリシー</Link>
+        <div className="flex items-center justify-center gap-2 text-xs text-white/40 mt-4">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          SSL暗号化通信 | データは安全に保護されています
+        </div>
       </footer>
       <AdBanner slot="" />
     </main>
+    </>
   );
 }
