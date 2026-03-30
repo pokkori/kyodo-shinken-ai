@@ -7,6 +7,7 @@ import { StreakBanner } from "@/components/StreakBanner";
 import { UsageCounter } from "@/components/UsageCounter";
 import { AdBanner } from "@/components/AdBanner";
 import { CrossSell } from "@/components/CrossSell";
+import { TrustBadge } from "@/components/TrustBadge";
 
 // 養育費かんたん計算コンポーネント
 function AlimonyCalculator() {
@@ -720,6 +721,7 @@ export default function LandingPage() {
           <span className="bg-white/10 border border-white/20 text-white rounded-full px-4 py-1.5 text-sm font-medium"> 弁護士費用の100分の1以下</span>
         </div>
         <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
+        <div className="mb-4"><TrustBadge /></div>
         <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl mb-3 w-full sm:w-auto transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px]" style={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.3), 0 4px 15px rgba(0,0,0,0.2)' }}>
           無料でAIに相談する →
         </Link>
