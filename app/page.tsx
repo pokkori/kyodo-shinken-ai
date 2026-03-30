@@ -6,6 +6,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { StreakBanner } from "@/components/StreakBanner";
 import { UsageCounter } from "@/components/UsageCounter";
 import { AdBanner } from "@/components/AdBanner";
+import { CrossSell } from "@/components/CrossSell";
 
 // 養育費かんたん計算コンポーネント
 function AlimonyCalculator() {
@@ -720,8 +721,9 @@ export default function LandingPage() {
         </div>
         <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
         <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl mb-3 w-full sm:w-auto transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px]" style={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.3), 0 4px 15px rgba(0,0,0,0.2)' }}>
-          施行前に今すぐ確認する（無料）→
+          無料でAIに相談する →
         </Link>
+        <p className="text-xs opacity-60 mt-2">※匿名OK・登録不要</p>
         <p className="text-sm font-semibold text-teal-200 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
         <p className="text-sm text-teal-300">登録不要・クレジットカード不要</p>
         </div>
@@ -1617,6 +1619,8 @@ export default function LandingPage() {
         <p className="text-sm font-bold text-white/70 mb-4">同じ悩みを持つ方に教えてあげましょう</p>
         <ShareButtons url="https://kyodo-shinken-ai.vercel.app" text="共同親権サポートAIを使ってみた！" hashtags="共同親権サポートAI" />
       </section>
+
+      <CrossSell currentService="共同親権サポートAI" />
 
       <footer className="border-t py-6 text-center text-xs text-white/40 space-x-4 pb-24 sm:pb-6">
         <Link href="/legal" className="hover:underline">特定商取引法に基づく表記</Link>
