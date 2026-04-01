@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
+import { GlowButton } from "@/components/GlowButton";
 import { track } from '@vercel/analytics';
 import { updateStreak, loadStreak, type StreakData } from "@/lib/streak";
 
@@ -382,14 +383,14 @@ function DivorceAgreementGenerator() {
       </div>
 
       {/* 生成ボタン */}
-      <button
+      <GlowButton
         onClick={generate}
         disabled={loading || !husbandName.trim() || !wifeName.trim()}
-        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl text-lg transition disabled:opacity-40 disabled:cursor-not-allowed min-h-[44px]"
         aria-label="入力内容をもとにAIが離婚協議書ドラフトを生成する"
+        variant="primary"
       >
         {loading ? "AIが作成中…" : "離婚協議書ドラフトを生成する"}
-      </button>
+      </GlowButton>
 
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
