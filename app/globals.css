@@ -118,3 +118,40 @@ select option { background: #1a1a2e; color: #fff; }
 /* ---- Utility: hide scrollbar but allow scroll ---- */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================
+   2026 Design Trends — 共同親権サポートAI追加
+   ============================================================ */
+
+/* ---- カラー変数 ---- */
+:root {
+  --combo-gold: #FFD93D;
+  --score-green: #58CC02;
+  --danger-red: #FF4444;
+  --glow-violet: #7C3AED;
+}
+
+/* ---- アンビエントメッシュグラデーション ---- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 15% 40%, rgba(120, 40, 200, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(255, 180, 0, 0.15) 0%, transparent 55%),
+    radial-gradient(ellipse at 55% 85%, rgba(255, 60, 130, 0.12) 0%, transparent 55%);
+}
+
+/* ---- グラスカード ---- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ---- グロー ---- */
+.glow-gold   { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+.glow-violet { box-shadow: 0 0 20px rgba(124, 58, 237, 0.5); }
