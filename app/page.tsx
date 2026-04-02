@@ -682,9 +682,9 @@ export default function LandingPage() {
           共同親権制度が<strong>本日2026年4月1日に施行</strong>されました！ 今すぐ手続きを開始しましょう<Link href="/tool" className="ml-2 underline hover:no-underline">AIで書類を作成する →</Link>
         </div>
       ) : (
-        <div className="text-white text-center text-sm font-semibold py-2.5 px-4" style={{ background: 'linear-gradient(135deg, #3B82F6, #818CF8)' }}>
-          <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-          共同親権制度は<strong>2026年4月1日に施行済み</strong>です — AIで今すぐ親権計画書を作成<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200">無料で試す →</Link>
+        <div className="text-white text-center text-sm font-bold py-3 px-4" style={{ background: 'linear-gradient(135deg, #1D4ED8, #4F46E5)' }}>
+          <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <strong>2026年4月1日施行！</strong> 共同親権制度スタート — <span className="text-yellow-300">今月が制度変更の最重要時期</span>。今すぐ確認が必要です<Link href="/tool" className="ml-2 underline hover:no-underline text-yellow-200 font-black">無料で書類を作成 →</Link>
         </div>
       )}
 

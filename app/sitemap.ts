@@ -13,6 +13,8 @@ const KEYWORD_SLUGS = [
   "kyodo-shinken-DV-case",
   "mensetsuko-拒否-taio",
   "rikon-kodomo-gakko-transfer",
+  "kyodo-shinken-2026",
+  "youiku-keikakusho-template",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -27,11 +29,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/terms`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
     { url: `${base}/privacy`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
   ];
+  const newSlugs = ["kyodo-shinken-2026", "youiku-keikakusho-template"];
   const keywordPages: MetadataRoute.Sitemap = KEYWORD_SLUGS.map((slug) => ({
     url: `${base}/keywords/${slug}`,
-    lastModified: new Date("2026-03-31"),
+    lastModified: newSlugs.includes(slug) ? new Date("2026-04-02") : new Date("2026-03-31"),
     changeFrequency: "weekly" as const,
-    priority: 0.7,
+    priority: newSlugs.includes(slug) ? 0.85 : 0.7,
   }));
   return [...staticPages, ...keywordPages];
 }

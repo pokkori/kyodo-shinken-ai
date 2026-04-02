@@ -509,6 +509,7 @@ type Result = {
   mediation: string;
   caution: string;
   nextActions: string;
+  parentingPlanTemplate: string;
   disclaimer: string;
 } | null;
 
@@ -526,18 +527,20 @@ function parseResult(text: string): Result {
     mediation: get("MEDIATION"),
     caution: get("CAUTION"),
     nextActions: get("NEXT_ACTIONS"),
+    parentingPlanTemplate: get("PARENTING_PLAN_TEMPLATE"),
     disclaimer: get("DISCLAIMER"),
   };
 }
 
-type Tab = "plan" | "calendar" | "money" | "mediation" | "next" | "caution";
+type Tab = "plan" | "calendar" | "money" | "mediation" | "next" | "caution" | "parenting-template";
 const TABS: { id: Tab; label: string; premium?: boolean }[] = [
-  { id: "next", label: " 次のアクション" },
-  { id: "plan", label: " 親権計画書" },
-  { id: "calendar", label: " 面会カレンダー" },
-  { id: "money", label: " 養育費の目安" },
-  { id: "mediation", label: " 調停準備" },
-  { id: "caution", label: "! 注意事項", premium: true },
+  { id: "next", label: "次のアクション" },
+  { id: "plan", label: "親権計画書" },
+  { id: "parenting-template", label: "養育計画書テンプレート" },
+  { id: "calendar", label: "面会カレンダー" },
+  { id: "money", label: "養育費の目安" },
+  { id: "mediation", label: "調停準備" },
+  { id: "caution", label: "注意事項", premium: true },
 ];
 
 function CopyButton({ text }: { text: string }) {
@@ -1214,10 +1217,40 @@ export default function ToolPage() {
                   </div>
                 </div>
               )}
+              {tab === "parenting-template" && (
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm font-bold text-teal-600">養育計画書テンプレート（法定養育費基準）</span>
+                    <CopyButton text={result.parentingPlanTemplate} />
+                  </div>
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 text-xs text-amber-800">
+                    <strong>2026年4月施行の改正民法対応。</strong> 法定養育費（月2万円/子）を基準とした養育計画書の雛形です。空欄部分（___）を実際の情報で埋めてお使いください。
+                  </div>
+                  <div className="space-y-0.5">{renderMarkdown(result.parentingPlanTemplate)}</div>
+                  <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-800">
+                    このテンプレートを弁護士に確認してもらい、公正証書化することで強制執行力が付与されます（費用5〜10万円）。
+                  </div>
+                  <div className="mt-3">
+                    <a
+                      href="https://rikon.vennavi.jp/"
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      className="flex items-center justify-between bg-white border-2 border-amber-400 rounded-xl px-4 py-3 hover:bg-amber-50 transition-colors"
+                    >
+                      <div>
+                        <div className="text-sm font-bold text-slate-800">ベンナビ離婚 — 無料相談（弁護士への相談はこちら）</div>
+                        <div className="text-xs text-slate-500 mt-0.5">共同親権・親権計画書の法的確認 • 初回無料 • 着手金0円の事務所あり</div>
+                      </div>
+                      <span className="text-amber-600 font-bold text-xs bg-amber-100 px-2 py-1 rounded-full whitespace-nowrap shrink-0">無料相談 →</span>
+                    </a>
+                    <p className="text-xs text-slate-400 text-center mt-1">※ 広告・PR掲載</p>
+                  </div>
+                </div>
+              )}
               {tab === "mediation" && (
                 <div>
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm font-bold text-teal-600"> 調停準備メモ</span>
+                    <span className="text-sm font-bold text-teal-600">調停準備メモ</span>
                     <CopyButton text={result.mediation} />
                   </div>
                   <div className="space-y-0.5">{renderMarkdown(result.mediation)}</div>
@@ -1242,29 +1275,39 @@ export default function ToolPage() {
                 ※本サービスはAIが生成する参考情報です。法的効力はありません。重要な判断は必ず弁護士にご相談ください。
               </p>
 
-              {/* 専門家相談アフィリ導線 */}
-              <div className="mt-5 bg-teal-50 border border-teal-200 rounded-xl p-4">
-                <p className="text-sm font-black text-teal-900 mb-1"> 次のステップ：専門家に相談する</p>
-                <p className="text-xs text-teal-700 mb-3">AI書類はあくまで準備用です。実際の親権・養育費・面会交流の取り決めは弁護士への相談で安心して進められます。初回無料の事務所多数。</p>
-                <div className="space-y-2">
-                  <a href="https://www.bengo4.com/c_3/" target="_blank" rel="noopener noreferrer sponsored"
-                    className="flex items-center justify-between bg-white border border-teal-300 rounded-xl px-4 py-3 hover:bg-teal-50 transition-colors">
+              {/* 専門家相談アフィリ導線（ベンナビ離婚優先） */}
+              <div className="mt-5 rounded-xl overflow-hidden border-2 border-amber-400">
+                <div className="bg-amber-400 px-4 py-2.5 text-center">
+                  <p className="text-sm font-black text-amber-900">弁護士への相談はこちら（無料）</p>
+                  <p className="text-xs text-amber-800">AI書類を持参して相談すると費用・時間を大幅に節約できます</p>
+                </div>
+                <div className="bg-white p-4 space-y-2">
+                  <a
+                    href="https://rikon.vennavi.jp/"
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="flex items-center justify-between bg-amber-50 border-2 border-amber-300 rounded-xl px-4 py-3 hover:bg-amber-100 transition-colors"
+                  >
+                    <div>
+                      <div className="text-sm font-bold text-slate-800">ベンナビ離婚 — 共同親権・親権問題の弁護士</div>
+                      <div className="text-xs text-slate-500 mt-0.5">初回相談無料 • 着手金0円の事務所あり • 2026年4月新制度対応</div>
+                    </div>
+                    <span className="text-white font-bold text-xs bg-amber-500 px-3 py-1.5 rounded-full whitespace-nowrap shrink-0 ml-2">無料相談 →</span>
+                  </a>
+                  <a
+                    href="https://www.bengo4.com/c_3/"
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-3 hover:bg-gray-50 transition-colors"
+                  >
                     <div>
                       <div className="text-sm font-bold text-slate-800">弁護士ドットコム — 離婚・親権</div>
-                      <div className="text-xs text-slate-500 mt-0.5">初回相談無料 • 全国対応 • 土日OK</div>
+                      <div className="text-xs text-slate-500 mt-0.5">約4,000名の弁護士から無料相談 • 全国対応 • 土日OK</div>
                     </div>
-                    <span className="text-teal-600 font-bold text-xs bg-teal-100 px-2 py-1 rounded-full whitespace-nowrap">無料相談 →</span>
-                  </a>
-                  <a href="https://rikon.vennavi.jp/" target="_blank" rel="noopener noreferrer sponsored"
-                    className="flex items-center justify-between bg-white border border-teal-300 rounded-xl px-4 py-3 hover:bg-teal-50 transition-colors">
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">ベンナビ離婚 — 離婚専門弁護士検索</div>
-                      <div className="text-xs text-slate-500 mt-0.5">共同親権・親権争い・養育費交渉に特化</div>
-                    </div>
-                    <span className="text-teal-600 font-bold text-xs bg-teal-100 px-2 py-1 rounded-full whitespace-nowrap">弁護士を探す →</span>
+                    <span className="text-teal-600 font-bold text-xs bg-teal-100 px-2 py-1 rounded-full whitespace-nowrap shrink-0 ml-2">無料相談 →</span>
                   </a>
                 </div>
-                <p className="text-xs text-slate-400 text-center mt-2">※ 広告・PR掲載（各社公式サイトに遷移します）</p>
+                <p className="text-xs text-slate-400 text-center py-1.5 bg-gray-50">※ 広告・PR掲載（各社公式サイトに遷移します）</p>
               </div>
             </div>
           </div>
