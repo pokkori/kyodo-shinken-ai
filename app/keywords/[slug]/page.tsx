@@ -10,7 +10,7 @@ interface KeywordData {
   lastUpdated: string;
 }
 
-export const KEYWORDS: Record<string, KeywordData> = {
+const KEYWORDS: Record<string, KeywordData> = {
   "kyodo-shinken-seido-kaisetsu": {
     title: "共同親権 制度 解説 2024年 | 共同親権サポートAI",
     h1: "共同親権 制度 解説 2024年",
