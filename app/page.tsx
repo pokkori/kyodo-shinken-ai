@@ -8,6 +8,7 @@ import { UsageCounter } from "@/components/UsageCounter";
 import { AdBanner } from "@/components/AdBanner";
 import { CrossSell } from "@/components/CrossSell";
 import { TrustBadge } from "@/components/TrustBadge";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 
 // 養育費かんたん計算コンポーネント
 function AlimonyCalculator() {

@@ -6,6 +6,7 @@ import Script from "next/script";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import "./globals.css";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { PHProvider } from "./providers";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -16,7 +17,7 @@ const notoSansJP = Noto_Sans_JP({
 
 const SITE_URL = "https://kyodo-shinken-ai.vercel.app";
 const TITLE = "共同親権サポートAI｜親権計画書・面会交流・養育費を自動作成【2026年4月新制度対応】";
-const DESC = "2026年4月施行の共同親権制度に対応。子どもの情報を入力するだけでAIが親権計画書草案・面会交流カレンダー・養育費目安・調停準備メモを自動生成。弁護士費用を抑えて準備できます。1回無料。";
+const DESC = "2026年4月施行の共同親権。親権・養育費・面会交流のQ&AをAIが即回答。";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -117,6 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="antialiased min-h-screen text-white" style={{ background: '#0B0F1E' }}>
+        <PHProvider>
         <div className="orb-container" aria-hidden="true">
           <div className="orb orb-1" />
           <div className="orb orb-2" />
@@ -135,6 +137,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${process.env.NEXT_PUBLIC_CLARITY_ID}");`}
           </Script>
         )}
+        </PHProvider>
       </body>
     </html>
   );
