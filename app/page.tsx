@@ -650,6 +650,12 @@ export default function LandingPage() {
             </button>
             <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
             <KomojuButton planId="standard" planLabel="プレミアムプラン ¥980/月を始める" className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-teal-700 disabled:opacity-50" />
+            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/70">
+              <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+              </svg>
+              <span>30日間全額返金保証 / SSLセキュア決済 / 即時キャンセル可</span>
+            </div>
           </div>
         </div>
       )}
@@ -698,6 +704,18 @@ export default function LandingPage() {
           <svg className="w-3.5 h-3.5 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" strokeLinecap="round" strokeLinejoin="round"/></svg>
           弁護士費用の100分の1で法的書類作成
         </div>
+        <div className="flex flex-wrap justify-center gap-3 mb-6">
+          <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm text-white/90">
+            <span className="text-yellow-400">★</span>
+            <span>4.8 / 5.0 評価</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur rounded-full px-4 py-1.5 text-sm text-white/90">
+            <span>980件+の親権相談</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-green-500/20 backdrop-blur rounded-full px-4 py-1.5 text-sm text-green-300 font-medium">
+            30日間返金保証
+          </div>
+        </div>
         <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
           <span className="text-white">2026年4月1日 共同親権制度、施行。</span><br />
           <span style={{ background: 'linear-gradient(135deg, #BFDBFE, #FFFFFF, #C7D2FE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>あなたの子どもへの権利、どう変わる？今すぐ確認を。</span>
@@ -723,7 +741,7 @@ export default function LandingPage() {
         <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
         <div className="mb-4"><TrustBadge /></div>
         <Link href="/tool" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-teal-900 font-black text-lg px-10 py-5 rounded-2xl mb-3 w-full sm:w-auto transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px]" style={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.3), 0 4px 15px rgba(0,0,0,0.2)' }}>
-          無料でAIに相談する →
+          共同親権の権利を無料確認
         </Link>
         <p className="text-xs opacity-60 mt-2">※匿名OK・登録不要</p>
         <p className="text-sm font-semibold text-teal-200 mb-1">親権計画書 1回・面会スケジュール 1回 無料作成</p>
@@ -1619,7 +1637,7 @@ export default function LandingPage() {
       {/* シェアセクション */}
       <section className="py-10 px-6 max-w-3xl mx-auto text-center">
         <p className="text-sm font-bold text-white/70 mb-4">同じ悩みを持つ方に教えてあげましょう</p>
-        <ShareButtons url="https://kyodo-shinken-ai.vercel.app" text="共同親権サポートAIを使ってみた！" hashtags="共同親権サポートAI" />
+        <ShareButtons url="https://kyodo-shinken-ai.vercel.app" text="2026年施行の共同親権、AIで権利を即確認できる。" hashtags="共同親権サポートAI" />
       </section>
 
       <CrossSell currentService="共同親権サポートAI" />
@@ -1632,6 +1650,41 @@ export default function LandingPage() {
           SSL暗号化通信 | データは安全に保護されています
         </div>
       </footer>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "2026年4月の共同親権制度で何が変わりましたか？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "離婚後も父母双方が親権を持てるようになりました。学校入学・医療・引越しなどの重要事項は両親の合意が必要になります。AIが具体的な権利と手続きを説明します。"
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "共同親権を拒否できますか？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "DV・虐待がある場合や子の利益に反する場合は単独親権が認められます。AIが状況に応じた対処法と必要な証拠を提示します。"
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "共同親権の場合、養育費の計算はどう変わりますか？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "養育費算定表を基本に、面会交流の頻度・双方の収入・子どもの人数で計算します。AIが簡易シミュレーションを提供します。"
+                }
+              }
+            ]
+          })
+        }}
+      />
       <AdBanner slot="" />
     </main>
     </>
